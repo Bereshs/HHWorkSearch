@@ -17,7 +17,14 @@
 - maven,
 - spring boot,
 - HeadHunter Api (https://api.hh.ru/),
-- mysql,
+- postgresSql,
 - jpa,
 - rest api.
 
+Для работы необходим aplication.properties, со следующим содержанием:
+hh.api.url = https://api.hh.ru/
+hh.user.agent= 
+hh.client.id = 
+hh.client.secret =
+appEmail.email = 
+appEmail.password = 
