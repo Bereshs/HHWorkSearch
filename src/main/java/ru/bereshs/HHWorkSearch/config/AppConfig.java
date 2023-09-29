@@ -16,5 +16,6 @@ public class AppConfig {
     String hhClientSecret;
     String emailEmail;
     String emailPassword;
-
+    String hhVacancy;
+    String hhResume;
 }

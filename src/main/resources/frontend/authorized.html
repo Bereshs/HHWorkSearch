@@ -9,7 +9,7 @@
 <body>
 Authorezed module<br>
 <hr>
-you data:
+Ваши данные:
 <table border="1">
     <tr>
         <td>AccessToken</td>
@@ -20,12 +20,12 @@ you data:
         <td th:text="${responseToken.refreshToken}"></td>
     </tr>
     <tr>
-        <td>Token is expired</td>
-        <td th:text="${responseToken.isExpired()}"></td>
+        <td>Срок действия токена</td>
+        <td th:text="${date}"></td>
     </tr>
 </table>
 <hr>
-for you available next modules:<br>
+Для Вас доступны модули:<br>
 <table border="1">
     <tr>
         <td>Enable auto update</td>
@@ -36,5 +36,26 @@ for you available next modules:<br>
         <td>Yes</td>
     </tr>
 </table>
+
+<hr>
+Ваши резюме:<br>
+<table>
+    <tr th:each="resume:${resumeList}">
+        <td th:text="${resume.title}"></td>
+        <td ><a th:href="${resume.url}">Ссылка</a></td>
+        <td th:text="${resume.createdAt}"></td>
+    </tr>
+</table>
+
+<hr>
+Рекомендуемые вакансии:
+<table>
+    <tr th:each="vacancy:${vacancyList}">
+        <td th:text="${vacancy.title}"></td>
+        <td ><a th:href="${vacancy.url}">Ссылка</a></td>
+        <td th:text="${vacancy.createdAt}"></td>
+    </tr>
+</table>
+
 </body>
 </html>
