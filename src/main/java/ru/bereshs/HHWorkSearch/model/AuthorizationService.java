@@ -1,16 +1,21 @@
 package ru.bereshs.HHWorkSearch.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import ru.bereshs.HHWorkSearch.config.AppConfig;
 import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.ResponseToken;
 import ru.bereshs.HHWorkSearch.model.data.KeyEntity;
 import ru.bereshs.HHWorkSearch.model.storage.KeysEntityRepository;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 @Service
@@ -22,14 +27,12 @@ public class AuthorizationService {
 
     private final Logger logger = Logger.getLogger(AuthorizationService.class.getName());
 
-
-    private final AppConfig config;
+    private OAuth2AccessToken token;
 
     @Autowired
-    public AuthorizationService(KeysEntityRepository keysEntityRepository, HeadHunterClient client, AppConfig config) {
+    public AuthorizationService(KeysEntityRepository keysEntityRepository, HeadHunterClient client) {
         this.keysEntityRepository = keysEntityRepository;
         this.client = client;
-        this.config = config;
     }
 
     public void save(KeyEntity key) {
@@ -52,64 +55,29 @@ public class AuthorizationService {
         logger.info("saving key " + key);
     }
 
-    public KeyEntity getToken(KeyEntity key) {
-        logger.info("request for get token " + key);
-        if (!key.isExpired()) {
-            return key;
+    public OAuth2AccessToken getToken(KeyEntity key) throws IOException, ExecutionException, InterruptedException {
+        if (key.isExpires()) {
+            token = client.requestRefreshToken(key.getRefreshToken());
+            return token;
         }
-
-        if (key.getAuthorizationCode() != null && key.getRefreshToken() != null) {
-            updateTokenRequest(key);
-            return key;
-        }
-
-        if (key.getAuthorizationCode() != null) {
-            return newTokenRequest(key);
-        }
-
-        return new KeyEntity();
+        token = new OAuth2AccessToken(key.getAccessToken(), key.getTokenType(), key.getExpiresIn(), key.getRefreshToken(), key.getScope(), key.getRowResponse());
+        return token;
     }
 
-
-    private KeyEntity updateTokenRequest(KeyEntity key) {
-        ResponseToken responseToken = client.post("http://localhost:8020",
-                createParamsFromKey(key, "refresh_token"),
-                ResponseToken.class);
-
-        return saveKeyFromResponseToken(responseToken, key);
+    public Response execute(Verb verb, String uri) throws IOException, ExecutionException, InterruptedException {
+        OAuthRequest request = new OAuthRequest(verb, uri);
+        client.getAuthService().signRequest(token, request);
+        return client.getAuthService().execute(request);
     }
 
-    private KeyEntity newTokenRequest(KeyEntity key) {
+    public HashMap<String, ?> getMapBody(String body) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
 
-        ResponseToken responseToken = client.post("http://localhost:8020",
-                createParamsFromKey(key, "authorization_code"),
-                ResponseToken.class);
-
-        return saveKeyFromResponseToken(responseToken, key);
+        return mapper.readValue(body, HashMap.class);
     }
 
-    private KeyEntity saveKeyFromResponseToken(ResponseToken responseToken, KeyEntity key) {
-        key.setAccessToken(responseToken.getAccessToken());
-        key.setExpiresIn(responseToken.getExpiresIn());
-        key.setRefreshToken(responseToken.getRefreshToken());
-        save(key);
-
-        return key;
-    }
-
-    private MultiValueMap<String, String> createParamsFromKey(KeyEntity key, String grantType) {
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", grantType);
-        if (grantType.equals("refresh_token")) {
-            params.add("refresh_token", key.getRefreshToken());
-        }
-        if (grantType.equals("authorization_code")) {
-            params.add("client_id", config.getHhClientId());
-            params.add("client_secret", config.getHhClientSecret());
-            params.add("code", key.getAuthorizationCode());
-        }
-
-        return params;
+    public String getConnectionString() {
+        return client.getConnectionString();
     }
 
 }

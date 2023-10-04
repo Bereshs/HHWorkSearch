@@ -47,6 +47,13 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.scribejava/scribejava-apis -->
+		<dependency>
+			<groupId>com.github.scribejava</groupId>
+			<artifactId>scribejava-apis</artifactId>
+			<version>8.3.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -5,57 +5,81 @@
     <meta name="description" content="Панель управления HeadHunter workSearch">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-Authorezed module<br>
-<hr>
-Ваши данные:
-<table border="1">
-    <tr>
-        <td>AccessToken</td>
-        <td th:text="${responseToken.accessToken}"></td>
-    </tr>
-    <tr>
-        <td>refreshToken</td>
-        <td th:text="${responseToken.refreshToken}"></td>
-    </tr>
-    <tr>
-        <td>Срок действия токена</td>
-        <td th:text="${date}"></td>
-    </tr>
-</table>
-<hr>
-Для Вас доступны модули:<br>
-<table border="1">
-    <tr>
-        <td>Enable auto update</td>
-        <td>Yes</td>
-    </tr>
-    <tr>
-        <td>Auto start daemon</td>
-        <td>Yes</td>
-    </tr>
-</table>
+<div class="main">
+    <h2>Авторизированный модуль</h2>
+    <div class="userView">
+        <div class="userData">
+            <p>Данные пользователя</p>
+            <div class="userTable">
+            <table>
+                <tr class="trtwo">
+                    <td>Id</td>
+                    <td th:text="${hhUserDto.getId}">771222222</td>
+                </tr>
+                <tr>
+                    <td>ФИО</td>
+                    <td th:text="${hhUserDto.getFirstName + getLastName}" >Иванов Иван</td>
+                </tr>
+                <tr class="trtwo">
+                    <td>Контакты</td>
+                    <td th:text="${hhUserDto.getEmail + hhUserDto.getPhone}" >79090000000 post@mail.ru</td>
+                </tr>
+                <tr>
+                    <td>Срок действия токена</td>
+                    <td>18.11.2003</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="management">
+            <p>Управление</p>
+            <div class="managementTable">
+                <table>
+                    <tr class="trtwo">
+                        <td>Авто обновление</td>
+                        <td>Да</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="resume">
+            <p>Резюме</p>
+            <div class="resumeTable">
+                <table>
+                    <tr class="trtwo">
+                        <td>Java разработчик</td>
+                        <td>120 0000</td>
+                        <td>01.02.2003</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="vacancy">
+                <p>Вакансии</p>
+                <div class="vacancyTable">
+                    <table>
+                        <tr class="trtwo">
+                            <td>Java разработчик</td>
+                            <td>120 0000</td>
+                            <td>01.02.2003</td>
+                        </tr>
+                        <tr class="trone">
+                            <td>Java разработчик middle</td>
+                            <td>220 0000</td>
+                            <td>01.02.2003</td>
+                        </tr>
+                        <tr class="trtwo">
+                            <td>Java разработчик junior</td>
+                            <td>80 0000</td>
+                            <td>01.02.2003</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
-<hr>
-Ваши резюме:<br>
-<table>
-    <tr th:each="resume:${resumeList}">
-        <td th:text="${resume.title}"></td>
-        <td ><a th:href="${resume.url}">Ссылка</a></td>
-        <td th:text="${resume.createdAt}"></td>
-    </tr>
-</table>
-
-<hr>
-Рекомендуемые вакансии:
-<table>
-    <tr th:each="vacancy:${vacancyList}">
-        <td th:text="${vacancy.title}"></td>
-        <td ><a th:href="${vacancy.url}">Ссылка</a></td>
-        <td th:text="${vacancy.createdAt}"></td>
-    </tr>
-</table>
-
+    </div>
+</div>
 </body>
 </html>

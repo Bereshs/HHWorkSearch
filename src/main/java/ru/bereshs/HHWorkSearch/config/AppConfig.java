@@ -18,4 +18,6 @@ public class AppConfig {
     String emailPassword;
     String hhVacancy;
     String hhResume;
+    String hhApiCallback;
+    String hhApiTokenUri;
 }
