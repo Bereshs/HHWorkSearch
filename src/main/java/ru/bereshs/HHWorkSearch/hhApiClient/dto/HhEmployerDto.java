@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HhListDto<T> {
-    private int found;
-    private List<T> items;
-    private int page;
-    private int pages;
-    @JsonProperty("per_page")
-    private int perPage;
+public class HhEmployerDto {
+    private int id;
+    private String name;
+    @JsonProperty("alternate_url")
+    private String alternateUrl;
+    private String url;
+    public String toString() {
+        return getName();
+    }
 }

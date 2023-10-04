@@ -10,8 +10,7 @@ p {
     width: 99%;
     background-color: dimgrey;
     padding-left: 1%;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    margin: 2px;
     font-weight: bold;
     border: 1px solid black;
 }
@@ -32,4 +31,9 @@ p {
 }
 table {
     width: 100%;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
 }

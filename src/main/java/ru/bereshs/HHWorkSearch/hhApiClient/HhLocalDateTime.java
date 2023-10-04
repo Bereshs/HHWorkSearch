@@ -22,4 +22,11 @@ public class HhLocalDateTime {
         return LocalDateTime.parse(data, formatter);
     }
 
+    public static LocalDateTime decodeLocalData(String data) {
+        String pattern="yyyy-mm-dd HH:mm:ss";
+        String resultData = data.substring(0, data.indexOf("+"));//.replace("T", " ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+        return LocalDateTime.parse(resultData);
+    }
+
 }

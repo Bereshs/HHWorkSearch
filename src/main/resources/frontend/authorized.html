@@ -5,7 +5,7 @@
     <meta name="description" content="Панель управления HeadHunter workSearch">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?111">
 </head>
 <body>
 <div class="main">
@@ -14,24 +14,24 @@
         <div class="userData">
             <p>Данные пользователя</p>
             <div class="userTable">
-            <table>
-                <tr class="trtwo">
-                    <td>Id</td>
-                    <td th:text="${hhUserDto.getId}">771222222</td>
-                </tr>
-                <tr>
-                    <td>ФИО</td>
-                    <td th:text="${hhUserDto.getFirstName + getLastName}" >Иванов Иван</td>
-                </tr>
-                <tr class="trtwo">
-                    <td>Контакты</td>
-                    <td th:text="${hhUserDto.getEmail + hhUserDto.getPhone}" >79090000000 post@mail.ru</td>
-                </tr>
-                <tr>
-                    <td>Срок действия токена</td>
-                    <td>18.11.2003</td>
-                </tr>
-            </table>
+                <table>
+                    <tr class="trtwo">
+                        <td>Id</td>
+                        <td th:text="${hhUserDto.getId}">771222222</td>
+                    </tr>
+                    <tr>
+                        <td>ФИО</td>
+                        <td th:text="${hhUserDto.getFirstName +' '+ hhUserDto.getLastName}">Иванов Иван</td>
+                    </tr>
+                    <tr class="trtwo">
+                        <td>Контакты</td>
+                        <td th:text="${hhUserDto.getEmail +' '+ hhUserDto.getPhone}">79090000000 post@mail.ru</td>
+                    </tr>
+                    <tr>
+                        <td>Срок действия токена</td>
+                        <td>18.11.2003</td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="management">
@@ -49,36 +49,32 @@
             <p>Резюме</p>
             <div class="resumeTable">
                 <table>
-                    <tr class="trtwo">
-                        <td>Java разработчик</td>
-                        <td>120 0000</td>
-                        <td>01.02.2003</td>
+                    <tr th:each="resume: ${resumeList}" class="trtwo">
+                        <td th:text="${resume.title}">Java разработчик</td>
+                        <td> none</td>
+                        <td th:text="${resume.updatedAt}">01.02.2003</td>
                     </tr>
                 </table>
             </div>
             <div class="vacancy">
-                <p>Вакансии</p>
+                <p th:text="${'Вакансии ('+vacancyList.getItems().size()+') pages '+vacancyList.pages}"></p>
                 <div class="vacancyTable">
                     <table>
-                        <tr class="trtwo">
-                            <td>Java разработчик</td>
-                            <td>120 0000</td>
-                            <td>01.02.2003</td>
-                        </tr>
-                        <tr class="trone">
-                            <td>Java разработчик middle</td>
-                            <td>220 0000</td>
-                            <td>01.02.2003</td>
-                        </tr>
-                        <tr class="trtwo">
-                            <td>Java разработчик junior</td>
-                            <td>80 0000</td>
-                            <td>01.02.2003</td>
+                        <tr th:each="vacancy: ${vacancyList.getItems()}" class="trtwo">
+                            <td><a th:href="${vacancy.url}"
+                                   th:text="${vacancy.title +' ('+vacancy.counters.value()+')'}">Java
+                                разработчик</a></td>
+                            <td th:text="${vacancy.area.name}">Москва</td>
+                            <td><a th:href="@{${vacancy.employer.url}}" th:text="${vacancy.employer.name} ">Газпром</a>
+                            </td>
+                            <td th:text="${vacancy.salary}"> none</td>
+                            <td th:text="${vacancy.createdAt}">01.02.2003</td>
                         </tr>
                     </table>
                 </div>
             </div>
 
+        </div>
     </div>
 </div>
 </body>

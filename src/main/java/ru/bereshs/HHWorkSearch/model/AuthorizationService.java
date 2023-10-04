@@ -64,12 +64,6 @@ public class AuthorizationService {
         return token;
     }
 
-    public Response execute(Verb verb, String uri) throws IOException, ExecutionException, InterruptedException {
-        OAuthRequest request = new OAuthRequest(verb, uri);
-        client.getAuthService().signRequest(token, request);
-        return client.getAuthService().execute(request);
-    }
-
     public HashMap<String, ?> getMapBody(String body) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 

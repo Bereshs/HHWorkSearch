@@ -1,11 +1,11 @@
 package ru.bereshs.HHWorkSearch.hhApiClient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.HHApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
-import ru.bereshs.HHWorkSearch.model.data.KeyEntity;
-import ru.bereshs.HHWorkSearch.model.data.ResumeEntity;
-import ru.bereshs.HHWorkSearch.model.data.VacancyEntity;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
@@ -44,13 +40,27 @@ public class HeadHunterClient {
         this.config = config;
     }
 
+    public Response execute(Verb verb, String uri, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        OAuthRequest request = new OAuthRequest(verb, uri);
+        authService.signRequest(token, request);
+
+        return authService.execute(request);
+    }
+
+    public HhListDto<HashMap<String, ?>> executeBody(Verb verb, String uri, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        OAuthRequest request = new OAuthRequest(verb, uri);
+        authService.signRequest(token, request);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(authService.execute(request).getBody(), HhListDto.class);
+    }
+
     public OAuth2AccessToken requestAccessToken(String code) throws IOException, ExecutionException, InterruptedException {
-        logger.info("Request access token code="+code);
+        logger.info("Request access token code=" + code);
         return authService.getAccessToken(code);
     }
 
     public OAuth2AccessToken requestRefreshToken(String refreshToken) throws IOException, ExecutionException, InterruptedException {
-        logger.info("Request access token refresh="+refreshToken);
+        logger.info("Request access token refresh=" + refreshToken);
         return authService.refreshAccessToken(refreshToken);
     }
 
@@ -58,10 +68,46 @@ public class HeadHunterClient {
         return authService.getAuthorizationUrl();
     }
 
+    public <T> HhListDto getObjects(Verb verb, String uri, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
+        HhListDto<HashMap<String, ?>>  body = executeBody(verb, uri, token);
+        HhListDto result = new HhListDto();
+        result.setPage(body.getPage());
+        result.setFound(body.getFound());
+        result.setPages(body.getPages());
+        result.setPerPage(body.getPerPage());
+        result.setItems(getEntityList(body, type));
+        return result;
+
+    }
+    private  <T> List<T> getEntityList(HhListDto<HashMap<String, ?>> vacancyEntityHhlistDto, Class<T> type) {
+        List<T> resultList = new ArrayList<>();
+        vacancyEntityHhlistDto.getItems().forEach(vacancyEntity -> {
+            T vacancy = getHhObject(vacancyEntity, type);
+            resultList.add(vacancy);
+        });
+        return resultList;
+    }
+
+    private  <T> T getHhObject(Object getMap, Class<T> type) {
+        HashMap<String, ?> map = (HashMap<String, String>) getMap;
+        if (map == null || map.isEmpty()) {
+            return createInstance(type);
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(map, type);
+    }
+
+    private <T> T createInstance(Class<T> type) {
+        try {
+            return type.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     public <T> T get(String url, Class<T> type) {
-        MultiValueMap<String, String> params =  new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, getHeaders());
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -89,7 +135,7 @@ public class HeadHunterClient {
         }
     }
 
-    public HttpHeaders postGetCookies (String url, MultiValueMap<String, String> params) {
+    public HttpHeaders postGetCookies(String url, MultiValueMap<String, String> params) {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, getHeaders());
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -110,7 +156,7 @@ public class HeadHunterClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/x-www-form-urlencoded"));
         headers.set("User-Agent", config.getHhUserAgent());
-        logger.info("created headers="+headers);
+        logger.info("created headers=" + headers);
         return headers;
     }
 
