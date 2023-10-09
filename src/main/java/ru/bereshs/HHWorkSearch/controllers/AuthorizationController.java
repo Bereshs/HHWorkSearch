@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
 import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
@@ -19,9 +21,13 @@ import ru.bereshs.HHWorkSearch.model.data.ResumeEntity;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
+
+import static java.util.Objects.isNull;
 
 @Controller
 public class AuthorizationController {
@@ -30,7 +36,6 @@ public class AuthorizationController {
     private final AppConfig config;
 
     private final HeadHunterClient client;
-
 
 
     @Autowired
@@ -62,12 +67,10 @@ public class AuthorizationController {
 
 
     @GetMapping("/authorized")
-    public String authorizedPage(Model model) throws IOException, ExecutionException, InterruptedException {
+    public String authorizedPage(Model model, @RequestParam(required = false) Integer page) throws IOException, ExecutionException, InterruptedException {
         KeyEntity key = authorizationService.getByClientId(config.getHhClientId());
         OAuth2AccessToken token = authorizationService.getToken(key);
         Response response = client.execute(Verb.GET, "https://api.hh.ru/me", token);
-
-        Response resume = client.execute(Verb.GET, "https://api.hh.ru/resumes/mine", token);
         model.addAttribute("accessToken", token);
 
         HhListDto<HhResumeDto> myResumeList = client.getObjects(Verb.GET, "https://api.hh.ru/resumes/mine", token, HhResumeDto.class);
@@ -82,11 +85,65 @@ public class AuthorizationController {
                 "&text=java" +
                 "&per_page=100";
 
-        HhListDto<HhVacancyDto> vacancyList = client.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
+        Logger.getLogger("sss").info("found page=" + page);
+        uri = getVacancyConnectionString(page);
+        HhListDto<HhVacancyDto> vacancyList = getPagebleVanacyList(page, token);//client.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
+        vacancyList.setItems(excludeWords(vacancyList.getItems(), token));
         model.addAttribute("hhUserDto", hhUserDto);
         model.addAttribute("resumeList", myResumeList.getItems());
         model.addAttribute("vacancyList", vacancyList);
         return "/authorized";
     }
 
+    private List<HhVacancyDto> excludeWords(List<HhVacancyDto> vacancyDtos, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        List<HhVacancyDto> newList = new ArrayList<>();
+        for (HhVacancyDto vacancyDto : vacancyDtos) {
+            if (vacancyDto.isValid()) {
+                vacancyDto.convertDate();
+                String url = "https://api.hh.ru/vacancies/" + vacancyDto.getId();
+                HhVacancyDto vacancyFull = client.executeObject(Verb.GET, url, token, HhVacancyDto.class);
+                if (vacancyFull.isValid()) {
+                    vacancyDto.setDescription(vacancyFull.getDescription());
+                }
+                vacancyDto.setUrlRequest("/vacancy/" + vacancyDto.getId());
+                newList.add(vacancyDto);
+            }
+        }
+        return newList;
+    }
+
+
+    private HhListDto<HhVacancyDto> getPagebleVanacyList(Integer page, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        HhListDto<HhVacancyDto> vacancyList = new HhListDto<>();
+        String uri = getVacancyConnectionString(page);
+        HhListDto<HhVacancyDto> tempList = client.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
+        vacancyList.setPages(1);
+        vacancyList.setPerPage(100);
+        vacancyList.setPage(1);
+        vacancyList.setItems(excludeWords(tempList.getItems(), token));
+        if (isNull(page)) {
+            page = 1;
+        }
+        for (int counter = page; counter < tempList.getPages(); counter++) {
+            String uriNextPage = getVacancyConnectionString(counter);
+            Logger.getLogger("logger").info("Avalible pages " + tempList.getPages() + " current page " + tempList.getPage());
+            tempList = client.getObjects(Verb.GET, uriNextPage, token, HhVacancyDto.class);
+            vacancyList.getItems().addAll(excludeWords(tempList.getItems(), token));
+        }
+        vacancyList.setFound(vacancyList.getItems().size());
+        return vacancyList;
+    }
+
+    private String getVacancyConnectionString(Integer page) {
+        String uri = "https://api.hh.ru/vacancies?responses_count_enabled=true" +
+                "&period=1" +
+                "&order_by=publication_time" +
+                "&vacancy_search_fields=name" +
+                "&text=java" +
+                "&per_page=100";
+        if (!isNull(page) && page > 0) {
+            uri += "&page=" + page;
+        }
+        return uri;
+    }
 }

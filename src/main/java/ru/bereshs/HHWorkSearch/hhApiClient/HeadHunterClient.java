@@ -40,6 +40,10 @@ public class HeadHunterClient {
         this.config = config;
     }
 
+    private ObjectMapper getMapper() {
+        return new ObjectMapper();
+    }
+
     public Response execute(Verb verb, String uri, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         OAuthRequest request = new OAuthRequest(verb, uri);
         authService.signRequest(token, request);
@@ -48,10 +52,13 @@ public class HeadHunterClient {
     }
 
     public HhListDto<HashMap<String, ?>> executeBody(Verb verb, String uri, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
-        OAuthRequest request = new OAuthRequest(verb, uri);
-        authService.signRequest(token, request);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(authService.execute(request).getBody(), HhListDto.class);
+        return getMapper().readValue(execute(verb, uri, token).getBody(), HhListDto.class);
+    }
+
+    public <T> T executeObject(Verb verb, String uri, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
+        String body = execute(verb, uri, token).getBody();
+        return getMapper().readValue(body, type);
+
     }
 
     public OAuth2AccessToken requestAccessToken(String code) throws IOException, ExecutionException, InterruptedException {
@@ -69,7 +76,7 @@ public class HeadHunterClient {
     }
 
     public <T> HhListDto getObjects(Verb verb, String uri, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
-        HhListDto<HashMap<String, ?>>  body = executeBody(verb, uri, token);
+        HhListDto<HashMap<String, ?>> body = executeBody(verb, uri, token);
         HhListDto result = new HhListDto();
         result.setPage(body.getPage());
         result.setFound(body.getFound());
@@ -79,7 +86,8 @@ public class HeadHunterClient {
         return result;
 
     }
-    private  <T> List<T> getEntityList(HhListDto<HashMap<String, ?>> vacancyEntityHhlistDto, Class<T> type) {
+
+    private <T> List<T> getEntityList(HhListDto<HashMap<String, ?>> vacancyEntityHhlistDto, Class<T> type) {
         List<T> resultList = new ArrayList<>();
         vacancyEntityHhlistDto.getItems().forEach(vacancyEntity -> {
             T vacancy = getHhObject(vacancyEntity, type);
@@ -88,7 +96,7 @@ public class HeadHunterClient {
         return resultList;
     }
 
-    private  <T> T getHhObject(Object getMap, Class<T> type) {
+    public <T> T getHhObject(Object getMap, Class<T> type) {
         HashMap<String, ?> map = (HashMap<String, String>) getMap;
         if (map == null || map.isEmpty()) {
             return createInstance(type);

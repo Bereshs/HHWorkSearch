@@ -5,24 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/ResumeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhAreaDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhCountersDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhEmployerDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhResumeDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhSalaryDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyAnalizeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/VacancyController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyEntityRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyStatusEntityRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/frontend/vacancy.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/AuthorizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/ResumeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HhLocalDateTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HhLocalDateTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhListDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhListDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/AuthorizationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/EmployerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/EmployerEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/ResumeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/ResumeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyAnalizeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyEntityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/dto/RequestAuthorizationCode.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/frontend/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/frontend/css/style.css" afterDir="false" />
     </list>
@@ -36,6 +29,7 @@
       <list>
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -57,26 +51,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/bereshs/MyProjects/Arhive/regexTester",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/bereshs/MyProjects/3_productions/HHWorkSearch/src/main/resources/frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/frontend" />
@@ -110,7 +104,10 @@
       <workItem from="1696258413430" duration="228000" />
       <workItem from="1696259069690" duration="5299000" />
       <workItem from="1696272572402" duration="26727000" />
-      <workItem from="1696415043998" duration="20998000" />
+      <workItem from="1696415043998" duration="34396000" />
+      <workItem from="1696841660540" duration="89000" />
+      <workItem from="1696841921678" duration="7981000" />
+      <workItem from="1696851195296" duration="4408000" />
     </task>
     <servers />
   </component>

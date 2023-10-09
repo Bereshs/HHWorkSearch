@@ -20,5 +20,4 @@ public class VacancyEntity {
     private String title;
     private LocalDateTime createdAt;
     private String employerHhId;
-
 }

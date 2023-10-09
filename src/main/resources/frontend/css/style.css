@@ -6,8 +6,8 @@ body{
 h2 {
     text-align: center;
 }
-p {
-    width: 99%;
+.header {
+    width: 98%;
     background-color: dimgrey;
     padding-left: 1%;
     margin: 2px;
@@ -36,4 +36,9 @@ table {
 a:link {
     text-decoration: none;
     color: black;
+}
+
+.headerLine {
+    display: inline;
+    width: 100%;
 }

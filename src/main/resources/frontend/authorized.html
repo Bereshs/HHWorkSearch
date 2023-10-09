@@ -5,14 +5,16 @@
     <meta name="description" content="Панель управления HeadHunter workSearch">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <link rel="stylesheet" href="css/style.css?111">
+    <link rel="stylesheet" href="css/style.css?113">
 </head>
 <body>
 <div class="main">
     <h2>Авторизированный модуль</h2>
     <div class="userView">
         <div class="userData">
-            <p>Данные пользователя</p>
+            <div class="header">
+            <p class="headerLine">Данные пользователя</p>
+            </div>
             <div class="userTable">
                 <table>
                     <tr class="trtwo">
@@ -46,7 +48,9 @@
             </div>
         </div>
         <div class="resume">
-            <p>Резюме</p>
+            <div class="header">
+                <p class="headerLine" >Резюме</p>
+            </div>
             <div class="resumeTable">
                 <table>
                     <tr th:each="resume: ${resumeList}" class="trtwo">
@@ -57,14 +61,21 @@
                 </table>
             </div>
             <div class="vacancy">
-                <p th:text="${'Вакансии ('+vacancyList.getItems().size()+') pages '+vacancyList.pages}"></p>
+                <div class="header">
+                    <a thif="vacancyList.page>0" th:href="${'/authorized?page='+(vacancyList.page-1)}" class="headerLine"
+                       href="/authorized/?page=0">Назад</a>
+                    <p th:text="${'Вакансии ('+vacancyList.getItems().size()+') pages '+vacancyList.pages}" class="headerLine"></p>
+                    <a thif="vacancyList.pages>vacancyList.page" th:href="${'/authorized?page='+(vacancyList.page+1)}" class="headerLine"
+                       href="/authorized/?page=0"> Далее</a>
+                </div>
                 <div class="vacancyTable">
                     <table>
                         <tr th:each="vacancy: ${vacancyList.getItems()}" class="trtwo">
-                            <td><a th:href="${vacancy.url}"
+                            <td><a th:href="${vacancy.urlRequest}"
                                    th:text="${vacancy.title +' ('+vacancy.counters.value()+')'}">Java
                                 разработчик</a></td>
                             <td th:text="${vacancy.area.name}">Москва</td>
+                            <td><a th:href="@{${vacancy.url}}">Откликнуться</a>
                             <td><a th:href="@{${vacancy.employer.url}}" th:text="${vacancy.employer.name} ">Газпром</a>
                             </td>
                             <td th:text="${vacancy.salary}"> none</td>
