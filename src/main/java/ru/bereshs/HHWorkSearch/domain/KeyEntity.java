@@ -1,11 +1,10 @@
-package ru.bereshs.HHWorkSearch.model.data;
+package ru.bereshs.HHWorkSearch.domain;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
+import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
@@ -26,9 +25,11 @@ public class KeyEntity {
     private String clientId;
     private String rowResponse;
 
-    public boolean isExpires() {
+    public boolean isValid() throws HhWorkSearchException {
+        if (expiresIn == null || authorizationCode == null) {
+            throw new HhWorkSearchException("Wrong expiresIn or authorizationCode parameter please vizit homepage for update this data");
+        }
         LocalDateTime expireTime = time.plusSeconds(expiresIn);
-        Logger.getLogger(this.getClass().getName()).info("expire "+LocalDateTime.now().isAfter(expireTime));
         return LocalDateTime.now().isAfter(expireTime);
     }
 

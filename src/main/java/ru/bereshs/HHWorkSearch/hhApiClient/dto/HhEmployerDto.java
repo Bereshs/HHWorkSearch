@@ -12,7 +12,8 @@ public class HhEmployerDto {
     @JsonProperty("alternate_url")
     private String alternateUrl;
     private String url;
+
     public String toString() {
-        return getName();
+        return getId() + "-" + getName();
     }
 }

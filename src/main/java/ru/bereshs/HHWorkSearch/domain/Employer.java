@@ -1,15 +1,13 @@
-package ru.bereshs.HHWorkSearch.model.data;
+package ru.bereshs.HHWorkSearch.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
-public class EmployerEntity {
+@Table(name = "employer")
+public class Employer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,4 +16,6 @@ public class EmployerEntity {
     private String name;
     @JsonProperty("url")
     private String url;
+    @JsonProperty("alternate_url")
+    private String alternateUrl;
 }

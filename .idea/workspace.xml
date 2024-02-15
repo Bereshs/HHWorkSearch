@@ -5,19 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/VacancyController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyEntityRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyStatusEntityRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/frontend/vacancy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/Repository/EmployerEntityRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/Repository/KeyEntityRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/KafkaProducerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ManagementController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/exception/RestExceptionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/dto/ExceptionResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/dto/SearchVacancyRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/dto/TelegramMessageDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/exception/HhWorkSearchException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HasEmployer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhExperienceDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhNegotiationsDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhNegotiationsStateDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhViewsResume.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyStatusEntityService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/producer/KafkaProducer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/producer/KafkaProducerImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/EmployerEntityService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/HhService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/NegotiationsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/VacancyEntityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/AuthorizationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/ResumeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/AuthorizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ResumeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/VacancyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/VacancyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controllers/exceptions/GlobalExceptionHandlerController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhEmployerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhEmployerDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhListDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhListDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhResumeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhResumeDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyAnalizeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyEntityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/frontend/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/frontend/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/AuthorizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyEntityService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/EmployerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/Employer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/KeyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/KeyEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/ResumeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/Resume.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyStatusEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyStatusEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/KeysEntityRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyEntityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/Repository/VacancyEntityRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyStatusEntityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyStatusEntityRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +96,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/bereshs/MyProjects/3_productions/HHWorkSearch/src/main/resources/frontend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/bereshs/MyProjects/3_productions/HHWorkSearch&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -81,7 +115,6 @@
   </component>
   <component name="RunManager">
     <configuration name="HhWorkSearchApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="DEBUG_MODE" value="true" />
       <module name="HHWorkSearch" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.bereshs.HHWorkSearch.HhWorkSearchApplication" />
       <method v="2">
@@ -107,7 +140,19 @@
       <workItem from="1696415043998" duration="34396000" />
       <workItem from="1696841660540" duration="89000" />
       <workItem from="1696841921678" duration="7981000" />
-      <workItem from="1696851195296" duration="4408000" />
+      <workItem from="1696851195296" duration="13047000" />
+      <workItem from="1697017996828" duration="3689000" />
+      <workItem from="1697433510522" duration="1942000" />
+      <workItem from="1698474366099" duration="23000" />
+      <workItem from="1707376733498" duration="29901000" />
+      <workItem from="1707726985341" duration="30000" />
+      <workItem from="1707730326859" duration="9370000" />
+      <workItem from="1707747408287" duration="485000" />
+      <workItem from="1707747921456" duration="23000" />
+      <workItem from="1707748483978" duration="1487000" />
+      <workItem from="1707819445480" duration="9000" />
+      <workItem from="1707980949113" duration="23112000" />
+      <workItem from="1708007126571" duration="3835000" />
     </task>
     <servers />
   </component>

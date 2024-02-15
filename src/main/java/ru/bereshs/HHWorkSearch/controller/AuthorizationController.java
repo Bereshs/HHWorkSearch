@@ -1,4 +1,4 @@
-package ru.bereshs.HHWorkSearch.controllers;
+package ru.bereshs.HHWorkSearch.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -8,19 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
+import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
 import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhResumeDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhUserDto;
-import ru.bereshs.HHWorkSearch.model.AuthorizationService;
-import ru.bereshs.HHWorkSearch.model.data.KeyEntity;
-import ru.bereshs.HHWorkSearch.model.data.ResumeEntity;
+import ru.bereshs.HHWorkSearch.service.AuthorizationService;
+import ru.bereshs.HHWorkSearch.service.VacancyEntityService;
+import ru.bereshs.HHWorkSearch.domain.KeyEntity;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +39,14 @@ public class AuthorizationController {
 
     private final HeadHunterClient client;
 
+    private final VacancyEntityService vacancyEntityService;
 
     @Autowired
-    public AuthorizationController(AuthorizationService authorizationService, AppConfig config, HeadHunterClient client) {
+    public AuthorizationController(AuthorizationService authorizationService, AppConfig config, HeadHunterClient client, VacancyEntityService vacancyEntities) {
         this.authorizationService = authorizationService;
         this.config = config;
         this.client = client;
+        this.vacancyEntityService = vacancyEntities;
     }
 
     @GetMapping("/authorization")
@@ -67,26 +71,19 @@ public class AuthorizationController {
 
 
     @GetMapping("/authorized")
-    public String authorizedPage(Model model, @RequestParam(required = false) Integer page) throws IOException, ExecutionException, InterruptedException {
+    public String authorizedPage(Model model, @RequestParam(required = false) Integer page) throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
         KeyEntity key = authorizationService.getByClientId(config.getHhClientId());
         OAuth2AccessToken token = authorizationService.getToken(key);
         Response response = client.execute(Verb.GET, "https://api.hh.ru/me", token);
         model.addAttribute("accessToken", token);
-
         HhListDto<HhResumeDto> myResumeList = client.getObjects(Verb.GET, "https://api.hh.ru/resumes/mine", token, HhResumeDto.class);
+
 
         HashMap<String, ?> list = authorizationService.getMapBody(response.getBody());
         HhUserDto hhUserDto = new HhUserDto();
         hhUserDto.set(list);
-        String uri = "https://api.hh.ru/resumes/" + myResumeList.getItems().get(0).getId() + "/similar_vacancies?responses_count_enabled=true" +
-                "&period=1" +
-                "&order_by=publication_time" +
-                "&vacancy_search_fields=name" +
-                "&text=java" +
-                "&per_page=100";
 
-        Logger.getLogger("sss").info("found page=" + page);
-        uri = getVacancyConnectionString(page);
+        String uri = getVacancyConnectionString(page);
         HhListDto<HhVacancyDto> vacancyList = getPagebleVanacyList(page, token);//client.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
         vacancyList.setItems(excludeWords(vacancyList.getItems(), token));
         model.addAttribute("hhUserDto", hhUserDto);
@@ -129,6 +126,19 @@ public class AuthorizationController {
             Logger.getLogger("logger").info("Avalible pages " + tempList.getPages() + " current page " + tempList.getPage());
             tempList = client.getObjects(Verb.GET, uriNextPage, token, HhVacancyDto.class);
             vacancyList.getItems().addAll(excludeWords(tempList.getItems(), token));
+            LocalDateTime timeHhVacancy = vacancyList.getItems().get(0).getCreatedAt();
+            VacancyEntity firstElement = vacancyEntityService.getFirstByCreatedAt();
+            LocalDateTime timeDbVacancy = LocalDateTime.now().minusDays(1);
+
+            if (firstElement != null) {
+                timeDbVacancy = firstElement.getPublished();
+            }
+
+            if (timeDbVacancy != null && timeHhVacancy != null && timeDbVacancy.isBefore(timeHhVacancy)) {
+                vacancyEntityService.getUnique(vacancyList.getItems().stream().map(vacancyEntityService::getByVacancyDto).toList());
+            } else {
+                break;
+            }
         }
         vacancyList.setFound(vacancyList.getItems().size());
         return vacancyList;

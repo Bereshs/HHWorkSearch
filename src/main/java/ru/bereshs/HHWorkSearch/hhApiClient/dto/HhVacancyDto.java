@@ -1,20 +1,23 @@
 package ru.bereshs.HHWorkSearch.hhApiClient.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.springframework.data.domain.PageRequest;
+import lombok.extern.slf4j.Slf4j;
 import ru.bereshs.HHWorkSearch.hhApiClient.HhLocalDateTime;
-import ru.bereshs.HHWorkSearch.model.data.EmployerEntity;
-import ru.bereshs.HHWorkSearch.model.data.VacancyEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HhVacancyDto {
+
+@Slf4j
+public class HhVacancyDto implements HasEmployer {
     String id;
     @JsonProperty("name")
     String title;
@@ -22,19 +25,62 @@ public class HhVacancyDto {
     HhCountersDto counters;
     HhEmployerDto employer;
     HhSalaryDto salary;
+    HhExperienceDto experience;
     @JsonProperty("published_at")
     String publishedAt;
     @JsonProperty("apply_alternate_url")
     String url;
     LocalDateTime createdAt;
     String description;
-
+    @JsonProperty("alternate_url")
+    String alternateUrl;
     String urlRequest;
 
     public void convertDate() {
         setCreatedAt(HhLocalDateTime.decodeLocalData(getPublishedAt()));
     }
+
     public boolean isValid() {
+        if (experience == null) {
+            return true;
+        }
+        if (!experienceIsRelevant(experience.getId())) {
+            return false;
+        }
+        return isContainsExcludeWords(title);
+    }
+
+    private boolean isContainsExcludeWords(String titleVacancy) {
+        for (String excludeWord : getExcludeWordsList()) {
+            if (titleVacancy.toLowerCase().contains(excludeWord.toLowerCase())) {
+                return false;
+            }
+            if (getDescription() != null && description.toLowerCase().contains(excludeWord.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean experienceIsRelevant(String experience) {
+        boolean relevant = false;
+        for (String exp : getRelevantExperience()) {
+            if (exp.equalsIgnoreCase(experience)) {
+                relevant = true;
+                break;
+            }
+        }
+        return relevant;
+    }
+
+    private List<String> getRelevantExperience() {
+        List<String> experience = new ArrayList<>();
+        experience.add("noExperience");
+        experience.add("between1And3");
+        return experience;
+    }
+
+    private List<String> getExcludeWordsList() {
         ArrayList<String> excludeWords = new ArrayList<>();
         excludeWords.add("Kotlin");
         excludeWords.add("senior");
@@ -104,16 +150,17 @@ public class HhVacancyDto {
         excludeWords.add("sales");
 
         excludeWords.add("rpa");
+        excludeWords.add("chief");
+        excludeWords.add("publisher");
 
-        for (String excludeWord : excludeWords) {
-            if (title.toLowerCase().contains(excludeWord.toLowerCase())) {
-                return false;
-            }
-            if(getDescription()!=null && description.toLowerCase().contains(excludeWord.toLowerCase())) {
-                return false;
-            }
-        }
-        return true;
+
+        excludeWords.add("phyton");
+        excludeWords.add("дизайнер");
+        excludeWords.add("Python");
+        excludeWords.add("GO ");
+        excludeWords.add(" GO");
+
+        return excludeWords;
     }
 
 

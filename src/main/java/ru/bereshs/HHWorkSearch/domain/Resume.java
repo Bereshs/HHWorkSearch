@@ -1,6 +1,5 @@
-package ru.bereshs.HHWorkSearch.model.data;
+package ru.bereshs.HHWorkSearch.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class ResumeEntity {
+public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

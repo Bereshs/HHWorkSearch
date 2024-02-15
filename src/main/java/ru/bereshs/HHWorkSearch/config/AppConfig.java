@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import static java.util.Objects.isNull;
+
 @Data
 @Component
 @ConfigurationProperties(prefix = "app")
@@ -20,4 +22,37 @@ public class AppConfig {
     String hhResume;
     String hhApiCallback;
     String hhApiTokenUri;
+
+    public String getVacancyConnectionString(Integer page) {
+        String uri = "https://api.hh.ru/vacancies?responses_count_enabled=true" +
+                "&period=1" +
+                "&order_by=publication_time" +
+                "&vacancy_search_fields=name" +
+                "&text=java" +
+                "&per_page=100";
+        if (!isNull(page) && page > 0) {
+            uri += "&page=" + page;
+        }
+        return uri;
+    }
+
+    public String getNegotiationsConnectionString(Integer page) {
+        String uri = "https://api.hh.ru/negotiations?" +
+                "order_by=updated_at" +
+                "&per_page=100";
+
+        return uri;
+    }
+
+    public String getResumeViewsConnectionString(String resumeId) {
+        String uri = "https://api.hh.ru/resumes/" + resumeId + "/views";
+        return uri;
+    }
+
+
+    public String getResumesConnectionString() {
+        String uri = "https://api.hh.ru/resumes/mine";
+        return uri;
+
+    }
 }

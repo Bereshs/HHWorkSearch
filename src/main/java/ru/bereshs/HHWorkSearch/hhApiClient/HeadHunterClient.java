@@ -6,6 +6,7 @@ import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import ru.bereshs.HHWorkSearch.config.AppConfig;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 @Service
+@Slf4j
 public class HeadHunterClient {
     private final AppConfig config;
     private final Logger logger = Logger.getLogger(HeadHunterClient.class.getName());
@@ -75,9 +78,9 @@ public class HeadHunterClient {
         return authService.getAuthorizationUrl();
     }
 
-    public <T> HhListDto getObjects(Verb verb, String uri, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
+    public <T> HhListDto<T> getObjects(Verb verb, String uri, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
         HhListDto<HashMap<String, ?>> body = executeBody(verb, uri, token);
-        HhListDto result = new HhListDto();
+        HhListDto<T> result = new HhListDto<>();
         result.setPage(body.getPage());
         result.setFound(body.getFound());
         result.setPages(body.getPages());
@@ -87,9 +90,33 @@ public class HeadHunterClient {
 
     }
 
+    public <T> HhListDto<T> getAllPagesObject(Verb verb, String uri, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
+        var result = getObjects(verb, uri, token, type);
+        var resultList = new HhListDto<T>();
+        resultList.setItems(result.getItems());
+        log.info("Received " + type + " found: " + result.getFound() + " pages: " + result.getPages() + " page: " + result.getPage() + " perPage: " + result.getPerPage());
+        for (int i = 1; i < result.getPages(); i++) {
+            String uriPageble = addUriPageParameter(uri, i);
+            result = getObjects(verb, uriPageble, token, type);
+            resultList.getItems().addAll(result.getItems());
+        }
+        return resultList;
+    }
+
+    public String addUriPageParameter(String uri, int page) {
+        if (uri.endsWith("?") || uri.endsWith("&")) {
+            return uri + "page=" + page;
+        }
+        if (uri.contains("?")) {
+            return uri + "&page=" + page;
+        }
+        return uri + "?page=" + page;
+    }
+
     private <T> List<T> getEntityList(HhListDto<HashMap<String, ?>> vacancyEntityHhlistDto, Class<T> type) {
         List<T> resultList = new ArrayList<>();
         vacancyEntityHhlistDto.getItems().forEach(vacancyEntity -> {
+    //        log.info("entity="+vacancyEntity);
             T vacancy = getHhObject(vacancyEntity, type);
             resultList.add(vacancy);
         });
@@ -107,8 +134,9 @@ public class HeadHunterClient {
 
     private <T> T createInstance(Class<T> type) {
         try {
-            return type.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            return type.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -144,18 +172,25 @@ public class HeadHunterClient {
     }
 
     public HttpHeaders postGetCookies(String url, MultiValueMap<String, String> params) {
+        ResponseEntity<String> response = getResponseEntity(url, params);
+        if (response == null) {
+            return null;
+        }
+        return response.getHeaders();
+    }
+
+    private ResponseEntity<String> getResponseEntity(String url, MultiValueMap<String, String> params) {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, getHeaders());
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             logger.info("received data: " + response.getBody());
             logger.info("received headers: " + response.getHeaders());
-            return response.getHeaders();
+            return response;
         } catch (HttpClientErrorException m) {
             logger.info("Request:" + request + " Received error: " + m.getLocalizedMessage());
             return null;
         }
-
 
     }
 

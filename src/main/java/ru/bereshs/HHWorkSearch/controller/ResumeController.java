@@ -1,28 +1,19 @@
-package ru.bereshs.HHWorkSearch.controllers;
+package ru.bereshs.HHWorkSearch.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
+import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
 import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhResumeDto;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
-import ru.bereshs.HHWorkSearch.model.AuthorizationService;
-import ru.bereshs.HHWorkSearch.model.data.KeyEntity;
-import ru.bereshs.HHWorkSearch.model.data.ResumeEntity;
-import ru.bereshs.HHWorkSearch.model.data.VacancyEntity;
+import ru.bereshs.HHWorkSearch.service.AuthorizationService;
+import ru.bereshs.HHWorkSearch.domain.KeyEntity;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -39,7 +30,7 @@ public class ResumeController {
     }
 
     @GetMapping("/resume/update")
-    ResponseEntity<String> updateResumeHandler() throws IOException, ExecutionException, InterruptedException {
+    ResponseEntity<String> updateResumeHandler() throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
         KeyEntity key = authorizationService.getByClientId(config.getHhClientId());
         OAuth2AccessToken token = authorizationService.getToken(key);
 
