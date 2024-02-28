@@ -95,16 +95,12 @@ public class AuthorizationController {
     private List<HhVacancyDto> excludeWords(List<HhVacancyDto> vacancyDtos, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         List<HhVacancyDto> newList = new ArrayList<>();
         for (HhVacancyDto vacancyDto : vacancyDtos) {
-            if (vacancyDto.isValid()) {
                 vacancyDto.convertDate();
                 String url = "https://api.hh.ru/vacancies/" + vacancyDto.getId();
                 HhVacancyDto vacancyFull = client.executeObject(Verb.GET, url, token, HhVacancyDto.class);
-                if (vacancyFull.isValid()) {
                     vacancyDto.setDescription(vacancyFull.getDescription());
-                }
                 vacancyDto.setUrlRequest("/vacancy/" + vacancyDto.getId());
                 newList.add(vacancyDto);
-            }
         }
         return newList;
     }

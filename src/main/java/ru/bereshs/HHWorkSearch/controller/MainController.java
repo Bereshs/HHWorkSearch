@@ -1,5 +1,6 @@
 package ru.bereshs.HHWorkSearch.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,36 +11,29 @@ import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
 import ru.bereshs.HHWorkSearch.service.AuthorizationService;
 import ru.bereshs.HHWorkSearch.domain.KeyEntity;
 
-@Controller
-public class MainController {
-    private final AppConfig config;
-    private final HeadHunterClient headHunterClient;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.logging.Logger;
 
+@Controller
+@AllArgsConstructor
+public class MainController {
+
+    private final AppConfig config;
 
     private final AuthorizationService authorizationService;
 
-    @Autowired
-    public MainController(AppConfig config, HeadHunterClient headHunterClient, AuthorizationService authorizationService) {
-        this.config = config;
-        this.headHunterClient = headHunterClient;
-        this.authorizationService = authorizationService;
-    }
-
-
     @GetMapping("/")
     public String mainPage(Model model) {
-        KeyEntity key = null;
-
-        try {
-            key = authorizationService.getByClientId(config.getHhClientId());
-            if (key.isValid()) {
-                return "redirect:/authorized";
-            }
-        } catch (HhWorkSearchException e) {
-            model.addAttribute("connectionString", authorizationService.getConnectionString());
-            return "/index";
+        KeyEntity key = authorizationService.getByClientId(config.getHhClientId());
+        Logger.getLogger("info").info("key= " + key.isValid());
+        if (key.isValid()) {
+            return "redirect:/authorized";
         }
 
-        return "redirect:/authorized";
+        model.addAttribute("connectionString", authorizationService.getConnectionString());
+        return "/index";
     }
 }

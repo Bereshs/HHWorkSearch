@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
 
 @Service
 public class AuthorizationService {
@@ -60,15 +61,16 @@ public class AuthorizationService {
         return key;
     }
 
-    public OAuth2AccessToken getToken(KeyEntity key) throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
-       if(key.isValid() && key.getTime()==null) {
-           save(key);
-       }
-        if (key.isValid() && key.getRefreshToken() != null) {
+    public OAuth2AccessToken getToken(KeyEntity key) throws IOException, ExecutionException, InterruptedException {
+
+        if (!key.isValid() && key.getTime() == null) {
+            save(key);
+        }
+        if (!key.isValid() && key.getRefreshToken() != null) {
             token = client.requestRefreshToken(key.getRefreshToken());
             return token;
         }
-        if(key.isValid()) {
+        if (!key.isValid()) {
             token = client.requestAccessToken(config.getHhClientId());
             return token;
         }

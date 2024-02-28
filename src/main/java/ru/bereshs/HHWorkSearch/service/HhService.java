@@ -33,20 +33,15 @@ public class HhService {
 
     public List<HhVacancyDto> getRecommendedVacancy(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         HhListDto<HhVacancyDto> tempList = getPageRecommendedVacancy(token, 0);
-        List<HhVacancyDto> vacancyList = new ArrayList<>(getFilteredHhVacancyDtoList(tempList));
-
+        List<HhVacancyDto> vacancyList = new ArrayList<>(tempList.getItems());
         log.info("Received data found: " + tempList.getFound() + " pages: " + tempList.getPages() + " page: " + tempList.getPage() + " perPage: " + tempList.getPerPage());
         for (int i = 1; i < tempList.getPages(); i++) {
             tempList = getPageRecommendedVacancy(token, i);
-            vacancyList.addAll(getFilteredHhVacancyDtoList(tempList));
+            vacancyList.addAll(tempList.getItems());
         }
         return vacancyList;
     }
 
-
-    public List<HhVacancyDto> getFilteredHhVacancyDtoList(HhListDto<HhVacancyDto> listDto) {
-        return listDto.getItems().stream().filter(HhVacancyDto::isValid).toList();
-    }
 
     public HhListDto<HhNegotiationsDto> getHhNegotiationsDtoList(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getNegotiationsConnectionString(0);

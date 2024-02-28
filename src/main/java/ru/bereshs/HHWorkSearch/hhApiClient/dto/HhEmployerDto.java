@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HhEmployerDto {
-    private int id;
+    private String id;
     private String name;
     @JsonProperty("alternate_url")
     private String alternateUrl;

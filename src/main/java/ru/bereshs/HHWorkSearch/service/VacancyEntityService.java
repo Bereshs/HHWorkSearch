@@ -1,5 +1,6 @@
 package ru.bereshs.HHWorkSearch.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -13,17 +14,10 @@ import java.util.List;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class VacancyEntityService {
 
     private final VacancyEntityRepository vacancyEntityRepository;
-
-    private final EmployerEntityService employerEntityService;
-
-    @Autowired
-    public VacancyEntityService(VacancyEntityRepository vacancyEntityRepository, EmployerEntityService employerEntityService) {
-        this.vacancyEntityRepository = vacancyEntityRepository;
-        this.employerEntityService = employerEntityService;
-    }
 
     public VacancyEntity getByHhId(String hhId) {
         return vacancyEntityRepository.getByHhId(hhId);
@@ -34,19 +28,12 @@ public class VacancyEntityService {
         return vacancyEntityRepository.findFirstBy(sort);
     }
 
+
     public List<VacancyEntity> getUnique(List<VacancyEntity> vacancyEntityList) {
-
-        var unuque=new ArrayList<>(
-                vacancyEntityList.stream().filter(
-                        vacancyEntity -> vacancyEntityRepository.getByHhId(vacancyEntity.getHhId()) == null
-                ).toList());
-    unuque.forEach(ele->{
-        String id= ele.getHhId();
-        log.info("id='"+id+"'");
-
-    });
-
-    return unuque;
+        return new ArrayList<>(
+                vacancyEntityList.stream()
+                        .filter(vacancyEntity -> vacancyEntityRepository.getByHhId(vacancyEntity.getHhId()) == null)
+                        .toList());
     }
 
     public void saveAll(List<VacancyEntity> vacancyEntityList) {
@@ -66,6 +53,5 @@ public class VacancyEntityService {
     public VacancyEntity getById(String id) {
         return vacancyEntityRepository.getByHhId(id);
     }
-
 
 }

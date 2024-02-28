@@ -25,12 +25,13 @@ public class KeyEntity {
     private String clientId;
     private String rowResponse;
 
-    public boolean isValid() throws HhWorkSearchException {
+    public boolean isValid() {
         if (expiresIn == null || authorizationCode == null) {
-            throw new HhWorkSearchException("Wrong expiresIn or authorizationCode parameter please vizit homepage for update this data");
+            return false;
         }
         LocalDateTime expireTime = time.plusSeconds(expiresIn);
-        return LocalDateTime.now().isAfter(expireTime);
+//        Logger.getLogger("info").info("key is valid="+LocalDateTime.now().isBefore(expireTime));
+        return LocalDateTime.now().isBefore(expireTime);
     }
 
     public void set(OAuth2AccessToken token) {
