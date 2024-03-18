@@ -24,6 +24,5 @@ public class KafkaProducerImpl implements KafkaProducer{
     @Override
     public void produce(TelegramMessageDto telegramMessageDto) {
         kafkaTemplate.send(kafkaTopic, telegramMessageDto);
-        log.info("Sent to: "+kafkaTopic+"  message: "+telegramMessageDto);
     }
 }

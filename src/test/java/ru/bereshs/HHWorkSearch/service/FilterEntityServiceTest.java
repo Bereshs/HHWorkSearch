@@ -99,8 +99,8 @@ class FilterEntityServiceTest {
         Mockito.when(filterEntityRepository.findFilterEntityByScope("experience"))
                 .thenReturn(filterEntityListExperience);
 
-        assertTrue(filterEntityService.isContainsExcludeWords(vacancy, "name"));
-        assertTrue(filterEntityService.isContainsExcludeWords(vacancy, "experience"));
+        assertTrue(filterEntityService.isContainsExcludeWordsScope(vacancy.getName(), filterEntityRepository.findFilterEntityByScope("name")));
+        assertTrue(filterEntityService.isContainsExcludeWordsScope(vacancy.getExperience(), filterEntityRepository.findFilterEntityByScope("experience")));
 
     }
 }

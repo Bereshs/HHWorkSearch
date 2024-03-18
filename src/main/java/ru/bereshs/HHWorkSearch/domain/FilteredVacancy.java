@@ -1,6 +1,14 @@
 package ru.bereshs.HHWorkSearch.domain;
 
+import java.util.List;
+
 public interface FilteredVacancy {
-    public String getName();
-    public String getExperience();
+    String getName();
+
+    String getExperience();
+
+    String getDescription();
+
+    List<String> getSkillStringList();
+
 }

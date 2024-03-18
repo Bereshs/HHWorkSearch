@@ -42,6 +42,10 @@ public class HhService {
         return vacancyList;
     }
 
+    public HhVacancyDto getVacancyById(String vacancyId, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        String uri = appConfig.getVacancyConnectionString(vacancyId);
+        return headHunterClient.executeObject(Verb.GET, uri, token, HhVacancyDto.class);
+    }
 
     public HhListDto<HhNegotiationsDto> getHhNegotiationsDtoList(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getNegotiationsConnectionString(0);
@@ -63,7 +67,11 @@ public class HhService {
     public HhListDto<HhResumeDto> getActiveResumes(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumesConnectionString();
         return headHunterClient.getObjects(Verb.GET, uri, token, HhResumeDto.class);
+    }
 
+    public HhResumeDto getResumeById(String resumeId, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        String uri = appConfig.getResumeByIdConnectrinString(resumeId);
+        return headHunterClient.executeObject(Verb.GET, uri, token, HhResumeDto.class);
     }
 
     public Map<HhEmployerDto, Double> getLoyalEmployer(OAuth2AccessToken token, String resumeId) throws IOException, ExecutionException, InterruptedException {

@@ -16,6 +16,6 @@ public class FilterEntity {
     String word;
 
     public String toString() {
-        return "FilterEntity{scope=" + scope + ", word=" + word+"}";
+        return "FilterEntity{scope=" + scope + ", word=" + word + "}";
     }
 }

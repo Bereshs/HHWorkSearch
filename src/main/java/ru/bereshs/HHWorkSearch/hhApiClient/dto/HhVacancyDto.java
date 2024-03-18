@@ -1,8 +1,6 @@
 package ru.bereshs.HHWorkSearch.hhApiClient.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +33,35 @@ public class HhVacancyDto implements HasEmployer, FilteredVacancy {
     @JsonProperty("alternate_url")
     String alternateUrl;
     String urlRequest;
+    @JsonProperty("key_skills")
+    List<HhVacancySkillsDto> skills;
 
     public void convertDate() {
         setCreatedAt(HhLocalDateTime.decodeLocalData(getPublishedAt()));
     }
 
     public String getExperience() {
-        return experience.getId();
+        return  experience.getId();
     }
 
+    public void setDescription(String description) {
+        if(description==null) {
+            description="";
+        }
+
+        this.description = description.toLowerCase().replaceAll("<[^>]*>", "").replaceAll("&quot;", "").replaceAll("&amp;", "").replaceAll("\\n", "");
+
+    }
+    @Override
+    public List<String> getSkillStringList() {
+        if (skills==null) {
+            return null;
+        }
+        return skills.stream().map(HhVacancySkillsDto::getName).toList();
+    }
+
+    @Override
+    public String toString(){
+        return "name:"+name+" description:"+description;
+    }
 }

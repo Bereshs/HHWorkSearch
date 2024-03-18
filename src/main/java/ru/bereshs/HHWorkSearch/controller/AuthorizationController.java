@@ -72,8 +72,7 @@ public class AuthorizationController {
 
     @GetMapping("/authorized")
     public String authorizedPage(Model model, @RequestParam(required = false) Integer page) throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
-        KeyEntity key = authorizationService.getByClientId(config.getHhClientId());
-        OAuth2AccessToken token = authorizationService.getToken(key);
+        OAuth2AccessToken token = authorizationService.getToken();
         Response response = client.execute(Verb.GET, "https://api.hh.ru/me", token);
         model.addAttribute("accessToken", token);
         HhListDto<HhResumeDto> myResumeList = client.getObjects(Verb.GET, "https://api.hh.ru/resumes/mine", token, HhResumeDto.class);

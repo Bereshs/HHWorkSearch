@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HhResumeDto {
@@ -20,4 +22,10 @@ public class HhResumeDto {
     private String firstName;
     @JsonProperty("middle_name")
     private String middleName;
+    @JsonProperty("skill_set")
+    private List<String> skillSet;
+    @JsonProperty("skills")
+    private String skills;
+    @JsonProperty("visible")
+    private boolean visible;
 }

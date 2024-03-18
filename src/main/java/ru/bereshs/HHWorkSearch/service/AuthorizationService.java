@@ -26,7 +26,6 @@ public class AuthorizationService {
 
     private final HeadHunterClient client;
     private OAuth2AccessToken token;
-
     private final AppConfig config;
 
     @Autowired
@@ -61,7 +60,8 @@ public class AuthorizationService {
         return key;
     }
 
-    public OAuth2AccessToken getToken(KeyEntity key) throws IOException, ExecutionException, InterruptedException {
+    public OAuth2AccessToken getToken() throws IOException, ExecutionException, InterruptedException {
+        KeyEntity key = getByClientId(config.getHhClientId());
 
         if (!key.isValid() && key.getTime() == null) {
             save(key);

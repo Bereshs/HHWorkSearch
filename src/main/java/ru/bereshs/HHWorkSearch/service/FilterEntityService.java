@@ -3,18 +3,16 @@ package ru.bereshs.HHWorkSearch.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.Repository.FilterEntityRepository;
-import ru.bereshs.HHWorkSearch.domain.FilterEntity;
-import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
-import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
+import ru.bereshs.HHWorkSearch.domain.*;
 import ru.bereshs.HHWorkSearch.domain.dto.FilterDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+
 @Service
-public class FilterEntityService {
+public class FilterEntityService <T extends FilteredVacancy> {
     private final FilterEntityRepository filterEntityRepository;
 
     @Autowired
@@ -30,31 +28,40 @@ public class FilterEntityService {
         return vacancyEntities.stream().filter(this::isValid).toList();
     }
 
+    public List<T> doFilterDescription(List<T> vacancyEntities) {
+        return vacancyEntities.stream().filter(this::isValidDescription).toList();
+    }
+
     public boolean isValid(FilteredVacancy filteredVacancy) {
-        boolean is = !isContainsExcludeWords(filteredVacancy, "name")
-                && !isContainsExcludeWords(filteredVacancy, "experience");
-        return is;
+        return !isContainsExcludeWordsScope(filteredVacancy.getName(), getScope(FilterScope.Name))
+                && !isContainsExcludeWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.Experience));
     }
 
-    boolean isContainsExcludeWords(FilteredVacancy filteredVacancy, String field) {
-        List<FilterEntity> scopeName = filterEntityRepository.findFilterEntityByScope(field);
+    public boolean isValidDescription(T filteredVacancy) {
+        if (filteredVacancy.getDescription().length() < 10) {
+            return false;
+        }
+        var desc= !isContainsExcludeWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Description));
+        return desc;
+    }
+
+    boolean isContainsExcludeWordsScope(String line, List<FilterEntity> scopeName) {
         for (FilterEntity name : scopeName) {
-            String searchString = field.equals("name") ? filteredVacancy.getName().toLowerCase() : filteredVacancy.getExperience().toLowerCase();
-            if (searchString.contains(name.getWord())) {
+            if (line.toLowerCase().contains(name.getWord())) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean containsWords(String line, List<FilterEntity> scope) {
-        for (FilterEntity filter : scope) {
-            if (line.toLowerCase().contains(filter.getWord().toLowerCase())) {
-                return true;
-            }
-        }
-        return false;
+    List<FilterEntity> getScope(FilterScope scope) {
+        return filterEntityRepository.findFilterEntityByScope(scope.name().toLowerCase());
     }
+
+    List<FilterEntity> getScopeExperience() {
+        return filterEntityRepository.findFilterEntityByScope("experience");
+    }
+
 
     public void addToFilter(FilterDto filterDto) {
         List<FilterEntity> filterEntities = getListFromDto(filterDto);
@@ -92,4 +99,6 @@ public class FilterEntityService {
             return filterEntity;
         }).toList();
     }
+
+
 }

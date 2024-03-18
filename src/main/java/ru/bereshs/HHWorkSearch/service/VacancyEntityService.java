@@ -5,12 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
+import ru.bereshs.HHWorkSearch.domain.SkillEntity;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
 import ru.bereshs.HHWorkSearch.Repository.VacancyEntityRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -50,8 +54,33 @@ public class VacancyEntityService {
         return vacancy;
     }
 
+    public void updateAll(List<VacancyEntity> list) {
+        list.forEach(this::update);
+    }
+
+    public void update(VacancyEntity vacancy) {
+        VacancyEntity vacancyDb = vacancyEntityRepository.getByHhId(vacancy.getHhId());
+        vacancyDb.setDescription(vacancyDb.getDescription());
+        vacancyDb.setName(vacancyDb.getName());
+        save(vacancyDb);
+    }
+
     public VacancyEntity getById(String id) {
         return vacancyEntityRepository.getByHhId(id);
     }
 
+    public void save(VacancyEntity vacancy) {
+        vacancy.setTimeStamp(LocalDateTime.now());
+        vacancyEntityRepository.save(vacancy);
+    }
+
+    public LocalDateTime getLastUpdate() {
+        Sort sort = Sort.by("TimeStamp").descending();
+        var list = vacancyEntityRepository.findAll(sort);
+        return list.isEmpty() ? LocalDateTime.now().minusDays(2) : list.get(0).getTimeStamp();
+    }
+
+    public List<VacancyEntity> getVacancyEnityList(List<HhVacancyDto> list) {
+        return list.stream().map(VacancyEntity::new).toList();
+    }
 }

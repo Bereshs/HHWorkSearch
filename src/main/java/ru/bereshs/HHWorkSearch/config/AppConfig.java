@@ -53,6 +53,15 @@ public class AppConfig {
     public String getResumesConnectionString() {
         String uri = "https://api.hh.ru/resumes/mine";
         return uri;
+    }
 
+    public String getResumeByIdConnectrinString(String resumeId) {
+        String uri = "https://api.hh.ru/resumes/" + resumeId;
+        return uri;
+    }
+
+    public String getVacancyConnectionString(String id) {
+        String uri = "https://api.hh.ru/vacancies/" + id;
+        return uri;
     }
 }

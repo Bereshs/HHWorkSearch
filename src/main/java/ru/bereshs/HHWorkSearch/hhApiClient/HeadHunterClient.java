@@ -3,6 +3,7 @@ package ru.bereshs.HHWorkSearch.hhApiClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.HHApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.httpclient.multipart.BodyPartPayload;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.Getter;
@@ -50,7 +51,13 @@ public class HeadHunterClient {
     public Response execute(Verb verb, String uri, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         OAuthRequest request = new OAuthRequest(verb, uri);
         authService.signRequest(token, request);
+        return authService.execute(request);
+    }
 
+    public  Response executeWithBody(Verb verb, String uri, OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
+        OAuthRequest request = new OAuthRequest(verb, uri);
+        body.forEach(request::addBodyParameter);
+        authService.signRequest(token, request);
         return authService.execute(request);
     }
 
@@ -116,7 +123,6 @@ public class HeadHunterClient {
     private <T> List<T> getEntityList(HhListDto<HashMap<String, ?>> vacancyEntityHhlistDto, Class<T> type) {
         List<T> resultList = new ArrayList<>();
         vacancyEntityHhlistDto.getItems().forEach(vacancyEntity -> {
-    //        log.info("entity="+vacancyEntity);
             T vacancy = getHhObject(vacancyEntity, type);
             resultList.add(vacancy);
         });
