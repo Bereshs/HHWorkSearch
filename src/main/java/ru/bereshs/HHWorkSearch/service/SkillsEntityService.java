@@ -144,7 +144,7 @@ public class SkillsEntityService {
     private List<SkillEntity> extractSkillsFromString(String list, List<SkillEntity> skillEntities) {
         List<SkillEntity> result = new ArrayList<>();
         skillEntities.forEach(element -> {
-            if (list.contains(element.getName())) {
+            if (list.toLowerCase().contains(element.getName().toLowerCase())) {
                 result.add(element);
             }
         });

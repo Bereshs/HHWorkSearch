@@ -60,6 +60,7 @@ public class SchedulerConfig {
         log.info("total received vacancy list size:  " + vacancies.size());
         List<VacancyEntity> filtered = filterEntityService.doFilter(vacancies);
         log.info("total size vacancy after name filter: " + filtered.size());
+        log.info(" "+filtered);
         List<HhVacancyDto> list = getUnique(filtered);
         filtered = filterEntityService.doFilterDescription(vacancyEntityService.getVacancyEnityList(list));
         log.info("total size after full filter: " + filtered.size());

@@ -71,8 +71,8 @@
                 <div class="vacancyTable">
                     <table>
                         <tr th:each="vacancy: ${vacancyList.getItems()}" class="trtwo">
-                            <td><a th:href="${vacancy.urlRequest}"
-                                   th:text="${vacancy.title +' ('+vacancy.counters.value()+')'}">Java
+                            <td><a th:href="${vacancy.alternateUrl}"
+                                   th:text="${vacancy.name +' ('+vacancy.counters.value()+')'}">Java
                                 разработчик</a></td>
                             <td th:text="${vacancy.area.name}">Москва</td>
                             <td><a th:href="@{${vacancy.url}}">Откликнуться</a>

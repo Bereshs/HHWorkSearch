@@ -6,15 +6,13 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
+
 import ru.bereshs.HHWorkSearch.Repository.FilterEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.FilterEntity;
-import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 

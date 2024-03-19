@@ -5,37 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/Repository/MessageEntityRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/Repository/ResumeEntityRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/Repository/SkillsEntityRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/SchedulerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilterScope.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/MessageEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/SkillEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/dto/NegotiationsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancySkillsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/MessageEntityService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/ResumeEntityService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/SkillsEntityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/service/SkillsEntityServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/SchedulerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/SchedulerConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/AuthorizationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ManagementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ResumeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/VacancyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/VacancyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilterEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilterEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilteredVacancy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilteredVacancy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/Resume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/ResumeEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhResumeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhResumeDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/producer/KafkaProducerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/producer/KafkaProducerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/AuthorizationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/FilterEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/FilterEntityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/HhService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/HhService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/VacancyEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/VacancyEntityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/SkillEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/SkillEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/VacancyStatusEntityService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/data/VacancyStatusEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/model/storage/VacancyStatusEntityRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/SkillsEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/SkillsEntityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/service/FilterEntityServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/service/FilterEntityServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,10 +25,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -71,29 +50,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/bereshs/MyProjects/3_productions/HHWorkSearch",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/bereshs/MyProjects/3_productions/HHWorkSearch&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/frontend" />
@@ -124,22 +103,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FilterEntityServiceTest.containsExcludeWordsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HHWorkSearch" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.bereshs.HHWorkSearch.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ru.bereshs.HHWorkSearch.service" />
-      <option name="MAIN_CLASS_NAME" value="ru.bereshs.HHWorkSearch.service.FilterEntityServiceTest" />
-      <option name="METHOD_NAME" value="containsExcludeWordsTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="FilterEntityServiceTest.doFilterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HHWorkSearch" />
       <extension name="coverage">
@@ -156,7 +119,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FilterEntityServiceTest.isValidTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SkillsEntityServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HHWorkSearch" />
       <extension name="coverage">
         <pattern>
@@ -165,8 +128,39 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="ru.bereshs.HHWorkSearch.service" />
-      <option name="MAIN_CLASS_NAME" value="ru.bereshs.HHWorkSearch.service.FilterEntityServiceTest" />
-      <option name="METHOD_NAME" value="isValidTest" />
+      <option name="MAIN_CLASS_NAME" value="ru.bereshs.HHWorkSearch.service.SkillsEntityServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SkillsEntityServiceTest.extractVacancySkills" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HHWorkSearch" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.bereshs.HHWorkSearch.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.bereshs.HHWorkSearch.service" />
+      <option name="MAIN_CLASS_NAME" value="ru.bereshs.HHWorkSearch.service.SkillsEntityServiceTest" />
+      <option name="METHOD_NAME" value="extractVacancySkills" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SkillsEntityServiceTest.extractVacancySkillsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HHWorkSearch" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.bereshs.HHWorkSearch.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.bereshs.HHWorkSearch.service" />
+      <option name="MAIN_CLASS_NAME" value="ru.bereshs.HHWorkSearch.service.SkillsEntityServiceTest" />
+      <option name="METHOD_NAME" value="extractVacancySkillsTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -181,10 +175,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SkillsEntityServiceTest.extractVacancySkillsTest" />
+        <item itemvalue="JUnit.SkillsEntityServiceTest" />
+        <item itemvalue="JUnit.SkillsEntityServiceTest.extractVacancySkills" />
         <item itemvalue="JUnit.FilterEntityServiceTest" />
         <item itemvalue="JUnit.FilterEntityServiceTest.doFilterTest" />
-        <item itemvalue="JUnit.FilterEntityServiceTest.containsExcludeWordsTest" />
-        <item itemvalue="JUnit.FilterEntityServiceTest.isValidTest" />
       </list>
     </recent_temporary>
   </component>
@@ -225,7 +220,8 @@
       <workItem from="1709107404841" duration="27178000" />
       <workItem from="1709712673523" duration="30358000" />
       <workItem from="1710153318015" duration="10125000" />
-      <workItem from="1710747515492" duration="32020000" />
+      <workItem from="1710747515492" duration="32708000" />
+      <workItem from="1710836655688" duration="6092000" />
     </task>
     <servers />
   </component>

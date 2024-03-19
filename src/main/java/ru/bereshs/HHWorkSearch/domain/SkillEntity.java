@@ -12,6 +12,7 @@ import lombok.Setter;
 @Table(name = "skills")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
+
 public class SkillEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
