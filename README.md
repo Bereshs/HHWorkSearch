@@ -1,4 +1,4 @@
-# HHWorkSearch версия 0.1
+# HHWorkSearch версия 0.2.0
 
 ## Сервис помощи поиска работы на hh.ru. с использованием HeadHunter API (https://api.hh.ru)
 
@@ -17,11 +17,11 @@
 - /api/resume/skill_set -  работа с хард скилами
 - /api/resume -  работа с резюме
 - /api/vacancy - работа с вакансиями
-- /swagger-ui.html - польное описание
+- /swagger-ui.html - полное описание
 
 ### Начало работы
-Создайте в корне приложение файл application.properties<br>
-указав корректные значения
+Создайте в корне приложения файл application.properties<br>
+указав корректные значения:
 ```
 app.hh-user-agent= 
 app.hh-client-id = 
@@ -65,15 +65,17 @@ spring.web.resources.static-locations=classpath:/frontend/
 spring.thymeleaf.prefix=classpath:/frontend/
 spring.thymeleaf.suffix=.html
 ```
+Откройте в браузере http://localhost:8080/ и разешите приложению доступ к hh.ru
 
-Используемые технологии:
+### Используемые технологии:
 - HeadHunter Api (https://api.hh.ru/),
 - java 17,
-- maven,
-- git
 - spring boot,
 - postgresSql,
 - jpa,
+- rest api,
 - swagger,
-- rest api.
+- maven,
+- git,
+
 
