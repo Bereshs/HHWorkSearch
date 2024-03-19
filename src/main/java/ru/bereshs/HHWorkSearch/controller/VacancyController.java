@@ -1,6 +1,9 @@
 package ru.bereshs.HHWorkSearch.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,9 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @AllArgsConstructor
 @Slf4j
+
+@Tag(   name = "Вакансии",
+        description = "Работа с вакансиями")
 public class VacancyController {
 
     private final AuthorizationService authorizationService;
@@ -27,6 +33,7 @@ public class VacancyController {
     private final FilterEntityService filterEntityService;
     private final HhService service;
 
+    @Operation(summary = "Рекомендованные мне вакансии")
     @GetMapping("/api/vacancy/recommended")
     public List<VacancyEntity> getRecommendedVacancyList() throws IOException, ExecutionException, InterruptedException {
         var vacancyList = getVacancyEntityList();
@@ -36,12 +43,14 @@ public class VacancyController {
     }
 
 
+    @Operation(summary = "Просмотр вакансии")
     @GetMapping("/api/vacancy/{id}")
     public HhVacancyDto viewVacancyPage(@PathVariable String id) throws IOException, ExecutionException, InterruptedException {
         return service.getVacancyById(id, getToken());
     }
 
 
+    @Operation(summary = "Сопроводительное письмо для вакансии")
     @GetMapping("/api/vacancy/{id}/message")
     public String getVacancyMessage(@PathVariable String id) throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
         HhVacancyDto vacancyDto = service.getVacancyById(id, getToken());

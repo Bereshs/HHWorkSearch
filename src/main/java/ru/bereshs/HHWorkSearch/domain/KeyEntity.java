@@ -30,7 +30,6 @@ public class KeyEntity {
             return false;
         }
         LocalDateTime expireTime = time.plusSeconds(expiresIn);
-//        Logger.getLogger("info").info("key is valid="+LocalDateTime.now().isBefore(expireTime));
         return LocalDateTime.now().isBefore(expireTime);
     }
 

@@ -2,6 +2,9 @@ package ru.bereshs.HHWorkSearch.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,15 +34,18 @@ import java.util.logging.Logger;
 @RestController
 @Slf4j
 @AllArgsConstructor
+@Tag(   name = "Отклики",
+        description = "Работа с откликами")
+
 public class ManagementController {
     private final HhService service;
     private final AuthorizationService authorizationService;
-    private final FilterEntityService filterEntityService;
-    private final VacancyEntityService vacancyEntityService;
     private final MessageEntityService messageEntityService;
     private final SkillsEntityService skillsEntityService;
     private final KafkaProducer producer;
 
+
+    @Operation(summary = "TODO: Тестовая страница, находится в стадии реализации")
 
     @GetMapping("/api/start")
     public String start() throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
@@ -64,11 +70,13 @@ public class ManagementController {
         }
     }
 
+    @Operation(summary = "Получение списка откликов")
     @GetMapping("/api/negotiations")
     public HhListDto<HhNegotiationsDto> getNegotiationsList() throws IOException, ExecutionException, InterruptedException {
         return service.getHhNegotiationsDtoList(getToken());
     }
 
+    @Operation(summary = "Отправка отклика на вакансию")
     @PostMapping("/api/negotiations")
     public String postNegotiations(@RequestBody NegotiationsDto negotiationsDto) throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
         HhVacancyDto vacancyDto = service.getVacancyById(negotiationsDto.getVacancyId(), getToken());

@@ -1,5 +1,6 @@
 package ru.bereshs.HHWorkSearch.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Schema(description = "Фильтр")
+
 public class FilterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

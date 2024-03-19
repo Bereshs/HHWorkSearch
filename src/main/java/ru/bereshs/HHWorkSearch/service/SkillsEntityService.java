@@ -119,7 +119,6 @@ public class SkillsEntityService {
 
 
     public List<SkillEntity> extractVacancySkills(FilteredVacancy vacancy) {
-    //    log.info("vacancyDescription="+vacancy.getDescription());
         List<SkillEntity> skills = findAll();
         List<SkillEntity> result = new ArrayList<>();
         result.addAll(extractSkillsFromList(vacancy.getSkillStringList(), skills));

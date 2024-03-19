@@ -1,48 +1,79 @@
 # HHWorkSearch версия 0.1
 
-## Сервис помощи поиска работы на hh.ru. с использованием HeadHunter API (https://api.hh.ru) 
+## Сервис помощи поиска работы на hh.ru. с использованием HeadHunter API (https://api.hh.ru)
 
-### Основные функции:
-### Отправка сообщений ApacheKafka
-Результат своей работы сервис отправляет в очередь брокеру apacheKafka
+Сервис анализирет предложенные вакансии hh.ru и отправлет брокеру сообщение с рекомендованной для отклика вакансией и сопроводительным письмом.
 
-### Анализ вакансий
-- Сервис анализирует hardSkills вакансции на предмет соответствия резюме. Результаты анализа, проценты соответсвия и рекомендации отправлет в виде сообщения.
-- Сервис анализирует компании просмотревшие резюме, и готовит анализ соответветсвия резюме вакансиям этих компаний.
-- Сервис анализирует отказы компаний и предоставлает отчет о возможных причинах отказа.
+### Логика работы:
+- Кажды час, в рабочее время запрашиваются вакансии для резюме.
+- Из предложенных удаляются вакансии в заголовках или описании которых присутсвуют слова из фильтра.
+- Удаляются ранее показаынные вакансии.
+- Проверяется наличие ключевых слов хард скилов и на основании этих слов котовится сопроводительное письмо.
+- Письмо отправлается в очередь брокеру.
 
-### Подбор вакансий
-- Сервис анализирует рекомендуемые вакансии hh.ru, проводит их анализ. На основе предпочтениий пользователя готовится список вакансий и отправлется в виде сообщения.
-- Сервис анализирует избранные компании и отправляет сообщения, в случае появления новых вакансий.
+### Для настрйоки испльзуется API
+- /api/filter - настройка фильтров
+- /api/negotiations -  работа с откликами
+- /api/resume/skill_set -  работа с хард скилами
+- /api/resume -  работа с резюме
+- /api/vacancy - работа с вакансиями
+- /swagger-ui.html - польное описание
 
-### Подготовка отклика на вакансию 
-Сервис готовит текст отклика на вакансию используя готовые шаблоны и выдержки из разюме.
+### Начало работы
+Создайте в корне приложение файл application.properties<br>
+указав корректные значения
+```
+app.hh-user-agent= 
+app.hh-client-id = 
+app.hh-client-secret = 
+app.email-email = 
+app.email-password = 
+app.telegram.token =
+app.clientId =
+```
+```
+spring.application.name=HHWorkSearchApplication
+server.port=8080
+spring.datasource.url=jdbc:postgresql://psql:5432/postgres
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=false
+
+spring.kafka.bootstrap-servers=kafka:9094
+spring.kafka.topic=tmessage
 
 
+app.hh-api-uri = https://api.hh.ru
+app.hh-api-callback=http://localhost:8080/authorization
+app.hh-api-token-uri=https://hh.ru/oauth/token
+app.hh-vacancy=/vacancy
+app.hh-resume=/resume
 
-Версия 0.0 (инициализация приложения)
+app.hh-user-agent= 
+app.hh-client-id = 
+app.hh-client-secret = 
+app.email-email = 
+app.email-password = 
+app.telegram.token =
+app.clientId =
 
-Планируемый функционал:
-- анализ рекомендуемых вакансий,
-- ведение списка просмотренных вакансий,
-- ведение и анализ списка откликов на резюме,
-- подготовка новых и рекомендуемых вакансий на основе резюме,
-- подготовка рекомендаций для резюме на основе вакансий,
-- автоматическое поднятие резюме в поиске,
+
+spring.web.resources.static-locations=classpath:/frontend/
+spring.thymeleaf.prefix=classpath:/frontend/
+spring.thymeleaf.suffix=.html
+```
 
 Используемые технологии:
+- HeadHunter Api (https://api.hh.ru/),
 - java 17,
 - maven,
+- git
 - spring boot,
-- HeadHunter Api (https://api.hh.ru/),
 - postgresSql,
 - jpa,
+- swagger,
 - rest api.
 
-Для работы необходим aplication.properties, со следующим содержанием:
-hh.api.url = https://api.hh.ru/
-hh.user.agent= 
-hh.client.id = 
-hh.client.secret =
-appEmail.email = 
-appEmail.password = 

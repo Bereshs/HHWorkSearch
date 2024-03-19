@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 
 @Service
-public class FilterEntityService <T extends FilteredVacancy> {
+public class FilterEntityService{
     private final FilterEntityRepository filterEntityRepository;
 
     @Autowired
@@ -28,7 +28,7 @@ public class FilterEntityService <T extends FilteredVacancy> {
         return vacancyEntities.stream().filter(this::isValid).toList();
     }
 
-    public List<T> doFilterDescription(List<T> vacancyEntities) {
+    public List<VacancyEntity> doFilterDescription(List<VacancyEntity> vacancyEntities) {
         return vacancyEntities.stream().filter(this::isValidDescription).toList();
     }
 
@@ -37,12 +37,11 @@ public class FilterEntityService <T extends FilteredVacancy> {
                 && !isContainsExcludeWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.Experience));
     }
 
-    public boolean isValidDescription(T filteredVacancy) {
+    public boolean isValidDescription(VacancyEntity filteredVacancy) {
         if (filteredVacancy.getDescription().length() < 10) {
             return false;
         }
-        var desc= !isContainsExcludeWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Description));
-        return desc;
+        return !isContainsExcludeWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Description));
     }
 
     boolean isContainsExcludeWordsScope(String line, List<FilterEntity> scopeName) {
@@ -57,11 +56,6 @@ public class FilterEntityService <T extends FilteredVacancy> {
     List<FilterEntity> getScope(FilterScope scope) {
         return filterEntityRepository.findFilterEntityByScope(scope.name().toLowerCase());
     }
-
-    List<FilterEntity> getScopeExperience() {
-        return filterEntityRepository.findFilterEntityByScope("experience");
-    }
-
 
     public void addToFilter(FilterDto filterDto) {
         List<FilterEntity> filterEntities = getListFromDto(filterDto);

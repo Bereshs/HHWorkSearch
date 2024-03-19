@@ -1,5 +1,6 @@
 package ru.bereshs.HHWorkSearch.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -16,6 +17,8 @@ import java.util.List;
 @Table(name = "vacancy")
 @NoArgsConstructor
 @Slf4j
+@Schema(description = "Вакансия")
+
 public class VacancyEntity implements FilteredVacancy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
