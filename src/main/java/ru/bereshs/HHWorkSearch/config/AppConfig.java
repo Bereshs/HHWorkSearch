@@ -64,4 +64,9 @@ public class AppConfig {
         String uri = "https://api.hh.ru/vacancies/" + id;
         return uri;
     }
+
+    public String getNegotiationPostConnetcionString() {
+        String uri = "https://api.hh.ru/negotiations";
+        return uri;
+    }
 }

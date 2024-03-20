@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import ru.bereshs.HHWorkSearch.domain.*;
 import ru.bereshs.HHWorkSearch.domain.dto.TelegramMessageDto;
-import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 import ru.bereshs.HHWorkSearch.producer.KafkaProducer;
 import ru.bereshs.HHWorkSearch.service.*;
@@ -31,69 +30,78 @@ public class SchedulerConfig {
     private final VacancyEntityService vacancyEntityService;
     private final AuthorizationService authorizationService;
     private final HhService service;
-    private final FilterEntityService filterEntityService;
+    private final FilterEntityService<VacancyEntity> filterEntityService;
     private final KafkaProducer producer;
 
-    private final MessageEntityService messageEntityService;
     private final SkillsEntityService skillsEntityService;
     private final ResumeEntityService resumeEntityService;
+    private final NegotiationsService negotiationsService;
 
     @Autowired
-    public SchedulerConfig(VacancyEntityService vacancyEntityService, AuthorizationService authorizationService, HhService service, FilterEntityService filterEntityService, KafkaProducer kafkaProducer, MessageEntityService messageEntityService, SkillsEntityService skillsEntityService, ResumeEntityService resumeEntityService) {
+    public SchedulerConfig(VacancyEntityService vacancyEntityService, AuthorizationService authorizationService, HhService service, FilterEntityService<VacancyEntity> filterEntityService, KafkaProducer kafkaProducer, SkillsEntityService skillsEntityService, ResumeEntityService resumeEntityService, NegotiationsService negotiationsService) {
         this.vacancyEntityService = vacancyEntityService;
         this.authorizationService = authorizationService;
         this.service = service;
         this.filterEntityService = filterEntityService;
         this.producer = kafkaProducer;
-        this.messageEntityService = messageEntityService;
         this.skillsEntityService = skillsEntityService;
         this.resumeEntityService = resumeEntityService;
+        this.negotiationsService = negotiationsService;
     }
 
-    @Scheduled(cron = "0 0 8-18 * * *")  //every hour ss mm hh
+    @Scheduled(cron = "0 0 9-18 * * *")
     public void scheduleDayLightTask() {
-
         log.info("starting scheduled task");
-        List<HhVacancyDto> vacancyList = getHhVacancy();
+        sendMessageWithRelevantVacancies();
+    }
 
+    private void sendMessageWithRelevantVacancies() {
+        var filtered = getRelevantVacancies();
+        vacancyEntityService.saveAll(filtered);
+        produceKafkaMessage(filtered);
+        vacancyEntityService.changeStatus(filtered, VacancyStatus.view);
+    }
+
+    private void postNegotiationWithRelevantVacancies() {
+        var filtered = getRelevantVacancies();
+        vacancyEntityService.saveAll(filtered);
+        postNegotiations(filtered);
+        vacancyEntityService.changeStatus(filtered, VacancyStatus.request);
+    }
+
+    private void postNegotiations(List<VacancyEntity> filtered) {
+        filtered.forEach(vacancy -> {
+            ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
+            List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
+            negotiationsService.doNegotiationWithRelevantVacancies(filtered, resume.getHhId(), skills);
+        });
+
+    }
+
+    private List<VacancyEntity> getRelevantVacancies() {
+        List<HhVacancyDto> vacancyList = getHhVacancy();
         List<VacancyEntity> vacancies = vacancyEntityService.getVacancyEnityList(vacancyList);
         log.info("total received vacancy list size:  " + vacancies.size());
         List<VacancyEntity> filtered = filterEntityService.doFilter(vacancies);
         log.info("total size vacancy after name filter: " + filtered.size());
-        log.info(" "+filtered);
         List<HhVacancyDto> list = getUnique(filtered);
         filtered = filterEntityService.doFilterDescription(vacancyEntityService.getVacancyEnityList(list));
         log.info("total size after full filter: " + filtered.size());
-        vacancyEntityService.saveAll(filtered);
-        produceKafkaMessage(list);
-
+        return filtered;
     }
 
-    private void produceKafkaMessage(List<HhVacancyDto> list) {
+
+    private void produceKafkaMessage(List<VacancyEntity> list) {
         list.forEach(element -> {
             String message = element.getName() + "\n"
-                    + "message: " + getNegotiationMessage(element) + "\n"
-                    + element.getAlternateUrl();
+                    + "message: " + negotiationsService.getNegotiationMessage(element, skillsEntityService.extractVacancySkills(element)) + "\n"
+                    + element.getUrl();
             TelegramMessageDto messageDto = new TelegramMessageDto(token, clientId, message, LocalDateTime.now());
             producer.produce(messageDto);
         });
 
     }
 
-    private String getNegotiationMessage(FilteredVacancy vacancy) {
-        List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
-        ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
-        MessageEntity message = getMessage(1);
-        return message.getMessage(skills, vacancy.getName());
-    }
-
-    private MessageEntity getMessage(long id) {
-        try {
-            return messageEntityService.getMessageById(id);
-        } catch (HhWorkSearchException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private List<HhVacancyDto> getUnique(List<VacancyEntity> list) {
         return vacancyEntityService.getUnique(list).stream().map(element -> getVacancyById(element.getHhId())).toList();

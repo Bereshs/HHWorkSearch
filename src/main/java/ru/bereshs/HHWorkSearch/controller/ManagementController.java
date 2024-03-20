@@ -40,7 +40,7 @@ import java.util.logging.Logger;
 public class ManagementController {
     private final HhService service;
     private final AuthorizationService authorizationService;
-    private final MessageEntityService messageEntityService;
+    private final NegotiationsService messageEntityService;
     private final SkillsEntityService skillsEntityService;
     private final KafkaProducer producer;
 

@@ -18,6 +18,7 @@ import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhResumeDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhUserDto;
 import ru.bereshs.HHWorkSearch.service.AuthorizationService;
+import ru.bereshs.HHWorkSearch.service.FilterEntityService;
 import ru.bereshs.HHWorkSearch.service.HhService;
 import ru.bereshs.HHWorkSearch.service.VacancyEntityService;
 import ru.bereshs.HHWorkSearch.domain.KeyEntity;
@@ -42,6 +43,7 @@ public class AuthorizationController {
     private final AppConfig config;
     private final HeadHunterClient client;
     private final HhService service;
+    private final FilterEntityService filterEntityService;
 
     @GetMapping("/authorization")
     public String authorizationPage(String code, Model model) throws IOException, ExecutionException, InterruptedException {

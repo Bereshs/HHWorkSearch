@@ -36,7 +36,7 @@ public class ResumeController {
     private final AuthorizationService authorizationService;
     private final RatingEmployerService ratingEmployerService;
     private final SkillsEntityService skillsEntityService;
-    private final MessageEntityService messageEntityService;
+    private final NegotiationsService messageEntityService;
     private final ResumeEntityService resumeEntityService;
 
 

@@ -87,6 +87,13 @@ public class HhService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    public void postNegotiation(OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
+        String uri = appConfig.getNegotiationPostConnetcionString();
+        var result = headHunterClient.executeWithBody(Verb.POST, uri, token, body);
+        log.info("post result "+result.getMessage());
+    }
+
+
     private Map<HhEmployerDto, Double> getRatingEmployers(Map<HhEmployerDto, Long> map1, Map<HhEmployerDto, Long> map2) {
         Map<HhEmployerDto, Double> result = new HashMap<>();
         for (Map.Entry<HhEmployerDto, Long> entry : map1.entrySet()) {

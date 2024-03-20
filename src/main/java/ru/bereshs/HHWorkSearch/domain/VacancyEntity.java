@@ -27,6 +27,7 @@ public class VacancyEntity implements FilteredVacancy {
     private String url;
     private String name;
     private String experience;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private LocalDateTime published;
     private int responses;

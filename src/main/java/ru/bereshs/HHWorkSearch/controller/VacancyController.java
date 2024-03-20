@@ -28,7 +28,7 @@ public class VacancyController {
 
     private final AuthorizationService authorizationService;
     private final SkillsEntityService skillsEntityService;
-    private final MessageEntityService messageEntityService;
+    private final NegotiationsService messageEntityService;
     private final VacancyEntityService vacancyEntityService;
     private final FilterEntityService filterEntityService;
     private final HhService service;
