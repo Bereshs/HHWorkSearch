@@ -3,16 +3,14 @@ package ru.bereshs.HHWorkSearch.service;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.Repository.MessageEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.domain.MessageEntity;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
-import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
-import ru.bereshs.HHWorkSearch.domain.dto.NegotiationsDto;
 import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
-import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
+
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,33 +26,25 @@ public class NegotiationsService {
     private final AuthorizationService authorizationService;
     private final MessageEntityRepository messageEntityRepository;
 
-    public void doNegotiationWithRelevantVacancies(List<VacancyEntity> filtered, String resumeHhid, List<SkillEntity> skills) {
-        filtered.forEach(vacancy -> {
-            NegotiationsDto negotiationsDto = NegotiationsDto.builder()
-                    .vacancyId(vacancy.getHhId())
-                    .resumeId(resumeHhid)
-                    .message(getNegotiationMessage(vacancy, skills))
-                    .build();
-
-            doNegotiation(negotiationsDto);
-        });
-
+    public void doNegotiationWithRelevantVacancy(HhVacancyDto vacancy, String resumeHhid, List<SkillEntity> skills) {
+        doNegotiation(getNegotiationMessage(vacancy, skills), resumeHhid, vacancy.getId());
     }
 
-    public void doNegotiation(NegotiationsDto negotiationsDto) {
+    public void doNegotiation(String message, String resumeId, String vacancyId) {
         try {
-            HashMap<String, String> body = getNegotiationBody(negotiationsDto);
+            HashMap<String, String> body = getNegotiationBody(message, resumeId, vacancyId);
+            log.info("building post negotiation request resumeId: " + resumeId + " vacancyId: " + vacancyId + " message size: " + message.length());
             service.postNegotiation(getToken(), body);
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private HashMap<String, String> getNegotiationBody(NegotiationsDto negotiationsDto) {
+    private HashMap<String, String> getNegotiationBody(String message, String resumeId, String vacancyId) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("message", negotiationsDto.getMessage());
-        body.put("resume_id", negotiationsDto.getResumeId());
-        body.put("vacancy_id", negotiationsDto.getVacancyId());
+        body.put("message", message);
+        body.put("resume_id", resumeId);
+        body.put("vacancy_id", vacancyId);
         return body;
     }
 
@@ -62,8 +52,11 @@ public class NegotiationsService {
         return authorizationService.getToken();
     }
 
-    public String getNegotiationMessage(FilteredVacancy vacancy, List<SkillEntity> skills)  {
+    public String getNegotiationMessage(FilteredVacancy vacancy, List<SkillEntity> skills) {
         MessageEntity message = getMessage(1);
+        if (skills.isEmpty()) {
+            message = getMessage(2);
+        }
         return message.getMessage(skills, vacancy.getName());
     }
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
 import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
@@ -62,11 +63,11 @@ public class AuthorizationController {
         model.addAttribute("accessToken", token);
 
         model.addAttribute("page", response.getBody());
-        return "/authorized";
+        return "authorized";
     }
 
 
-    @GetMapping("/authorized")
+    @RequestMapping ("/authorized")
     public String authorizedPage(Model model, @RequestParam(required = false) Integer page) throws IOException, ExecutionException, InterruptedException, HhWorkSearchException {
         OAuth2AccessToken token = authorizationService.getToken();
         Response response = client.execute(Verb.GET, "https://api.hh.ru/me", token);
@@ -82,7 +83,7 @@ public class AuthorizationController {
         model.addAttribute("hhUserDto", hhUserDto);
         model.addAttribute("resumeList", myResumeList.getItems());
         model.addAttribute("vacancyList", vacancyList);
-        return "/authorized";
+        return "authorized";
     }
 
 

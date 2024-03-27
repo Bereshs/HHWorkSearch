@@ -3,6 +3,7 @@ package ru.bereshs.HHWorkSearch.hhApiClient.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import ru.bereshs.HHWorkSearch.hhApiClient.HhLocalDateTime;
 
 import java.util.List;
 
@@ -28,4 +29,5 @@ public class HhResumeDto {
     private String skills;
     @JsonProperty("visible")
     private boolean visible;
+
 }

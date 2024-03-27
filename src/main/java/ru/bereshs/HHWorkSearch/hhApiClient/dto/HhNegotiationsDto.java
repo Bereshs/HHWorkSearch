@@ -16,7 +16,7 @@ public class HhNegotiationsDto {
     private String createdAt;
     private String id;
     @JsonProperty("state")
-    private HhNegotiationsStateDto state;
+    private HhSimpleListDto state;
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("vacancy")

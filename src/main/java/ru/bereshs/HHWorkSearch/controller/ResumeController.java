@@ -13,10 +13,7 @@ import ru.bereshs.HHWorkSearch.domain.MessageEntity;
 import ru.bereshs.HHWorkSearch.domain.ResumeEntity;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
 import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhEmployerDto;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhResumeDto;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhViewsResume;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.*;
 import ru.bereshs.HHWorkSearch.service.*;
 
 import java.io.IOException;
@@ -28,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Tag(   name = "Резюме",
+@Tag(name = "Резюме",
         description = "Работа с резюме")
 public class ResumeController {
 
@@ -67,6 +64,7 @@ public class ResumeController {
         messageEntityService.save(messageDto);
         return "ok";
     }
+
     @Operation(summary = "Изменение сопроводительного письма")
     @PatchMapping("/api/resume/message/{id}")
     public String patchMessageById(@RequestBody MessageEntity messageDto, @PathVariable long id) throws HhWorkSearchException {
@@ -93,7 +91,7 @@ public class ResumeController {
 
     @Operation(summary = "Поиск лояльного работодателя")
     @GetMapping("/api/resume/loyalEmployer")
-    public Map<HhEmployerDto, Double> getLoyalEmployer() throws IOException, ExecutionException, InterruptedException {
+    public Map<HhSimpleListDto, Double> getLoyalEmployer() throws IOException, ExecutionException, InterruptedException {
         var resumes = service.getActiveResumes(getToken());
         var loyalEmployer = service.getLoyalEmployer(getToken(), resumes.getItems().get(0).getId());
         var difference = ratingEmployerService.getDifferenceAndUpdate(loyalEmployer);
@@ -116,11 +114,20 @@ public class ResumeController {
         return list;
     }
 
-    @Operation(summary = "Мои резюме")
+    @Operation(summary = "Обновление резюме с hh.ru")
     @GetMapping("/api/resume/mine")
     public HhListDto<HhResumeDto> getMineResumes() throws IOException, ExecutionException, InterruptedException {
-        HhListDto<HhResumeDto> resumeList  = service.getActiveResumes(getToken());
-        List<ResumeEntity> resumeEntities = resumeList.getItems().stream().map(ResumeEntity::new).toList();
+        HhListDto<HhResumeDto> resumeList = service.getActiveResumes(getToken());
+        List<ResumeEntity> resumeEntities = resumeList.getItems().stream().map(resumeEntityService::getByHhResumeDto).toList();
+        resumeEntities.forEach(resumeEntity -> {
+            try {
+                var accessTypes = service.getResumeAccessType(resumeEntity.getHhId(), getToken());
+                resumeEntity.setAccessType(accessTypes);
+                log.info(resumeEntity.getHhId() + " " + accessTypes);
+            } catch (IOException | ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
         resumeEntityService.saveAll(resumeEntities);
         return resumeList;
     }

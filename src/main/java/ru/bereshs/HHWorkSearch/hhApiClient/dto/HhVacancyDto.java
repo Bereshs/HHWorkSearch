@@ -8,9 +8,7 @@ import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.hhApiClient.HhLocalDateTime;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -19,11 +17,11 @@ import java.util.logging.Logger;
 public class HhVacancyDto implements HasEmployer, FilteredVacancy {
     String id;
     String name;
-    HhAreaDto area;
+    HhSimpleListDto area;
     HhCountersDto counters;
-    HhEmployerDto employer;
+    HhSimpleListDto employer;
     HhSalaryDto salary;
-    HhExperienceDto experience;
+    HhSimpleListDto experience;
     @JsonProperty("published_at")
     String publishedAt;
     @JsonProperty("apply_alternate_url")
@@ -34,34 +32,42 @@ public class HhVacancyDto implements HasEmployer, FilteredVacancy {
     String alternateUrl;
     String urlRequest;
     @JsonProperty("key_skills")
-    List<HhVacancySkillsDto> skills;
+    List<HhSimpleListDto> skills;
 
     public void convertDate() {
         setCreatedAt(HhLocalDateTime.decodeLocalData(getPublishedAt()));
     }
 
     public String getExperience() {
-        return  experience.getId();
+        return experience.getId();
     }
 
     public void setDescription(String description) {
-        if(description==null) {
-            description="";
+        if (description == null) {
+            description = "";
         }
 
         this.description = description.toLowerCase().replaceAll("<[^>]*>", "").replaceAll("&quot;", "").replaceAll("&amp;", "").replaceAll("\\n", "");
 
     }
-    @Override
-    public List<String> getSkillStringList() {
-        if (skills==null) {
-            return null;
+
+    public HhCountersDto getCounters() {
+        if (counters == null) {
+            return new HhCountersDto();
         }
-        return skills.stream().map(HhVacancySkillsDto::getName).toList();
+        return counters;
     }
 
     @Override
-    public String toString(){
-        return "name:"+name+" description:"+description;
+    public List<String> getSkillStringList() {
+        if (skills == null) {
+            return null;
+        }
+        return skills.stream().map(HhSimpleListDto::getName).toList();
+    }
+
+    @Override
+    public String toString() {
+        return "name:" + name + " description:" + description;
     }
 }

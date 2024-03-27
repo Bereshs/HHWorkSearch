@@ -70,7 +70,7 @@ class FilterEntityServiceTest {
         Mockito.when(filterEntityRepository.findFilterEntityByScope("experience"))
                 .thenReturn(filterEntityListExperience);
 
-        List<VacancyEntity> filteredList = filterEntityService.doFilter(vacancyEntities);
+        List<VacancyEntity> filteredList = filterEntityService.doFilterNameAndExperience(vacancyEntities);
 
         assertEquals(1, filteredList.size());
         assertEquals("разработчик", filteredList.get(0).getName());

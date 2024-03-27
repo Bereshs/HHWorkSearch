@@ -122,6 +122,9 @@ public class HeadHunterClient {
 
     private <T> List<T> getEntityList(HhListDto<HashMap<String, ?>> vacancyEntityHhlistDto, Class<T> type) {
         List<T> resultList = new ArrayList<>();
+        if(vacancyEntityHhlistDto.getItems()==null) {
+            return resultList;
+        }
         vacancyEntityHhlistDto.getItems().forEach(vacancyEntity -> {
             T vacancy = getHhObject(vacancyEntity, type);
             resultList.add(vacancy);

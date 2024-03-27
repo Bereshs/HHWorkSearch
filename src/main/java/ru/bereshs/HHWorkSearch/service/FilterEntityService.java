@@ -8,7 +8,6 @@ import ru.bereshs.HHWorkSearch.domain.dto.FilterDto;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 
 @Service
@@ -24,7 +23,7 @@ public class FilterEntityService <E extends FilteredVacancy>  {
         return filterEntityRepository.findAll();
     }
 
-    public List<E> doFilter(List<E> vacancyEntities) {
+    public List<E> doFilterNameAndExperience(List<E> vacancyEntities) {
         return vacancyEntities.stream().filter(this::isValid).toList();
     }
 

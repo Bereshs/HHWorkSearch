@@ -36,6 +36,7 @@ public class VacancyEntity implements FilteredVacancy {
     @Enumerated(EnumType.STRING)
     private VacancyStatus status;
     private LocalDateTime timeStamp;
+    private LocalDateTime createdAt;
 
     public VacancyEntity(HhVacancyDto vacancyDto) {
         hhId = vacancyDto.getId();
@@ -49,6 +50,7 @@ public class VacancyEntity implements FilteredVacancy {
         status = VacancyStatus.found;
         experience = vacancyDto.getExperience();
         timeStamp = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
     }
 
     private String dateWithoutTimeZone(String date) {
@@ -78,5 +80,9 @@ public class VacancyEntity implements FilteredVacancy {
             return;
         }
         this.name = name.toLowerCase();
+    }
+
+    public String toString() {
+        return getHhId() + " " + getName() + " " + getEmployerId();
     }
 }

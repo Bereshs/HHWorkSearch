@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.Repository.RatingEmployerRepository;
 import ru.bereshs.HHWorkSearch.domain.RatingEmployer;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhEmployerDto;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class RatingEmployerService {
         this.ratingEmployerRepository = ratingEmployerRepository;
     }
 
-    public List<RatingEmployer> getDifferenceAndUpdate(Map<HhEmployerDto, Double> ratingEmployerMap) {
+    public List<RatingEmployer> getDifferenceAndUpdate(Map<HhSimpleListDto, Double> ratingEmployerMap) {
         List<RatingEmployer> difference = new ArrayList<>();
         for (var entry : ratingEmployerMap.entrySet()) {
             var current = findByHhEmployerDto(entry.getKey());
@@ -31,7 +31,7 @@ public class RatingEmployerService {
         return difference;
     }
 
-    public RatingEmployer findByHhEmployerDto(HhEmployerDto hhEmployerDto) {
+    public RatingEmployer findByHhEmployerDto(HhSimpleListDto hhEmployerDto) {
         return ratingEmployerRepository.findByEmployerId(hhEmployerDto.getId()).orElse(new RatingEmployer(hhEmployerDto.getId(), 0D));
     }
     public void save(RatingEmployer ratingEmployer) {

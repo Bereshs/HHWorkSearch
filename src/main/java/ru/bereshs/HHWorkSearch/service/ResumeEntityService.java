@@ -8,6 +8,7 @@ import ru.bereshs.HHWorkSearch.domain.FilterScope;
 import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.domain.ResumeEntity;
 import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhResumeDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +20,11 @@ public class ResumeEntityService {
 
     public ResumeEntity getDefault() {
         return resumeEntityRepository.findAll(Sort.by(Sort.Direction.DESC, "isDefault")).get(0);
+    }
+
+    public ResumeEntity getByHhResumeDto(HhResumeDto resumeDto) {
+        return resumeEntityRepository.getResumeEntityByHhId(resumeDto.getId()).orElse(new ResumeEntity(resumeDto));
+
     }
 
     public ResumeEntity getByHhid(String hhId) {

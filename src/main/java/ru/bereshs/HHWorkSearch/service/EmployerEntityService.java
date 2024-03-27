@@ -1,9 +1,9 @@
 package ru.bereshs.HHWorkSearch.service;
 
 import org.springframework.stereotype.Service;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhEmployerDto;
 import ru.bereshs.HHWorkSearch.domain.Employer;
 import ru.bereshs.HHWorkSearch.Repository.EmployerEntityRepository;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 
 @Service
 public class EmployerEntityService {
@@ -18,7 +18,7 @@ public class EmployerEntityService {
         return employerEntityRepository.getByHhId(hhId);
     }
 
-    Employer getByEmployerDto (HhEmployerDto employerDto) {
+    Employer getByEmployerDto (HhSimpleListDto employerDto) {
         Employer employer = employerEntityRepository.getByHhId(String.valueOf(employerDto.getId()));
         if(employer==null) {
             employer=new Employer();

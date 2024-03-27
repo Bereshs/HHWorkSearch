@@ -13,6 +13,5 @@ public class HhViewsResume implements HasEmployer{
     private String createdAt;
     private String viewed;
     @JsonProperty("employer")
-    private HhEmployerDto employer;
-
+    private HhSimpleListDto employer;
 }

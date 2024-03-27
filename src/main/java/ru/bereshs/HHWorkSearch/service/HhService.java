@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
 
+import ru.bereshs.HHWorkSearch.domain.ResumeEntity;
 import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.*;
 
@@ -63,6 +64,11 @@ public class HhService {
         return headHunterClient.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
     }
 
+    public HhListDto<HhVacancyDto> getPageRecommendedVacancyForResume(OAuth2AccessToken token, ResumeEntity resume) throws IOException, ExecutionException, InterruptedException {
+        String uri = appConfig.getVacancyLikeResumeConnectionString(resume, 0);
+        log.info(uri);
+        return headHunterClient.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
+    }
 
     public HhListDto<HhResumeDto> getActiveResumes(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumesConnectionString();
@@ -74,13 +80,18 @@ public class HhService {
         return headHunterClient.executeObject(Verb.GET, uri, token, HhResumeDto.class);
     }
 
-    public Map<HhEmployerDto, Double> getLoyalEmployer(OAuth2AccessToken token, String resumeId) throws IOException, ExecutionException, InterruptedException {
+    public <T> HhListDto<T> get(String connectionString, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
+        return headHunterClient.getObjects(Verb.GET, connectionString, token, type);
+    }
+
+
+    public Map<HhSimpleListDto, Double> getLoyalEmployer(OAuth2AccessToken token, String resumeId) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumeViewsConnectionString(resumeId);
         var viewResume = headHunterClient.getAllPagesObject(Verb.GET, uri, token, HhViewsResume.class);
 
-        Map<HhEmployerDto, Long> countEmployerViewedResume = getCountEmployer(viewResume.getItems());
+        Map<HhSimpleListDto, Long> countEmployerViewedResume = getCountEmployer(viewResume.getItems());
         List<HhVacancyDto> tmpRequests = getHhNegotiationsDtoList(token).getItems().stream().map(HhNegotiationsDto::getVacancy).toList();
-        Map<HhEmployerDto, Long> countEmployerRequestedResume = getCountEmployer(tmpRequests);
+        Map<HhSimpleListDto, Long> countEmployerRequestedResume = getCountEmployer(tmpRequests);
 
         return getRatingEmployers(countEmployerRequestedResume, countEmployerViewedResume).entrySet().stream()
                 .filter(a -> a.getValue() > 1)
@@ -90,21 +101,37 @@ public class HhService {
     public void postNegotiation(OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getNegotiationPostConnetcionString();
         var result = headHunterClient.executeWithBody(Verb.POST, uri, token, body);
-        log.info("post result "+result.getMessage());
+        log.info("post result " + result.getMessage());
     }
 
 
-    private Map<HhEmployerDto, Double> getRatingEmployers(Map<HhEmployerDto, Long> map1, Map<HhEmployerDto, Long> map2) {
-        Map<HhEmployerDto, Double> result = new HashMap<>();
-        for (Map.Entry<HhEmployerDto, Long> entry : map1.entrySet()) {
+    private Map<HhSimpleListDto, Double> getRatingEmployers(Map<HhSimpleListDto, Long> map1, Map<HhSimpleListDto, Long> map2) {
+        Map<HhSimpleListDto, Double> result = new HashMap<>();
+        for (Map.Entry<HhSimpleListDto, Long> entry : map1.entrySet()) {
             long map2EmployerCount = map2.getOrDefault(entry.getKey(), 0L);
             result.put(entry.getKey(), (double) (map2EmployerCount) / entry.getValue());
         }
         return result;
     }
 
-    private Map<HhEmployerDto, Long> getCountEmployer(List<? extends HasEmployer> listEmployers) {
+    private Map<HhSimpleListDto, Long> getCountEmployer(List<? extends HasEmployer> listEmployers) {
         return listEmployers.stream().collect(Collectors.groupingBy(HasEmployer::getEmployer, Collectors.counting()));
+    }
+
+    public String getResumeAccessType(String resumeId, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        String uri = appConfig.getResumeAccessTypesConnectionString(resumeId);
+        var list = headHunterClient.getObjects(Verb.GET, uri, token, HhSimpleListDto.class).getItems();
+        HhSimpleListDto active = getActive(list);
+        return active != null ? active.getId() : null;
+    }
+
+    public HhSimpleListDto getActive(List<HhSimpleListDto> list) {
+        for (HhSimpleListDto hhSimpleListDto : list) {
+            if (hhSimpleListDto.isActive()) {
+                return hhSimpleListDto;
+            }
+        }
+        return null;
     }
 
 }

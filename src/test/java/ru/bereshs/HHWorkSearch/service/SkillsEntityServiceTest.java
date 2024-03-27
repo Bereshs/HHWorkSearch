@@ -7,8 +7,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.bereshs.HHWorkSearch.Repository.SkillsEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancySkillsDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +37,8 @@ class SkillsEntityServiceTest {
         HhVacancyDto vacancy = new HhVacancyDto();
         vacancy.setName("Java разработчик");
         vacancy.setDescription("Нам важно занание maven");
-        List<HhVacancySkillsDto> vacancySkills = new ArrayList<>();
-        HhVacancySkillsDto vacancySkillsDto = new HhVacancySkillsDto();
+        List<HhSimpleListDto> vacancySkills = new ArrayList<>();
+        HhSimpleListDto vacancySkillsDto = new HhSimpleListDto();
         vacancySkillsDto.setName("git");
         vacancySkills.add(vacancySkillsDto);
 

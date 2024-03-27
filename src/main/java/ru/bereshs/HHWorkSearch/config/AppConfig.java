@@ -4,6 +4,7 @@ package ru.bereshs.HHWorkSearch.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import ru.bereshs.HHWorkSearch.domain.ResumeEntity;
 
 import static java.util.Objects.isNull;
 
@@ -29,6 +30,16 @@ public class AppConfig {
                 "&order_by=publication_time" +
                 "&vacancy_search_fields=name" +
                 "&text=java" +
+                "&per_page=100";
+        if (!isNull(page) && page > 0) {
+            uri += "&page=" + page;
+        }
+        return uri;
+    }
+
+    public String getVacancyLikeResumeConnectionString(ResumeEntity resume, int page) {
+        String uri = "https://api.hh.ru/resumes/" + resume.getHhId() + "/similar_vacancies" +
+                "?period=1" +
                 "&per_page=100";
         if (!isNull(page) && page > 0) {
             uri += "&page=" + page;
@@ -67,6 +78,11 @@ public class AppConfig {
 
     public String getNegotiationPostConnetcionString() {
         String uri = "https://api.hh.ru/negotiations";
+        return uri;
+    }
+
+    public String getResumeAccessTypesConnectionString(String resumeId) {
+        String uri = "https://api.hh.ru/resumes/" + resumeId + "/access_types";
         return uri;
     }
 }

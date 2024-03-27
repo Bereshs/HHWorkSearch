@@ -8,8 +8,6 @@ import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
 import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhListDto;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
-import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancySkillsDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +20,11 @@ public class SkillsEntityService {
     private final SkillsEntityRepository skillsEntityRepository;
 
     public SkillEntity getById(long id) throws HhWorkSearchException {
-        return skillsEntityRepository.findById(id).orElseThrow(() -> new HhWorkSearchException("Wrong skill id"));
+        return skillsEntityRepository.findById(id).orElseThrow(() -> new HhWorkSearchException("Skill id: " + id + " not found in database"));
     }
 
     public SkillEntity getByName(String name) throws HhWorkSearchException {
-        return skillsEntityRepository.getSkillsEntityByName(name).orElseThrow(() -> new HhWorkSearchException("Wrong skill name"));
+        return skillsEntityRepository.getSkillsEntityByName(name).orElseThrow(() -> new HhWorkSearchException("Skill name: " + name + " not found in database"));
     }
 
     public void save(SkillEntity entity) {
@@ -36,6 +34,8 @@ public class SkillsEntityService {
     public void saveAll(List<SkillEntity> entityList) {
         skillsEntityRepository.saveAll(entityList);
     }
+
+
 
     public List<SkillEntity> findAll() {
         return skillsEntityRepository.findAll();
@@ -70,18 +70,6 @@ public class SkillsEntityService {
 
         return list.stream().filter(element -> element.getDescription() != null).toList();
     }
-
-    public List<SkillEntity> getSkillEntityList(HhVacancyDto vacancyDto) {
-        List<SkillEntity> skills = new ArrayList<>();
-        for (HhVacancySkillsDto skill : vacancyDto.getSkills()) {
-            var lines = skill.getName().split(" ");
-            for (String line : lines) {
-                skills.add(new SkillEntity(line.toLowerCase()));
-            }
-        }
-        return skills;
-    }
-
     public double getRating(FilteredVacancy vacancy) {
         double result = 0;
         result = compareString(vacancy.getDescription(), findAll());
@@ -129,7 +117,7 @@ public class SkillsEntityService {
 
     private List<SkillEntity> extractSkillsFromList(List<String> list, List<SkillEntity> skillEntities) {
         List<SkillEntity> result = new ArrayList<>();
-        if(list==null) {
+        if (list == null) {
             return result;
         }
         skillEntities.forEach(element -> {
