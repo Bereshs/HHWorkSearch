@@ -32,12 +32,12 @@ public class HhService {
         this.appConfig = appConfig;
     }
 
-    public List<HhVacancyDto> getRecommendedVacancy(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
-        HhListDto<HhVacancyDto> tempList = getPageRecommendedVacancy(token, 0);
+    public List<HhVacancyDto> getRecommendedVacancy(OAuth2AccessToken token, String key) throws IOException, ExecutionException, InterruptedException {
+        HhListDto<HhVacancyDto> tempList = getPageRecommendedVacancy(token, 0, key);
         List<HhVacancyDto> vacancyList = new ArrayList<>(tempList.getItems());
         log.info("Received data found: " + tempList.getFound() + " pages: " + tempList.getPages() + " page: " + tempList.getPage() + " perPage: " + tempList.getPerPage());
         for (int i = 1; i < tempList.getPages(); i++) {
-            tempList = getPageRecommendedVacancy(token, i);
+            tempList = getPageRecommendedVacancy(token, i, key);
             vacancyList.addAll(tempList.getItems());
         }
         return vacancyList;
@@ -59,8 +59,8 @@ public class HhService {
         return headHunterClient.getObjects(Verb.GET, uri, token, HhViewsResume.class);
     }
 
-    public HhListDto<HhVacancyDto> getPageRecommendedVacancy(OAuth2AccessToken token, int page) throws IOException, ExecutionException, InterruptedException {
-        String uri = appConfig.getVacancyConnectionString(page);
+    public HhListDto<HhVacancyDto> getPageRecommendedVacancy(OAuth2AccessToken token, int page, String key) throws IOException, ExecutionException, InterruptedException {
+        String uri = appConfig.getVacancyConnectionString(page, key);
         return headHunterClient.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
     }
 

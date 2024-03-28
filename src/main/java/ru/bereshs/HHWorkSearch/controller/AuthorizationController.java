@@ -78,7 +78,8 @@ public class AuthorizationController {
         HhUserDto hhUserDto = new HhUserDto();
         hhUserDto.set(list);
 
-        HhListDto<HhVacancyDto> vacancyList = service.getPageRecommendedVacancy(token, 0);
+        String key =  filterEntityService.getKey();
+        HhListDto<HhVacancyDto> vacancyList = service.getPageRecommendedVacancy(token, 0, key);
         vacancyList.setItems(vacancyList.getItems());
         model.addAttribute("hhUserDto", hhUserDto);
         model.addAttribute("resumeList", myResumeList.getItems());

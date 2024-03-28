@@ -52,7 +52,7 @@ public class VacancyController {
     @Operation(summary = "Отправка отклика на вакансию")
     @PostMapping("/api/vacancy/{vacancyId}/resume/{resumeId}")
     public String postNegotiation(@PathVariable String vacancyId, @PathVariable String resumeId) throws HhWorkSearchException, IOException, ExecutionException, InterruptedException {
-        VacancyEntity vacancyEntity = vacancyEntityService.getById(vacancyId).orElseThrow();
+        VacancyEntity vacancyEntity = vacancyEntityService.getById(vacancyId).orElseThrow(() -> new HhWorkSearchException("Wrong vacancyId"));
         if (vacancyEntity.getStatus().equals(VacancyStatus.request)) {
             throw new HhWorkSearchException("Negotiation on vacancy already requested");
         }
@@ -84,7 +84,8 @@ public class VacancyController {
 
 
     private List<HhVacancyDto> getVacancyEntityList() throws IOException, ExecutionException, InterruptedException {
-        return service.getRecommendedVacancy(getToken());
+        String key = filterEntityService.getKey();
+        return service.getRecommendedVacancy(getToken(), key);
     }
 
     private List<HhVacancyDto> saveUniqueList(List<HhVacancyDto> list) {

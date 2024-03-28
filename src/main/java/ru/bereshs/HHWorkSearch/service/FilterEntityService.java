@@ -11,7 +11,7 @@ import java.util.Objects;
 
 
 @Service
-public class FilterEntityService <E extends FilteredVacancy>  {
+public class FilterEntityService<E extends FilteredVacancy> {
     private final FilterEntityRepository filterEntityRepository;
 
     @Autowired
@@ -32,19 +32,27 @@ public class FilterEntityService <E extends FilteredVacancy>  {
     }
 
     public boolean isValid(E filteredVacancy) {
-        return !isContainsExcludeWordsScope(filteredVacancy.getName(), getScope(FilterScope.Name))
-                && !isContainsExcludeWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.Experience));
+        return !isContainWordsScope(filteredVacancy.getName(), getScope(FilterScope.Name))
+                && !isContainWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.Experience));
     }
 
     public boolean isValidDescription(E filteredVacancy) {
         if (filteredVacancy.getDescription().length() < 10) {
             return true;
         }
-        return !isContainsExcludeWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Description));
+        return isContainWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Key))
+                && !isContainWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Description));
     }
 
-    boolean isContainsExcludeWordsScope(String line, List<FilterEntity> scopeName) {
-        String lineInLowerCase=line.toLowerCase();
+    public String getKey() {
+        return getScope(FilterScope.Key).get(0).getWord();
+    }
+
+
+
+
+    boolean isContainWordsScope(String line, List<FilterEntity> scopeName) {
+        String lineInLowerCase = line.toLowerCase();
         for (FilterEntity name : scopeName) {
             if (lineInLowerCase.contains(name.getWord().toLowerCase())) {
                 return true;

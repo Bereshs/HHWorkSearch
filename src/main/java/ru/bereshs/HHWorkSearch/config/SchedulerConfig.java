@@ -53,7 +53,7 @@ public class SchedulerConfig {
     @Scheduled(cron = "0 0 9-18 * * *")
     public void scheduleDayLightTask() {
         log.info("starting scheduled task");
-        List<HhVacancyDto> vacancyList = getHhVacancy();
+        List<HhVacancyDto> vacancyList = getHhVacancy(getKey());
         //    sendMessageWithRelevantVacancies(vacancyList);
         postNegotiationWithRelevantVacancies(vacancyList);
     }
@@ -92,13 +92,12 @@ public class SchedulerConfig {
     private void postNegotiations(List<HhVacancyDto> filtered) {
         filtered.forEach(vacancy -> {
             VacancyEntity vacancyEntity = vacancyEntityService.getByVacancyDto(vacancy);
-//            if (!vacancyDto.getStatus().equals(VacancyStatus.request)) {
-            ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
-            List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
-            negotiationsService.doNegotiationWithRelevantVacancy(vacancy, resume.getHhId(), skills);
-            //          }
+            if (!vacancyEntity.getStatus().equals(VacancyStatus.request)) {
+                ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
+                List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
+                negotiationsService.doNegotiationWithRelevantVacancy(vacancy, resume.getHhId(), skills);
+            }
         });
-
     }
 
     private List<HhVacancyDto> getRelevantVacancies(List<HhVacancyDto> vacancyList) {
@@ -156,23 +155,27 @@ public class SchedulerConfig {
 
     }
 
-    private List<HhVacancyDto> getHhVacancy() {
-        return getPageRecommendedVacancy();
+    private List<HhVacancyDto> getHhVacancy(String key) {
+        return getPageRecommendedVacancy(key);
     }
 
     private List<HhVacancyDto> getRecommendedVacancy() {
         try {
-            return service.getRecommendedVacancy(getToken());
+            return service.getRecommendedVacancy(getToken(), getKey());
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private List<HhVacancyDto> getPageRecommendedVacancy() {
+    private List<HhVacancyDto> getPageRecommendedVacancy(String key) {
         try {
-            return service.getPageRecommendedVacancy(getToken(), 0).getItems();
+            return service.getPageRecommendedVacancy(getToken(), 0, key).getItems();
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getKey() {
+        return filterEntityService.getKey();
     }
 }

@@ -24,12 +24,12 @@ public class AppConfig {
     String hhApiCallback;
     String hhApiTokenUri;
 
-    public String getVacancyConnectionString(Integer page) {
+    public String getVacancyConnectionString(Integer page, String key) {
         String uri = "https://api.hh.ru/vacancies?responses_count_enabled=true" +
                 "&period=1" +
                 "&order_by=publication_time" +
                 "&vacancy_search_fields=name" +
-                "&text=java" +
+                "&text=" + key +
                 "&per_page=100";
         if (!isNull(page) && page > 0) {
             uri += "&page=" + page;
