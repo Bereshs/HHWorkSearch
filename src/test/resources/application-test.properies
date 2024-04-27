@@ -3,5 +3,9 @@ jdbc.url=jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
 jdbc.username=sa
 jdbc.password=sa
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.cloud.disable=true
-spring.kafka.bootstrap-servers=""
+#Disable discovery
+spring.cloud.discovery.enabled = false
+
+#Disable cloud config and config discovery
+spring.cloud.config.discovery.enabled = false
+spring.cloud.config.enabled = false
