@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import ru.bereshs.HHWorkSearch.repository.SkillsEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
@@ -17,6 +18,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest(SkillsEntityService.class)
+@ActiveProfiles("Test")
+
 class SkillsEntityServiceTest {
 
     @Autowired

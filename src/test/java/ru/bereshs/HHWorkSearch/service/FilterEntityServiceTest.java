@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import org.springframework.test.context.ActiveProfiles;
 import ru.bereshs.HHWorkSearch.repository.FilterEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.FilterEntity;
 import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
@@ -18,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @WebMvcTest(FilterEntityService.class)
+@ActiveProfiles("Test")
+
 class FilterEntityServiceTest {
 
 
