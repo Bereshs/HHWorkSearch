@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/HhWorkSearchApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/HhWorkSearchApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/service/FilterEntityServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/service/FilterEntityServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/service/SkillsEntityServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/bereshs/HHWorkSearch/service/SkillsEntityServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +239,7 @@
       <workItem from="1712830746853" duration="672000" />
       <workItem from="1712994887428" duration="183000" />
       <workItem from="1712995098885" duration="41000" />
-      <workItem from="1714217003053" duration="4727000" />
+      <workItem from="1714217003053" duration="5036000" />
     </task>
     <servers />
   </component>
