@@ -10,5 +10,5 @@ spring.cloud.discovery.enabled = false
 spring.cloud.config.discovery.enabled = false
 spring.cloud.config.enabled = false
 
-spring.kafka.bootstrap-servers=192.168.1.10:9094
+spring.kafka.bootstrap-servers=89.104.68.220:9094
 spring.kafka.topic=tmessage
