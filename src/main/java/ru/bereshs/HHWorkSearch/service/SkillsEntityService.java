@@ -3,7 +3,7 @@ package ru.bereshs.HHWorkSearch.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.bereshs.HHWorkSearch.Repository.SkillsEntityRepository;
+import ru.bereshs.HHWorkSearch.repository.SkillsEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
 import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;

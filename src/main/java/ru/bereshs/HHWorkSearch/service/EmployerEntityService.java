@@ -2,7 +2,7 @@ package ru.bereshs.HHWorkSearch.service;
 
 import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.domain.Employer;
-import ru.bereshs.HHWorkSearch.Repository.EmployerEntityRepository;
+import ru.bereshs.HHWorkSearch.repository.EmployerEntityRepository;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 
 @Service

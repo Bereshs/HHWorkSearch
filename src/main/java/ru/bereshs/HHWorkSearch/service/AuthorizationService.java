@@ -7,9 +7,8 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.bereshs.HHWorkSearch.Repository.KeyEntityRepository;
+import ru.bereshs.HHWorkSearch.repository.KeyEntityRepository;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
-import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
 import ru.bereshs.HHWorkSearch.hhApiClient.HeadHunterClient;
 import ru.bereshs.HHWorkSearch.domain.KeyEntity;
 
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 @Service
 public class AuthorizationService {

@@ -2,7 +2,7 @@ package ru.bereshs.HHWorkSearch.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.bereshs.HHWorkSearch.Repository.FilterEntityRepository;
+import ru.bereshs.HHWorkSearch.repository.FilterEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.*;
 import ru.bereshs.HHWorkSearch.domain.dto.FilterDto;
 

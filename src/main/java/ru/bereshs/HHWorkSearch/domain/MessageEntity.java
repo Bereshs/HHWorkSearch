@@ -5,11 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
-import ru.bereshs.HHWorkSearch.Repository.SkillsEntityRepository;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Entity
 @Getter

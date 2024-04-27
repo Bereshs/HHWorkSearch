@@ -3,11 +3,9 @@ package ru.bereshs.HHWorkSearch.service;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.bereshs.HHWorkSearch.Repository.ResumeEntityRepository;
-import ru.bereshs.HHWorkSearch.domain.FilterScope;
+import ru.bereshs.HHWorkSearch.repository.ResumeEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.domain.ResumeEntity;
-import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhResumeDto;
 
 import java.time.LocalDateTime;

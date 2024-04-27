@@ -2,7 +2,7 @@ package ru.bereshs.HHWorkSearch.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.bereshs.HHWorkSearch.Repository.RatingEmployerRepository;
+import ru.bereshs.HHWorkSearch.repository.RatingEmployerRepository;
 import ru.bereshs.HHWorkSearch.domain.RatingEmployer;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 

@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.domain.VacancyStatus;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
-import ru.bereshs.HHWorkSearch.Repository.VacancyEntityRepository;
+import ru.bereshs.HHWorkSearch.repository.VacancyEntityRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

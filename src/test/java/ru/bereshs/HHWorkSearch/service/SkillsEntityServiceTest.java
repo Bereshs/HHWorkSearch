@@ -5,7 +5,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.bereshs.HHWorkSearch.Repository.SkillsEntityRepository;
+import ru.bereshs.HHWorkSearch.repository.SkillsEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
