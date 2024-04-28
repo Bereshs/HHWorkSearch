@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-alpine3.14
 
-COPY ./target/application.jar /application.jar
+COPY  target/application.jar /application.jar
 EXPOSE 8090
 ENTRYPOINT ["java","-jar","/application.jar"]
