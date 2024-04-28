@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "HhWorkSearch API", version = "v1"))
 
-
+//its only for test deployments
 public class OpenApi30Config {
 
 }
