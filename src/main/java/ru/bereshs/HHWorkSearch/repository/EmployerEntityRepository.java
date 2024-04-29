@@ -6,4 +6,6 @@ import ru.bereshs.HHWorkSearch.domain.Employer;
 public interface EmployerEntityRepository extends JpaRepository<Employer, Integer> {
     Employer getByHhId(String hhId);
 
+    boolean existsByHhId(String hhId);
+
 }

@@ -1,5 +1,7 @@
 package ru.bereshs.HHWorkSearch.domain;
 
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
+
 import java.util.List;
 
 public interface FilteredVacancy {
@@ -10,5 +12,7 @@ public interface FilteredVacancy {
     String getDescription();
 
     List<String> getSkillStringList();
+
+    HhSimpleListDto getEmployer();
 
 }

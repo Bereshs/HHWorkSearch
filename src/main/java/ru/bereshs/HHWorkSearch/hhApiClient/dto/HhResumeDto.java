@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import ru.bereshs.HHWorkSearch.hhApiClient.HhLocalDateTime;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -29,5 +30,7 @@ public class HhResumeDto {
     private String skills;
     @JsonProperty("visible")
     private boolean visible;
+    @JsonProperty("next_publish_at")
+    private String nextPublishAt;
 
 }

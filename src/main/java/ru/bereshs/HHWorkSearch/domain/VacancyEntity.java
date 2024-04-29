@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.bereshs.HHWorkSearch.domain.Employer;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 
 import java.time.LocalDateTime;
@@ -84,5 +85,12 @@ public class VacancyEntity implements FilteredVacancy {
 
     public String toString() {
         return getHhId() + " " + getName() + " " + getEmployerId();
+    }
+
+    public HhSimpleListDto getEmployer() {
+        return  HhSimpleListDto.builder()
+                .id(getEmployerId())
+                .name(getEmployerName())
+                .build();
     }
 }

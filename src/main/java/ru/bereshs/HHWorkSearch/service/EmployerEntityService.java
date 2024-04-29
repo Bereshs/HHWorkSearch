@@ -1,18 +1,20 @@
 package ru.bereshs.HHWorkSearch.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.domain.Employer;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 import ru.bereshs.HHWorkSearch.repository.EmployerEntityRepository;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class EmployerEntityService {
 
     private final EmployerEntityRepository employerEntityRepository;
 
-    public EmployerEntityService(EmployerEntityRepository employerEntityRepository) {
-        this.employerEntityRepository = employerEntityRepository;
-    }
 
     Employer getByHhId(String hhId) {
         return employerEntityRepository.getByHhId(hhId);
@@ -30,5 +32,15 @@ public class EmployerEntityService {
 
         return employer;
     }
+
+    public  List<Employer> extractEmployers(List<HhVacancyDto> list) {
+        return list.stream().map(entity->new Employer(entity.getEmployer())).toList();
+    }
+
+    public void saveAll(List<Employer> list) {
+        list.stream().filter(employer->!employerEntityRepository.existsByHhId(employer.getHhId()))
+                .map(employerEntityRepository::save);
+    }
+
 
 }

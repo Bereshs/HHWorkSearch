@@ -36,12 +36,18 @@ public class HeadHunterClient {
 
     @Autowired
     public HeadHunterClient(AppConfig config) {
-        authService = new ServiceBuilder(config.getHhClientId())
-                .apiSecret(config.getHhClientSecret())
-                .callback(config.getHhApiCallback())
-                .build(HHApi.instance());
 
         this.config = config;
+
+        if (config.getHhClientSecret().length() < 5) {
+            this.authService = null;
+        } else {
+            authService = new ServiceBuilder(config.getHhClientId())
+                    .apiSecret(config.getHhClientSecret())
+                    .callback(config.getHhApiCallback())
+                    .build(HHApi.instance());
+
+        }
     }
 
     private ObjectMapper getMapper() {
@@ -54,7 +60,7 @@ public class HeadHunterClient {
         return authService.execute(request);
     }
 
-    public  Response executeWithBody(Verb verb, String uri, OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
+    public Response executeWithBody(Verb verb, String uri, OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
         OAuthRequest request = new OAuthRequest(verb, uri);
         body.forEach(request::addBodyParameter);
         authService.signRequest(token, request);
@@ -122,7 +128,7 @@ public class HeadHunterClient {
 
     private <T> List<T> getEntityList(HhListDto<HashMap<String, ?>> vacancyEntityHhlistDto, Class<T> type) {
         List<T> resultList = new ArrayList<>();
-        if(vacancyEntityHhlistDto.getItems()==null) {
+        if (vacancyEntityHhlistDto.getItems() == null) {
             return resultList;
         }
         vacancyEntityHhlistDto.getItems().forEach(vacancyEntity -> {

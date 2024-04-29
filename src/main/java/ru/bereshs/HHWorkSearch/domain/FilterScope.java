@@ -1,5 +1,5 @@
 package ru.bereshs.HHWorkSearch.domain;
 
 public enum FilterScope {
-    Name, Experience, Description, Key
+    Name, Experience, Description, Key, Employer
 }

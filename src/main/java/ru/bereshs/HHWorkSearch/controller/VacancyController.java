@@ -32,6 +32,7 @@ public class VacancyController {
     private final VacancyEntityService vacancyEntityService;
     private final FilterEntityService<HhVacancyDto> filterEntityService;
     private final HhService service;
+    private final EmployerEntityService employerEntityService;
 
     @Operation(summary = "Рекомендованные мне вакансии")
     @GetMapping("/api/vacancy/recommended")
@@ -85,7 +86,10 @@ public class VacancyController {
 
     private List<HhVacancyDto> getVacancyEntityList() throws IOException, ExecutionException, InterruptedException {
         String key = filterEntityService.getKey();
-        return service.getRecommendedVacancy(getToken(), key);
+        var list = service.getRecommendedVacancy(getToken(), key);
+        var employerList = employerEntityService.extractEmployers(list);
+        employerEntityService.saveAll(employerList);
+        return list;
     }
 
     private List<HhVacancyDto> saveUniqueList(List<HhVacancyDto> list) {

@@ -33,7 +33,9 @@ public class FilterEntityService<E extends FilteredVacancy> {
 
     public boolean isValid(E filteredVacancy) {
         return !isContainWordsScope(filteredVacancy.getName(), getScope(FilterScope.Name))
-                && !isContainWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.Experience));
+                && !isContainWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.Experience))
+                && !isEqual(filteredVacancy.getEmployer().getId(), getScope(FilterScope.Employer));
+
     }
 
     public boolean isValidDescription(E filteredVacancy) {
@@ -44,6 +46,18 @@ public class FilterEntityService<E extends FilteredVacancy> {
                 && !isContainWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Description));
     }
 
+
+    boolean isEqual(String line, List<FilterEntity> scopeName) {
+
+        String lineInLowerCase = line.toLowerCase();
+        for (FilterEntity name : scopeName) {
+            if (lineInLowerCase.equals(name.getWord().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+
+    }
     public String getKey() {
         return getScope(FilterScope.Key).get(0).getWord();
     }

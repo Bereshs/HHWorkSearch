@@ -2,9 +2,7 @@ package ru.bereshs.HHWorkSearch.service;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.startup.CredentialHandlerRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bereshs.HHWorkSearch.config.AppConfig;
@@ -102,6 +100,12 @@ public class HhService {
         String uri = appConfig.getNegotiationPostConnetcionString();
         var result = headHunterClient.executeWithBody(Verb.POST, uri, token, body);
         log.info("post result " + result.getMessage());
+    }
+
+    public void updateResume(OAuth2AccessToken token, String id) throws IOException, ExecutionException, InterruptedException {
+        String uri = appConfig.getPostResume(id);
+        var result = headHunterClient.execute(Verb.POST, uri, token);
+        log.info("post result  " + result.getMessage());
     }
 
 

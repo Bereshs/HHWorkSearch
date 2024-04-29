@@ -2,21 +2,20 @@ package ru.bereshs.HHWorkSearch.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.bereshs.HHWorkSearch.config.AppConfig;
-import ru.bereshs.HHWorkSearch.domain.KeyEntity;
 import ru.bereshs.HHWorkSearch.domain.MessageEntity;
 import ru.bereshs.HHWorkSearch.domain.ResumeEntity;
 import ru.bereshs.HHWorkSearch.domain.SkillEntity;
 import ru.bereshs.HHWorkSearch.exception.HhWorkSearchException;
+import ru.bereshs.HHWorkSearch.hhApiClient.HhLocalDateTime;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.*;
 import ru.bereshs.HHWorkSearch.service.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +96,26 @@ public class ResumeController {
         var difference = ratingEmployerService.getDifferenceAndUpdate(loyalEmployer);
         log.info("difference=" + difference);
         return loyalEmployer;
+    }
+
+    @PostMapping("/api/resume/{id}/publish")
+    public String updateResume(@PathVariable String id) throws IOException, ExecutionException, InterruptedException {
+        ResumeEntity resume = resumeEntityService.getByHhid(id);
+        if (resume.getNextPublish() == null) {
+            var resumeDto = service.getResumeById(id, getToken());
+            resume.setNextPublish(HhLocalDateTime.decodeLocalData(resumeDto.getNextPublishAt()));
+        }
+
+        if (resume.getNextPublish().isBefore(LocalDateTime.now())) {
+            service.updateResume(getToken(), id);
+        }
+
+        var resumeDto = service.getResumeById(id, getToken());
+        resume.setNextPublish(HhLocalDateTime.decodeLocalData(resumeDto.getNextPublishAt()));
+        resumeEntityService.save(resume);
+
+
+        return "ok";
     }
 
     @Operation(summary = "Просмотры моего резюме")

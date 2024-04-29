@@ -26,6 +26,7 @@ public class ResumeEntity {
     private String accessType;
     @Column(columnDefinition = "TEXT")
     private String description;
+    private LocalDateTime nextPublish;
 
     public ResumeEntity(HhResumeDto resumeDto) {
         setHhId(resumeDto.getId());
@@ -35,4 +36,5 @@ public class ResumeEntity {
         setUpdatedAt(HhLocalDateTime.decodeLocalData(resumeDto.getUpdatedAt()));
         setTimeStamp(LocalDateTime.now());
     }
+
 }

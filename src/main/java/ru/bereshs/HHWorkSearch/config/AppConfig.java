@@ -1,28 +1,51 @@
 package ru.bereshs.HHWorkSearch.config;
 
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import ru.bereshs.HHWorkSearch.domain.ResumeEntity;
+import ru.bereshs.HHWorkSearch.service.SettingsService;
 
 import static java.util.Objects.isNull;
 
-@Data
+@Getter
+@Setter
 @Component
 @ConfigurationProperties(prefix = "app")
 public class AppConfig {
 
     String hhApiUri;
     String hhUserAgent;
-    String hhClientId;
-    String hhClientSecret;
     String emailEmail;
     String emailPassword;
     String hhVacancy;
     String hhResume;
     String hhApiCallback;
     String hhApiTokenUri;
+
+
+    private final SettingsService settingsService;
+
+    @Autowired
+    public AppConfig(SettingsService settingsService) {
+        this.settingsService = settingsService;
+    }
+
+    public String getHhUserAgent() {
+        return settingsService.getAppHHUserAgent();
+    }
+
+    public String getHhClientId() {
+        return settingsService.getAppHHClientId();
+    }
+
+    public String getHhClientSecret() {
+        return settingsService.getAppHHClientSecret();
+    }
+
 
     public String getVacancyConnectionString(Integer page, String key) {
         String uri = "https://api.hh.ru/vacancies?responses_count_enabled=true" +
@@ -70,7 +93,10 @@ public class AppConfig {
         String uri = "https://api.hh.ru/resumes/" + resumeId;
         return uri;
     }
-
+    public String getPostResume(String resumeId) {
+        String uri = "https://api.hh.ru/resumes/" + resumeId+"/publish";
+        return uri;
+    }
     public String getVacancyConnectionString(String id) {
         String uri = "https://api.hh.ru/vacancies/" + id;
         return uri;
