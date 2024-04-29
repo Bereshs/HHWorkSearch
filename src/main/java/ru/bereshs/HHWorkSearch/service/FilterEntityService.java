@@ -48,7 +48,7 @@ public class FilterEntityService<E extends FilteredVacancy> {
 
 
     boolean isEqual(String line, List<FilterEntity> scopeName) {
-
+        if(line==null) return false;
         String lineInLowerCase = line.toLowerCase();
         for (FilterEntity name : scopeName) {
             if (lineInLowerCase.equals(name.getWord().toLowerCase())) {

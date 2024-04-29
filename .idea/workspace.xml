@@ -5,31 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/SettingsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/SettingsEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/dto/SettingsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/repository/SettingsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/SettingsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/AppConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/SchedulerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/config/SchedulerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ResumeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/VacancyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/VacancyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/Employer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/Employer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilterScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilterScope.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilteredVacancy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/FilteredVacancy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/ResumeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/ResumeEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/HeadHunterClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhResumeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhResumeDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhSimpleListDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhSimpleListDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/repository/EmployerEntityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/repository/EmployerEntityRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/EmployerEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/EmployerEntityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/FilterEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/FilterEntityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/HhService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/HhService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +87,7 @@
       <recent name="ru.bereshs.HHWorkSearch.hhApiClient.dto" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.HhWorkSearchApplication">
+  <component name="RunManager" selected="JUnit.FilterEntityServiceTest">
     <configuration name="FilterEntityServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HHWorkSearch" />
       <extension name="coverage">
@@ -198,11 +175,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SkillsEntityServiceTest" />
         <item itemvalue="JUnit.FilterEntityServiceTest" />
+        <item itemvalue="JUnit.FilterEntityServiceTest.doFilterTest" />
+        <item itemvalue="JUnit.SkillsEntityServiceTest" />
         <item itemvalue="JUnit.SkillsEntityServiceTest.extractVacancySkillsTest" />
         <item itemvalue="JUnit.SkillsEntityServiceTest.extractVacancySkills" />
-        <item itemvalue="JUnit.FilterEntityServiceTest.doFilterTest" />
       </list>
     </recent_temporary>
   </component>
@@ -264,7 +241,7 @@
       <workItem from="1712994887428" duration="183000" />
       <workItem from="1712995098885" duration="41000" />
       <workItem from="1714217003053" duration="17255000" />
-      <workItem from="1714387477222" duration="13634000" />
+      <workItem from="1714387477222" duration="13950000" />
     </task>
     <servers />
   </component>
