@@ -60,6 +60,7 @@ public class VacancyEntity implements FilteredVacancy {
     }
 
     public HhSalaryDto getSalary() {
+        if (salary == null) salary = 0;
         return HhSalaryDto.builder()
                 .currency(currency)
                 .to(salary)
