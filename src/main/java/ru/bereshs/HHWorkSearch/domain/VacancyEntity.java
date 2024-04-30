@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.bereshs.HHWorkSearch.domain.Employer;
+import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSalaryDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhSimpleListDto;
 import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 
@@ -38,6 +39,8 @@ public class VacancyEntity implements FilteredVacancy {
     private VacancyStatus status;
     private LocalDateTime timeStamp;
     private LocalDateTime createdAt;
+    private Integer salary;
+    private String currency;
 
     public VacancyEntity(HhVacancyDto vacancyDto) {
         hhId = vacancyDto.getId();
@@ -52,6 +55,24 @@ public class VacancyEntity implements FilteredVacancy {
         experience = vacancyDto.getExperience();
         timeStamp = LocalDateTime.now();
         createdAt = LocalDateTime.now();
+        salary = calculateSalary(vacancyDto.getSalary());
+        currency = vacancyDto.getSalary().getCurrency();
+    }
+
+    public HhSalaryDto getSalary() {
+        return HhSalaryDto.builder()
+                .currency(currency)
+                .to(salary)
+                .build();
+    }
+
+    private int calculateSalary(HhSalaryDto salaryDto) {
+        if (salaryDto.getFrom() == 0 && salaryDto.getTo() == 0) return 0;
+        if (salaryDto.getFrom() > 0 && salaryDto.getTo() > 0) return (salaryDto.getFrom() + salaryDto.getTo()) / 2;
+        if (salaryDto.getFrom() == 0 && salaryDto.getTo() > 0) return salaryDto.getTo();
+        if (salaryDto.getFrom() > 0 && salaryDto.getTo() == 0) return salaryDto.getFrom();
+
+        return 0;
     }
 
     private String dateWithoutTimeZone(String date) {
@@ -88,7 +109,7 @@ public class VacancyEntity implements FilteredVacancy {
     }
 
     public HhSimpleListDto getEmployer() {
-        return  HhSimpleListDto.builder()
+        return HhSimpleListDto.builder()
                 .id(getEmployerId())
                 .name(getEmployerName())
                 .build();

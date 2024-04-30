@@ -40,7 +40,7 @@ public class SchedulerConfig {
     private final EmployerEntityService employerEntityService;
 
 
-    @Scheduled(cron = "0 0 9-18 * * *")
+    @Scheduled(cron = "0 11 9-18 * * *")
     public void scheduleDayLightTask() throws IOException, ExecutionException, InterruptedException {
         if (settingsService.isDemonActive()) {
             log.info("starting scheduled task");

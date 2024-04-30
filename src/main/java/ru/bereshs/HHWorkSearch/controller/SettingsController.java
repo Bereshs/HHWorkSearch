@@ -38,4 +38,9 @@ public class SettingsController {
 
         return service.getAll().stream().map(SettingsDto::new).toList();
     }
+
+    @GetMapping("/api/settings/demon")
+    public boolean isDemonActive() {
+        return service.isDemonActive();
+    }
 }
