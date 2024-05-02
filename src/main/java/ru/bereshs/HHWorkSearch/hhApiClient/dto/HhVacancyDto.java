@@ -39,6 +39,9 @@ public class HhVacancyDto implements HasEmployer, FilteredVacancy {
     }
 
     public String getExperience() {
+        if (experience==null) {
+            experience = new HhSimpleListDto();
+        }
         return experience.getId();
     }
 

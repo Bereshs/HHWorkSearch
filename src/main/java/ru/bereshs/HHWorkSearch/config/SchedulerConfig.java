@@ -18,6 +18,7 @@ import ru.bereshs.HHWorkSearch.service.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -59,6 +60,10 @@ public class SchedulerConfig {
             //    sendMessageWithRelevantVacancies(vacancyList);
             postNegotiationWithRelevantVacancies(vacancyList);
         }
+
+        updateVacancyStatus();
+
+        sendMessageDailyReport();
     }
 
     @Scheduled(cron = "0 30 18 * * *")
@@ -71,6 +76,27 @@ public class SchedulerConfig {
         }
     }
 
+
+    public void updateVacancyStatus() {
+        try {
+            var negotiationsList = service.getHhNegotiationsDtoList(getToken());
+            List<VacancyEntity> vacancyList = negotiationsList.getItems().stream().map(entity -> {
+                VacancyEntity vacancy = new VacancyEntity(entity.getVacancy());
+                vacancy.setStatus(entity.getState().getId());
+                return vacancy;
+            }).toList();
+            vacancyEntityService.updateVacancyStatusFromList(vacancyList);
+        } catch (IOException | ExecutionException | InterruptedException exception) {
+            log.error(Arrays.toString(exception.getStackTrace()));
+        }
+    }
+
+    private void sendMessageDailyReport() {
+        String message = vacancyEntityService.getDaily();
+        TelegramMessageDto messageDto = new TelegramMessageDto(settingsService.getAppTelegramToken(), settingsService.getAppClientId(), message, LocalDateTime.now());
+        producer.produce(messageDto);
+
+    }
 
     private void sendMessageWithRelevantVacancies(List<HhVacancyDto> vacancyList) {
         var filtered = getRelevantVacancies(vacancyList);

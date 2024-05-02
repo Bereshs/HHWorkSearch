@@ -21,4 +21,6 @@ public class HhNegotiationsDto {
     private String updatedAt;
     @JsonProperty("vacancy")
     private HhVacancyDto vacancy;
+    @JsonProperty("has_updates")
+    private boolean hasUpdates;
 }

@@ -19,11 +19,9 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class AuthorizationService {
-
     private final KeyEntityRepository keysEntityRepository;
 
     private final HeadHunterClient client;
-    private OAuth2AccessToken token;
     private final AppConfig config;
 
     @Autowired
@@ -64,6 +62,7 @@ public class AuthorizationService {
         if (!key.isValid() && key.getTime() == null) {
             save(key);
         }
+        OAuth2AccessToken token;
         if (!key.isValid() && key.getRefreshToken() != null) {
             token = client.requestRefreshToken(key.getRefreshToken());
             return token;

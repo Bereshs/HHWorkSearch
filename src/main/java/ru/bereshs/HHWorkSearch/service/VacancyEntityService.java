@@ -11,6 +11,7 @@ import ru.bereshs.HHWorkSearch.repository.VacancyEntityRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -18,6 +19,21 @@ import java.util.Optional;
 public class VacancyEntityService {
 
     private final VacancyEntityRepository vacancyEntityRepository;
+
+
+    public String getDaily() {
+
+        var vacancyEntities = vacancyEntityRepository.getVacancyEntitiesByTimeStampAfter(LocalDateTime.now().minusDays(1));
+        var report = vacancyEntities.stream().collect(Collectors.groupingBy(VacancyEntity::getStatus, Collectors.counting()));
+        System.out.println(report);
+        String result = "Ежедневный отчет:\n" +
+                "\tотправлено запросов " + report.get(VacancyStatus.request) + "\n" +
+                "\tприглашений " + report.get(VacancyStatus.invitation) + "\n" +
+                "\tотказов " + report.get(VacancyStatus.discard) + "\n" +
+                "\tне подошло " + report.get(VacancyStatus.found);
+
+        return result;
+    }
 
     public Optional<VacancyEntity> getByHhId(String hhId) {
         return vacancyEntityRepository.getByHhId(hhId);
@@ -59,6 +75,18 @@ public class VacancyEntityService {
         return vacancy;
     }
 
+    public void updateVacancyStatusFromList(List<VacancyEntity> list) {
+        list.forEach(element -> {
+            Optional<VacancyEntity> entity = getByHhId(element.getHhId());
+            if (entity.isPresent()) {
+                VacancyEntity vacancyExt = entity.get();
+                if (!vacancyExt.getStatus().equals(element.getStatus())) {
+                    vacancyExt.setStatus(element.getStatus());
+                    save(vacancyExt);
+                }
+            }
+        });
+    }
 
     public Optional<VacancyEntity> getById(String id) {
         return vacancyEntityRepository.getByHhId(id);

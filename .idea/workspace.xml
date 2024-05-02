@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="" />
+    <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/controller/ManagementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/domain/VacancyStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhNegotiationsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhNegotiationsDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/hhApiClient/dto/HhVacancyDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/repository/VacancyEntityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/repository/VacancyEntityRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/AuthorizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/FilterEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/FilterEntityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/VacancyEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/HHWorkSearch/service/VacancyEntityService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +24,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="JUnit5 Test Class" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -84,7 +95,7 @@
       <recent name="ru.bereshs.HHWorkSearch.hhApiClient.dto" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.FilterEntityServiceTest.doFilterTest">
+  <component name="RunManager" selected="Spring Boot.HhWorkSearchApplication">
     <configuration name="FilterEntityServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HHWorkSearch" />
       <extension name="coverage">
@@ -238,7 +249,10 @@
       <workItem from="1712994887428" duration="183000" />
       <workItem from="1712995098885" duration="41000" />
       <workItem from="1714217003053" duration="17255000" />
-      <workItem from="1714387477222" duration="19931000" />
+      <workItem from="1714387477222" duration="20766000" />
+      <workItem from="1714632899677" duration="633000" />
+      <workItem from="1714644918022" duration="6314000" />
+      <workItem from="1714671869828" duration="8251000" />
     </task>
     <servers />
   </component>

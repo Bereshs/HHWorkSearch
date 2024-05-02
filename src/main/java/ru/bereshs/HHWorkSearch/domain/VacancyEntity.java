@@ -35,7 +35,9 @@ public class VacancyEntity implements FilteredVacancy {
     private int responses;
     private String employerId;
     private String employerName;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private VacancyStatus status;
     private LocalDateTime timeStamp;
     private LocalDateTime createdAt;
@@ -56,7 +58,20 @@ public class VacancyEntity implements FilteredVacancy {
         timeStamp = LocalDateTime.now();
         createdAt = LocalDateTime.now();
         salary = calculateSalary(vacancyDto.getSalary());
-        currency = vacancyDto.getSalary().getCurrency();
+        currency = vacancyDto.getSalary() == null ? "none" : vacancyDto.getSalary().getCurrency();
+    }
+
+    public void setStatus(String status) {
+        if (status.equals("response") || this.status.toString().length() < 3) {
+            this.status = VacancyStatus.request;
+            return;
+        }
+        this.status = VacancyStatus.valueOf(status);
+
+    }
+
+    public void setStatus(VacancyStatus status) {
+        this.status = status;
     }
 
     public HhSalaryDto getSalary() {
@@ -68,6 +83,9 @@ public class VacancyEntity implements FilteredVacancy {
     }
 
     private int calculateSalary(HhSalaryDto salaryDto) {
+        if (salaryDto == null) {
+            return 0;
+        }
         if (salaryDto.getFrom() == 0 && salaryDto.getTo() == 0) return 0;
         if (salaryDto.getFrom() > 0 && salaryDto.getTo() > 0) return (salaryDto.getFrom() + salaryDto.getTo()) / 2;
         if (salaryDto.getFrom() == 0 && salaryDto.getTo() > 0) return salaryDto.getTo();
