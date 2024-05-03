@@ -78,6 +78,7 @@ public class AppConfig {
         return uri;
     }
 
+
     public String getResumeViewsConnectionString(String resumeId) {
         String uri = "https://api.hh.ru/resumes/" + resumeId + "/views";
         return uri;
@@ -93,10 +94,12 @@ public class AppConfig {
         String uri = "https://api.hh.ru/resumes/" + resumeId;
         return uri;
     }
+
     public String getPostResume(String resumeId) {
-        String uri = "https://api.hh.ru/resumes/" + resumeId+"/publish";
+        String uri = "https://api.hh.ru/resumes/" + resumeId + "/publish";
         return uri;
     }
+
     public String getVacancyConnectionString(String id) {
         String uri = "https://api.hh.ru/vacancies/" + id;
         return uri;

@@ -30,6 +30,7 @@ public class HhService {
         this.appConfig = appConfig;
     }
 
+
     public List<HhVacancyDto> getRecommendedVacancy(OAuth2AccessToken token, String key) throws IOException, ExecutionException, InterruptedException {
         HhListDto<HhVacancyDto> tempList = getPageRecommendedVacancy(token, 0, key);
         List<HhVacancyDto> vacancyList = new ArrayList<>(tempList.getItems());

@@ -41,7 +41,7 @@ public class SchedulerConfig {
     private final EmployerEntityService employerEntityService;
 
 
-    @Scheduled(cron = "0 11 9-18 * * *")
+    @Scheduled(cron = "0 0 9-18 * * *")
     public void scheduleDayLightTask() throws IOException, ExecutionException, InterruptedException {
         if (settingsService.isDemonActive()) {
             log.info("starting scheduled task");
@@ -49,6 +49,8 @@ public class SchedulerConfig {
             //    sendMessageWithRelevantVacancies(vacancyList);
             postNegotiationWithRelevantVacancies(vacancyList);
             updateResume();
+        } else {
+            log.info("demon is inactive");
         }
     }
 
@@ -59,6 +61,8 @@ public class SchedulerConfig {
             List<HhVacancyDto> vacancyList = getFullHhVacancy();
             //    sendMessageWithRelevantVacancies(vacancyList);
             postNegotiationWithRelevantVacancies(vacancyList);
+        } else {
+            log.info("demon is inactive");
         }
 
         updateVacancyStatus();
@@ -73,6 +77,8 @@ public class SchedulerConfig {
             List<HhVacancyDto> vacancyList = service.getPageRecommendedVacancyForResume(getToken(), resumeEntityService.getDefault()).getItems();
             //    sendMessageWithRelevantVacancies(vacancyList);
             postNegotiationWithRelevantVacancies(vacancyList);
+        } else {
+            log.info("demon is inactive");
         }
     }
 
@@ -106,6 +112,7 @@ public class SchedulerConfig {
     }
 
     private void postNegotiationWithRelevantVacancies(List<HhVacancyDto> vacancyList) {
+        if (vacancyList.isEmpty()) return;
         var filtered = getRelevantVacancies(vacancyList);
         vacancyEntityService.saveAll(filtered);
         postNegotiations(filtered);

@@ -78,6 +78,7 @@ public class ManagementController {
     @Operation(summary = "Обработка сообщений")
     @PostMapping("/api/negotiations")
     public String updateNegotiations() throws IOException, ExecutionException, InterruptedException {
+        System.out.println("eeeee");
         var negotiationsList = service.getHhNegotiationsDtoList(getToken());
 
         List<VacancyEntity> vacancyList = negotiationsList.getItems().stream().map(entity -> {
@@ -89,7 +90,7 @@ public class ManagementController {
 
         return "ok";
     }
-
+    
     @Operation(summary = "Ежедневный отчет")
     @GetMapping("/api/negotiations/daily")
     public String dailyReport() {
