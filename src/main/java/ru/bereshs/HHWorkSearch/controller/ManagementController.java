@@ -90,7 +90,7 @@ public class ManagementController {
 
         return "ok";
     }
-    
+
     @Operation(summary = "Ежедневный отчет")
     @GetMapping("/api/negotiations/daily")
     public String dailyReport() {
