@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-alpine3.14
-ENV TZ=Europe/Moscow
+ENV TZ="Europe/Moscow"
 COPY  /*.jar /application.jar
 ENTRYPOINT ["java","-jar","/application.jar"]
