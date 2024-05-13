@@ -99,8 +99,9 @@ public class SchedulerConfig {
 
     private void sendMessageDailyReport() {
         String message = vacancyEntityService.getDaily();
-        TelegramMessageDto messageDto = new TelegramMessageDto(settingsService.getAppTelegramToken(), settingsService.getAppClientId(), message, LocalDateTime.now());
-        producer.produce(messageDto);
+        // TelegramMessageDto messageDto = new TelegramMessageDto(settingsService.getAppTelegramToken(), settingsService.getAppClientId(), message, LocalDateTime.now());
+        //producer.produce(messageDto);
+        producer.produceDefault(message);
 
     }
 
@@ -170,8 +171,9 @@ public class SchedulerConfig {
             String message = element.getName() + "\n"
                     + "message: " + negotiationsService.getNegotiationMessage(element, skillsEntityService.extractVacancySkills(element)) + "\n"
                     + element.getUrl();
-            TelegramMessageDto messageDto = new TelegramMessageDto(token, clientId, message, LocalDateTime.now());
-            producer.produce(messageDto);
+ //            TelegramMessageDto messageDto = new TelegramMessageDto(token, clientId, message, LocalDateTime.now());
+ //           producer.produce(messageDto);
+            producer.produceDefault(message);
         });
 
     }

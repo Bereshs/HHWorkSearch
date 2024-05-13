@@ -4,6 +4,9 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.bereshs.HHWorkSearch.domain.dto.TelegramMessageDto;
+import ru.bereshs.HHWorkSearch.producer.KafkaProducer;
+import ru.bereshs.HHWorkSearch.producer.KafkaProducerImpl;
 import ru.bereshs.HHWorkSearch.repository.MessageEntityRepository;
 import ru.bereshs.HHWorkSearch.domain.FilteredVacancy;
 import ru.bereshs.HHWorkSearch.domain.MessageEntity;
@@ -13,6 +16,7 @@ import ru.bereshs.HHWorkSearch.hhApiClient.dto.HhVacancyDto;
 
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -25,6 +29,8 @@ public class NegotiationsService {
     private final HhService service;
     private final AuthorizationService authorizationService;
     private final MessageEntityRepository messageEntityRepository;
+    private final KafkaProducer producer;
+
 
     public void doNegotiationWithRelevantVacancy(HhVacancyDto vacancy, String resumeHhid, List<SkillEntity> skills) {
         doNegotiation(getNegotiationMessage(vacancy, skills), resumeHhid, vacancy.getId());
@@ -34,7 +40,11 @@ public class NegotiationsService {
         try {
             HashMap<String, String> body = getNegotiationBody(message, resumeId, vacancyId);
             log.info("building post negotiation request resumeId: " + resumeId + " vacancyId: " + vacancyId + " message size: " + message.length());
-            service.postNegotiation(getToken(), body);
+            var result = service.postNegotiation(getToken(), body);
+            if(!result.isSuccessful()) {
+                String text = "Необходимо участие vacancy Id:"+vacancyId;
+                producer.produceDefault(text);
+              }
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

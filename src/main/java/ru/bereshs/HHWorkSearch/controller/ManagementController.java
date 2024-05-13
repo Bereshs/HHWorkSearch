@@ -96,9 +96,10 @@ public class ManagementController {
     public String dailyReport() {
 
         String message = vacancyEntityService.getDaily();
-        TelegramMessageDto messageDto = new TelegramMessageDto(settingsService.getAppTelegramToken(), settingsService.getAppClientId(), message, LocalDateTime.now());
-        kafkaProducer.produce(messageDto);
+//        TelegramMessageDto messageDto = new TelegramMessageDto(settingsService.getAppTelegramToken(), settingsService.getAppClientId(), message, LocalDateTime.now());
+//        kafkaProducer.produce(messageDto);
 
+        kafkaProducer.produceDefault(message);
         return message;
     }
 

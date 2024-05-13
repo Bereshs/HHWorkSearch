@@ -1,6 +1,7 @@
 package ru.bereshs.HHWorkSearch.service;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,10 +98,11 @@ public class HhService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public void postNegotiation(OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
+    public Response postNegotiation(OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getNegotiationPostConnetcionString();
         var result = headHunterClient.executeWithBody(Verb.POST, uri, token, body);
         log.info("post result " + result.getMessage());
+        return result;
     }
 
     public void updateResume(OAuth2AccessToken token, String id) throws IOException, ExecutionException, InterruptedException {

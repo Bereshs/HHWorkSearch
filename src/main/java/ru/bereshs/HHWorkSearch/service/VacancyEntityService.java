@@ -53,6 +53,7 @@ public class VacancyEntityService {
     }
 
     private void updateResponses(VacancyEntity vacancy, int responses) {
+        vacancy.setStatus(VacancyStatus.updated);
         vacancy.setResponses(responses);
         save(vacancy);
     }
