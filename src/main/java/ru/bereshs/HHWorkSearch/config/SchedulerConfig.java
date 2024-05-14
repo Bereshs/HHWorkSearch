@@ -156,7 +156,7 @@ public class SchedulerConfig {
         log.info("total size vacancy after name filter: " + filtered.size());
         List<HhVacancyDto> list = vacancyEntityService.getUnique(filtered);
         log.info("total size after unique: " + list.size());
-        var full = getFullVacancyInformation(filtered);
+        var full = getFullVacancyInformation(list);
         vacancyEntityService.updateTimeStamp(full);
         filtered = filterEntityService.doFilterDescription(full);
         log.info("total size after full filter: " + filtered.size());

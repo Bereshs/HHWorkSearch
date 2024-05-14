@@ -9,6 +9,7 @@ import ru.bereshs.HHWorkSearch.domain.VacancyEntity;
 import ru.bereshs.HHWorkSearch.repository.VacancyEntityRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,6 +41,7 @@ public class VacancyEntityService {
     }
 
     public List<HhVacancyDto> getUnique(List<HhVacancyDto> vacancyList) {
+
         return vacancyList.stream().filter(element -> vacancyEntityRepository.getByHhId(element.getId()).isEmpty()).toList();
     }
 

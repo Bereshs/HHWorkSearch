@@ -41,10 +41,11 @@ public class NegotiationsService {
             HashMap<String, String> body = getNegotiationBody(message, resumeId, vacancyId);
             log.info("building post negotiation request resumeId: " + resumeId + " vacancyId: " + vacancyId + " message size: " + message.length());
             var result = service.postNegotiation(getToken(), body);
-            if(!result.isSuccessful()) {
-                String text = "Необходимо участие vacancy Id:"+vacancyId;
+            if (!result.isSuccessful()) {
+                String text = "Необходимо участие vacancy Id: " + vacancyId + "\n" + "https://krasnodar.hh.ru/vacancy/" + vacancyId;
                 producer.produceDefault(text);
-              }
+
+            }
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
