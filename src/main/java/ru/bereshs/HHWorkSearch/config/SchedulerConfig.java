@@ -39,6 +39,7 @@ public class SchedulerConfig {
     private final NegotiationsService negotiationsService;
     private final SettingsService settingsService;
     private final EmployerEntityService employerEntityService;
+    private final String  INACTIVE_DAEMON_MESSAGE="daemon is inactive";
 
 
     @Scheduled(cron = "0 0 9-18 * * *")
@@ -46,23 +47,21 @@ public class SchedulerConfig {
         if (settingsService.isDemonActive()) {
             log.info("starting scheduled task");
             List<HhVacancyDto> vacancyList = getHhVacancy(getKey());
-            //    sendMessageWithRelevantVacancies(vacancyList);
             postNegotiationWithRelevantVacancies(vacancyList);
             updateResume();
         } else {
-            log.info("demon is inactive");
+            log.info(INACTIVE_DAEMON_MESSAGE);
         }
     }
 
     @Scheduled(cron = "0 30 19 * * *")
-    public void scheduleDailyFullRequest() {
+    public void scheduleDailyFullRequest() throws InterruptedException{
         if (settingsService.isDemonActive()) {
             log.info("request full hhVacancies");
             List<HhVacancyDto> vacancyList = getFullHhVacancy();
-            //    sendMessageWithRelevantVacancies(vacancyList);
             postNegotiationWithRelevantVacancies(vacancyList);
         } else {
-            log.info("demon is inactive");
+            log.info(INACTIVE_DAEMON_MESSAGE);
         }
 
         updateVacancyStatus();
@@ -75,15 +74,14 @@ public class SchedulerConfig {
         if (settingsService.isDemonActive()) {
             log.info("request recommended hhVacancies");
             List<HhVacancyDto> vacancyList = service.getPageRecommendedVacancyForResume(getToken(), resumeEntityService.getDefault()).getItems();
-            //    sendMessageWithRelevantVacancies(vacancyList);
             postNegotiationWithRelevantVacancies(vacancyList);
         } else {
-            log.info("demon is inactive");
+            log.info(INACTIVE_DAEMON_MESSAGE);
         }
     }
 
 
-    public void updateVacancyStatus() {
+    public void updateVacancyStatus() throws InterruptedException {
         try {
             var negotiationsList = service.getHhNegotiationsDtoList(getToken());
             List<VacancyEntity> vacancyList = negotiationsList.getItems().stream().map(entity -> {
@@ -92,24 +90,15 @@ public class SchedulerConfig {
                 return vacancy;
             }).toList();
             vacancyEntityService.updateVacancyStatusFromList(vacancyList);
-        } catch (IOException | ExecutionException | InterruptedException exception) {
+        } catch (IOException | ExecutionException exception) {
             log.error(Arrays.toString(exception.getStackTrace()));
         }
     }
 
     private void sendMessageDailyReport() {
         String message = vacancyEntityService.getDaily();
-        // TelegramMessageDto messageDto = new TelegramMessageDto(settingsService.getAppTelegramToken(), settingsService.getAppClientId(), message, LocalDateTime.now());
-        //producer.produce(messageDto);
         producer.produceDefault(message);
 
-    }
-
-    private void sendMessageWithRelevantVacancies(List<HhVacancyDto> vacancyList) {
-        var filtered = getRelevantVacancies(vacancyList);
-        vacancyEntityService.saveAll(filtered);
-        produceKafkaMessage(filtered);
-        vacancyEntityService.changeAllStatus(filtered, VacancyStatus.view);
     }
 
     private void postNegotiationWithRelevantVacancies(List<HhVacancyDto> vacancyList) {
@@ -164,20 +153,6 @@ public class SchedulerConfig {
     }
 
 
-    private void produceKafkaMessage(List<HhVacancyDto> list) {
-        String token = settingsService.getAppTelegramToken();
-        String clientId = settingsService.getAppClientId();
-        list.forEach(element -> {
-            String message = element.getName() + "\n"
-                    + "message: " + negotiationsService.getNegotiationMessage(element, skillsEntityService.extractVacancySkills(element)) + "\n"
-                    + element.getUrl();
- //            TelegramMessageDto messageDto = new TelegramMessageDto(token, clientId, message, LocalDateTime.now());
- //           producer.produce(messageDto);
-            producer.produceDefault(message);
-        });
-
-    }
-
     public HhVacancyDto getVacancyById(String id) {
         try {
             return service.getVacancyById(id, getToken());
@@ -195,38 +170,38 @@ public class SchedulerConfig {
         return result;
     }
 
-    private OAuth2AccessToken getToken() {
+    private OAuth2AccessToken getToken() throws InterruptedException{
         try {
             return authorizationService.getToken();
-        } catch (IOException | ExecutionException | InterruptedException e) {
+        } catch (IOException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private List<HhVacancyDto> getFullHhVacancy() {
+    private List<HhVacancyDto> getFullHhVacancy() throws InterruptedException{
         return getRecommendedVacancy();
 
     }
 
-    private List<HhVacancyDto> getHhVacancy(String key) {
+    private List<HhVacancyDto> getHhVacancy(String key) throws InterruptedException {
         return getPageRecommendedVacancy(key);
     }
 
-    private List<HhVacancyDto> getRecommendedVacancy() {
+    private List<HhVacancyDto> getRecommendedVacancy()  throws InterruptedException{
         try {
             var list = service.getRecommendedVacancy(getToken(), getKey());
             var listEmployer = employerEntityService.extractEmployers(list);
             employerEntityService.saveAll(listEmployer);
             return list;
-        } catch (IOException | ExecutionException | InterruptedException e) {
+        } catch (IOException | ExecutionException  e) {
             throw new RuntimeException(e);
         }
     }
 
-    private List<HhVacancyDto> getPageRecommendedVacancy(String key) {
+    private List<HhVacancyDto> getPageRecommendedVacancy(String key) throws InterruptedException {
         try {
             return service.getPageRecommendedVacancy(getToken(), 0, key).getItems();
-        } catch (IOException | ExecutionException | InterruptedException e) {
+        } catch (IOException | ExecutionException  e) {
             throw new RuntimeException(e);
         }
     }

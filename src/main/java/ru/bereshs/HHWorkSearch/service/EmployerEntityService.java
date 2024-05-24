@@ -39,7 +39,7 @@ public class EmployerEntityService {
 
     public void saveAll(List<Employer> list) {
         list.stream().filter(employer->!employerEntityRepository.existsByHhId(employer.getHhId()))
-                .map(employerEntityRepository::save);
+                .forEach(employerEntityRepository::save);
     }
 
 
