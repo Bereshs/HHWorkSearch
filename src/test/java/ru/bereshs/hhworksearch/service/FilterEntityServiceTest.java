@@ -12,6 +12,7 @@ import ru.bereshs.hhworksearch.config.KafkaProducerConfig;
 import ru.bereshs.hhworksearch.config.SchedulerConfig;
 import ru.bereshs.hhworksearch.controller.AuthorizationController;
 import ru.bereshs.hhworksearch.controller.ManagementController;
+import ru.bereshs.hhworksearch.domain.FilterScope;
 import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
 import ru.bereshs.hhworksearch.producer.KafkaProducerImpl;
 import ru.bereshs.hhworksearch.repository.FilterEntityRepository;
@@ -53,24 +54,27 @@ class FilterEntityServiceTest {
     private List<FilterEntity> filterEntityListExperience;
 
     private VacancyEntity vacancy;
+    private final String filterScopeExperienceParameter = FilterScope.EXPERIENCE.toString().toLowerCase();
+    private final String experienceDataParameter="between1and3";
+    private final String filterScopeNameParameter = FilterScope.NAME.toString().toLowerCase();
 
     @BeforeEach
     void setup() {
         filterEntityListName = new ArrayList<>();
         FilterEntity filterEntity = new FilterEntity();
-        filterEntity.setScope("name");
+        filterEntity.setScope(filterScopeNameParameter);
         filterEntity.setWord("kotlin");
         filterEntityListName.add(filterEntity);
 
         filterEntityListExperience = new ArrayList<>();
         filterEntity = new FilterEntity();
-        filterEntity.setScope("experience");
-        filterEntity.setWord("between1and3");
+        filterEntity.setScope(filterScopeExperienceParameter);
+        filterEntity.setWord(experienceDataParameter);
         filterEntityListExperience.add(filterEntity);
 
         vacancy = new VacancyEntity();
         vacancy.setName("Kotlin разработчик");
-        vacancy.setExperience("between1and3");
+        vacancy.setExperience(experienceDataParameter);
 
     }
 
@@ -79,7 +83,7 @@ class FilterEntityServiceTest {
         List<VacancyEntity> vacancyEntities = new ArrayList<>();
         VacancyEntity vacancyEntity = new VacancyEntity();
         vacancyEntity.setName("Java разработчик");
-        vacancyEntity.setExperience("between1and3");
+        vacancyEntity.setExperience(experienceDataParameter);
         vacancyEntities.add(vacancyEntity);
         vacancyEntity = new VacancyEntity();
         vacancyEntity.setName("разработчик");
@@ -87,9 +91,9 @@ class FilterEntityServiceTest {
         vacancyEntities.add(vacancyEntity);
         vacancyEntities.add(vacancy);
 
-        Mockito.when(filterEntityRepository.findFilterEntityByScope("name"))
+        Mockito.when(filterEntityRepository.findFilterEntityByScope(filterScopeNameParameter))
                 .thenReturn(filterEntityListName);
-        Mockito.when(filterEntityRepository.findFilterEntityByScope("experience"))
+        Mockito.when(filterEntityRepository.findFilterEntityByScope(filterScopeExperienceParameter))
                 .thenReturn(filterEntityListExperience);
 
         List<VacancyEntity> filteredList = filterEntityService.doFilterNameAndExperience(vacancyEntities);
@@ -102,9 +106,9 @@ class FilterEntityServiceTest {
 
     @Test
     void isValidTest() {
-        Mockito.when(filterEntityRepository.findFilterEntityByScope("name"))
+        Mockito.when(filterEntityRepository.findFilterEntityByScope(filterScopeNameParameter))
                 .thenReturn(filterEntityListName);
-        Mockito.when(filterEntityRepository.findFilterEntityByScope("experience"))
+        Mockito.when(filterEntityRepository.findFilterEntityByScope(filterScopeExperienceParameter))
                 .thenReturn(filterEntityListExperience);
 
         assertFalse(filterEntityService.isValid(vacancy));
@@ -114,13 +118,13 @@ class FilterEntityServiceTest {
     @Test
     void containsExcludeWordsTest() {
 
-        Mockito.when(filterEntityRepository.findFilterEntityByScope("name"))
+        Mockito.when(filterEntityRepository.findFilterEntityByScope(filterScopeNameParameter))
                 .thenReturn(filterEntityListName);
-        Mockito.when(filterEntityRepository.findFilterEntityByScope("experience"))
+        Mockito.when(filterEntityRepository.findFilterEntityByScope(filterScopeExperienceParameter))
                 .thenReturn(filterEntityListExperience);
 
-        assertTrue(filterEntityService.isContainWordsScope(vacancy.getName(), filterEntityRepository.findFilterEntityByScope("name")));
-        assertTrue(filterEntityService.isContainWordsScope(vacancy.getExperience(), filterEntityRepository.findFilterEntityByScope("experience")));
+        assertTrue(filterEntityService.isContainWordsScope(vacancy.getName(), filterEntityRepository.findFilterEntityByScope(filterScopeNameParameter)));
+        assertTrue(filterEntityService.isContainWordsScope(vacancy.getExperience(), filterEntityRepository.findFilterEntityByScope(filterScopeExperienceParameter)));
 
     }
 }

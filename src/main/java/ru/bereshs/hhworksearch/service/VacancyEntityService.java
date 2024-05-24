@@ -25,14 +25,12 @@ public class VacancyEntityService {
 
         var vacancyEntities = vacancyEntityRepository.getVacancyEntitiesByTimeStampAfter(LocalDateTime.now().minusDays(1));
         var report = vacancyEntities.stream().collect(Collectors.groupingBy(VacancyEntity::getStatus, Collectors.counting()));
-        System.out.println(report);
-        String result = "Ежедневный отчет:\n" +
+
+        return "Ежедневный отчет:\n" +
                 "\tотправлено запросов " + report.get(VacancyStatus.REQUEST) + "\n" +
                 "\tприглашений " + report.get(VacancyStatus.INVITATION) + "\n" +
                 "\tотказов " + report.get(VacancyStatus.DISCARD) + "\n" +
                 "\tне подошло " + report.get(VacancyStatus.FOUND);
-
-        return result;
     }
 
     public Optional<VacancyEntity> getByHhId(String hhId) {

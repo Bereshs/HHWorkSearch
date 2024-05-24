@@ -26,16 +26,15 @@ public class AppConfig {
     String hhApiCallback;
     String hhApiTokenUri;
 
-    private final String perPage;
-    private final String hhResumesPath;
+    String hhPerPageParameter;
+    String hhResumesPath;
 
     private final SettingsService settingsService;
 
     @Autowired
     public AppConfig(SettingsService settingsService) {
         this.settingsService = settingsService;
-        perPage = "&per_page=100";
-        hhResumesPath="https://api.hh.ru/resumes/";
+
     }
 
     public String getHhUserAgent() {
@@ -56,7 +55,7 @@ public class AppConfig {
                 "&period=1" +
                 "&order_by=publication_time" +
                 "&vacancy_search_fields=name" +
-                "&text=" + key + perPage;
+                "&text=" + key + hhPerPageParameter;
         if (!isNull(page) && page > 0) {
             uri += "&page=" + page;
         }
@@ -65,7 +64,7 @@ public class AppConfig {
 
     public String getVacancyLikeResumeConnectionString(ResumeEntity resume, int page) {
         String uri = hhResumesPath + resume.getHhId() + "/similar_vacancies" +
-                "?period=1" + perPage;
+                "?period=1" + hhPerPageParameter;
         if (!isNull(page) && page > 0) {
             uri += "&page=" + page;
         }
@@ -75,7 +74,7 @@ public class AppConfig {
     public String getNegotiationsConnectionString() {
 
         return "https://api.hh.ru/negotiations?" +
-                "order_by=updated_at" + perPage;
+                "order_by=updated_at" + hhPerPageParameter;
     }
 
 

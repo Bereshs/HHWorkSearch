@@ -36,7 +36,7 @@ public class SchedulerConfig {
     private final NegotiationsService negotiationsService;
     private final SettingsService settingsService;
     private final EmployerEntityService employerEntityService;
-    private final String inactiveDaemonMessage = "daemon is inactive";
+    private static final String inactiveDaemonMessage = "daemon is inactive";
 
 
     @Scheduled(cron = "0 0 9-18 * * *")
