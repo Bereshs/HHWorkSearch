@@ -36,7 +36,7 @@ public class SchedulerConfig {
     private final NegotiationsService negotiationsService;
     private final SettingsService settingsService;
     private final EmployerEntityService employerEntityService;
-    private static final String inactiveDaemonMessage = "daemon is inactive";
+    private static final String INACTIVE_DAEMON_MESSAGE = "daemon is inactive";
 
 
     @Scheduled(cron = "0 0 9-18 * * *")
@@ -47,7 +47,7 @@ public class SchedulerConfig {
             postNegotiationWithRelevantVacancies(vacancyList);
             updateResume();
         } else {
-            log.info(inactiveDaemonMessage);
+            log.info(INACTIVE_DAEMON_MESSAGE);
         }
     }
 
@@ -58,7 +58,7 @@ public class SchedulerConfig {
             List<HhVacancyDto> vacancyList = getFullHhVacancy();
             postNegotiationWithRelevantVacancies(vacancyList);
         } else {
-            log.info(inactiveDaemonMessage);
+            log.info(INACTIVE_DAEMON_MESSAGE);
         }
 
         updateVacancyStatus();
@@ -73,7 +73,7 @@ public class SchedulerConfig {
             List<HhVacancyDto> vacancyList = service.getPageRecommendedVacancyForResume(getToken(), resumeEntityService.getDefault()).getItems();
             postNegotiationWithRelevantVacancies(vacancyList);
         } else {
-            log.info(inactiveDaemonMessage);
+            log.info(INACTIVE_DAEMON_MESSAGE);
         }
     }
 

@@ -55,7 +55,7 @@ class FilterEntityServiceTest {
 
     private VacancyEntity vacancy;
     private final String filterScopeExperienceParameter = FilterScope.EXPERIENCE.toString().toLowerCase();
-    private final String experienceDataParameter="between1and3";
+    private static final String BETWEEN_1_AND_3 ="between1and3";
     private final String filterScopeNameParameter = FilterScope.NAME.toString().toLowerCase();
 
     @BeforeEach
@@ -69,12 +69,12 @@ class FilterEntityServiceTest {
         filterEntityListExperience = new ArrayList<>();
         filterEntity = new FilterEntity();
         filterEntity.setScope(filterScopeExperienceParameter);
-        filterEntity.setWord(experienceDataParameter);
+        filterEntity.setWord(BETWEEN_1_AND_3);
         filterEntityListExperience.add(filterEntity);
 
         vacancy = new VacancyEntity();
         vacancy.setName("Kotlin разработчик");
-        vacancy.setExperience(experienceDataParameter);
+        vacancy.setExperience(BETWEEN_1_AND_3);
 
     }
 
@@ -83,7 +83,7 @@ class FilterEntityServiceTest {
         List<VacancyEntity> vacancyEntities = new ArrayList<>();
         VacancyEntity vacancyEntity = new VacancyEntity();
         vacancyEntity.setName("Java разработчик");
-        vacancyEntity.setExperience(experienceDataParameter);
+        vacancyEntity.setExperience(BETWEEN_1_AND_3);
         vacancyEntities.add(vacancyEntity);
         vacancyEntity = new VacancyEntity();
         vacancyEntity.setName("разработчик");
