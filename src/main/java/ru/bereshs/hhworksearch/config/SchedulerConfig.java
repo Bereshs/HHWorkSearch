@@ -36,7 +36,7 @@ public class SchedulerConfig {
     private final NegotiationsService negotiationsService;
     private final SettingsService settingsService;
     private final EmployerEntityService employerEntityService;
-    private final String  INACTIVE_DAEMON_MESSAGE="daemon is inactive";
+    private final String INACTIVE_DAEMON_MESSAGE = "daemon is inactive";
 
 
     @Scheduled(cron = "0 0 9-18 * * *")
@@ -52,7 +52,7 @@ public class SchedulerConfig {
     }
 
     @Scheduled(cron = "0 30 19 * * *")
-    public void scheduleDailyFullRequest() throws InterruptedException{
+    public void scheduleDailyFullRequest() throws InterruptedException {
         if (settingsService.isDemonActive()) {
             log.info("request full hhVacancies");
             List<HhVacancyDto> vacancyList = getFullHhVacancy();
@@ -125,19 +125,15 @@ public class SchedulerConfig {
 
     }
 
-    private void postNegotiations(List<HhVacancyDto> filtered) {
-        filtered.forEach(vacancy -> {
+    private void postNegotiations(List<HhVacancyDto> filtered) throws InterruptedException {
+        for (HhVacancyDto vacancy : filtered) {
             VacancyEntity vacancyEntity = vacancyEntityService.getByVacancyDto(vacancy);
             if (!vacancyEntity.getStatus().equals(VacancyStatus.request)) {
                 ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
                 List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
-                try {
-                    negotiationsService.doNegotiationWithRelevantVacancy(vacancy, resume.getHhId(), skills);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                negotiationsService.doNegotiationWithRelevantVacancy(vacancy, resume.getHhId(), skills);
             }
-        });
+        }
     }
 
     private List<HhVacancyDto> getRelevantVacancies(List<HhVacancyDto> vacancyList) throws InterruptedException {
@@ -154,10 +150,10 @@ public class SchedulerConfig {
     }
 
 
-    public HhVacancyDto getVacancyById(String id) throws InterruptedException{
+    public HhVacancyDto getVacancyById(String id) throws InterruptedException {
         try {
             return service.getVacancyById(id, getToken());
-        } catch (IOException | ExecutionException e ) {
+        } catch (IOException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
@@ -171,7 +167,7 @@ public class SchedulerConfig {
         return result;
     }
 
-    private OAuth2AccessToken getToken() throws InterruptedException{
+    private OAuth2AccessToken getToken() throws InterruptedException {
         try {
             return authorizationService.getToken();
         } catch (IOException | ExecutionException e) {
@@ -179,7 +175,7 @@ public class SchedulerConfig {
         }
     }
 
-    private List<HhVacancyDto> getFullHhVacancy() throws InterruptedException{
+    private List<HhVacancyDto> getFullHhVacancy() throws InterruptedException {
         return getRecommendedVacancy();
 
     }
@@ -188,13 +184,13 @@ public class SchedulerConfig {
         return getPageRecommendedVacancy(key);
     }
 
-    private List<HhVacancyDto> getRecommendedVacancy()  throws InterruptedException{
+    private List<HhVacancyDto> getRecommendedVacancy() throws InterruptedException {
         try {
             var list = service.getRecommendedVacancy(getToken(), getKey());
             var listEmployer = employerEntityService.extractEmployers(list);
             employerEntityService.saveAll(listEmployer);
             return list;
-        } catch (IOException | ExecutionException  e) {
+        } catch (IOException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
@@ -202,7 +198,7 @@ public class SchedulerConfig {
     private List<HhVacancyDto> getPageRecommendedVacancy(String key) throws InterruptedException {
         try {
             return service.getPageRecommendedVacancy(getToken(), 0, key).getItems();
-        } catch (IOException | ExecutionException  e) {
+        } catch (IOException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }

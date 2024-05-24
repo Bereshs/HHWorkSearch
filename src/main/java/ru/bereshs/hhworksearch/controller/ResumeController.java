@@ -138,15 +138,11 @@ public class ResumeController {
     public HhListDto<HhResumeDto> getMineResumes() throws IOException, ExecutionException, InterruptedException {
         HhListDto<HhResumeDto> resumeList = service.getActiveResumes(getToken());
         List<ResumeEntity> resumeEntities = resumeList.getItems().stream().map(resumeEntityService::getByHhResumeDto).toList();
-        resumeEntities.forEach(resumeEntity -> {
-            try {
-                var accessTypes = service.getResumeAccessType(resumeEntity.getHhId(), getToken());
-                resumeEntity.setAccessType(accessTypes);
-                log.info(resumeEntity.getHhId() + " " + accessTypes);
-            } catch (IOException | ExecutionException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        for (ResumeEntity resumeEntity : resumeEntities) {
+            var accessTypes = service.getResumeAccessType(resumeEntity.getHhId(), getToken());
+            resumeEntity.setAccessType(accessTypes);
+            log.info(resumeEntity.getHhId() + " " + accessTypes);
+        }
         resumeEntityService.saveAll(resumeEntities);
         return resumeList;
     }
