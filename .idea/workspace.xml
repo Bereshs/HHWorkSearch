@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sonar-project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/config/SchedulerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/config/SchedulerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/ResumeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/frontend/authorized.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,7 +252,7 @@
       <workItem from="1715618525343" duration="1641000" />
       <workItem from="1715704317106" duration="4773000" />
       <workItem from="1715881582585" duration="25000" />
-      <workItem from="1716539546662" duration="3778000" />
+      <workItem from="1716539546662" duration="4731000" />
     </task>
     <servers />
   </component>
