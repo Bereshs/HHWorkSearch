@@ -26,12 +26,16 @@ public class AppConfig {
     String hhApiCallback;
     String hhApiTokenUri;
 
+    private final String perPage;
+    private final String hhResumesPath;
 
     private final SettingsService settingsService;
 
     @Autowired
     public AppConfig(SettingsService settingsService) {
         this.settingsService = settingsService;
+        perPage = "&per_page=100";
+        hhResumesPath="https://api.hh.ru/resumes/";
     }
 
     public String getHhUserAgent() {
@@ -52,8 +56,7 @@ public class AppConfig {
                 "&period=1" +
                 "&order_by=publication_time" +
                 "&vacancy_search_fields=name" +
-                "&text=" + key +
-                "&per_page=100";
+                "&text=" + key + perPage;
         if (!isNull(page) && page > 0) {
             uri += "&page=" + page;
         }
@@ -61,38 +64,36 @@ public class AppConfig {
     }
 
     public String getVacancyLikeResumeConnectionString(ResumeEntity resume, int page) {
-        String uri = "https://api.hh.ru/resumes/" + resume.getHhId() + "/similar_vacancies" +
-                "?period=1" +
-                "&per_page=100";
+        String uri = hhResumesPath + resume.getHhId() + "/similar_vacancies" +
+                "?period=1" + perPage;
         if (!isNull(page) && page > 0) {
             uri += "&page=" + page;
         }
         return uri;
     }
 
-    public String getNegotiationsConnectionString(Integer page) {
+    public String getNegotiationsConnectionString() {
 
         return "https://api.hh.ru/negotiations?" +
-                "order_by=updated_at" +
-                "&per_page=100";
+                "order_by=updated_at" + perPage;
     }
 
 
     public String getResumeViewsConnectionString(String resumeId) {
-        return "https://api.hh.ru/resumes/" + resumeId + "/views";
+        return hhResumesPath + resumeId + "/views";
     }
 
 
     public String getResumesConnectionString() {
-        return "https://api.hh.ru/resumes/mine";
+        return hhResumesPath+"mine";
     }
 
     public String getResumeByIdConnectrinString(String resumeId) {
-        return "https://api.hh.ru/resumes/" + resumeId;
+        return hhResumesPath + resumeId;
     }
 
     public String getPostResume(String resumeId) {
-        return "https://api.hh.ru/resumes/" + resumeId + "/publish";
+        return hhResumesPath + resumeId + "/publish";
     }
 
     public String getVacancyConnectionString(String id) {
@@ -104,6 +105,6 @@ public class AppConfig {
     }
 
     public String getResumeAccessTypesConnectionString(String resumeId) {
-        return "https://api.hh.ru/resumes/" + resumeId + "/access_types";
+        return hhResumesPath + resumeId + "/access_types";
     }
 }

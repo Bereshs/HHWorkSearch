@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bereshs.hhworksearch.domain.*;
 import ru.bereshs.hhworksearch.exception.HhWorkSearchException;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 import ru.bereshs.hhworksearch.service.*;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class VacancyController {
     @PostMapping("/api/vacancy/{vacancyId}/resume/{resumeId}")
     public String postNegotiation(@PathVariable String vacancyId, @PathVariable String resumeId) throws HhWorkSearchException, IOException, ExecutionException, InterruptedException {
         VacancyEntity vacancyEntity = vacancyEntityService.getById(vacancyId).orElseThrow(() -> new HhWorkSearchException("Wrong vacancyId"));
-        if (vacancyEntity.getStatus().equals(VacancyStatus.request)) {
+        if (vacancyEntity.getStatus().equals(VacancyStatus.REQUEST)) {
             throw new HhWorkSearchException("Negotiation on vacancy already requested");
         }
         HhVacancyDto vacancy = service.getVacancyById(vacancyId, getToken());
@@ -62,7 +62,7 @@ public class VacancyController {
         String negotiationMessage = negotiationsService.getNegotiationMessage(vacancy, skills);
 
         negotiationsService.doNegotiation(negotiationMessage, resumeId, vacancyId);
-        vacancyEntity.setStatus(VacancyStatus.request);
+        vacancyEntity.setStatus(VacancyStatus.REQUEST);
         vacancyEntityService.save(vacancyEntity);
         return "ok";
     }

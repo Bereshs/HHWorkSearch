@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bereshs.hhworksearch.repository.RatingEmployerRepository;
 import ru.bereshs.hhworksearch.domain.RatingEmployer;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSimpleListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSimpleListDto;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,11 @@
-package ru.bereshs.hhworksearch.hhApiClient.dto;
+package ru.bereshs.hhworksearch.hhapiclient.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.bereshs.hhworksearch.domain.FilteredVacancy;
-import ru.bereshs.hhworksearch.hhApiClient.HhLocalDateTime;
+import ru.bereshs.hhworksearch.hhapiclient.HhLocalDateTime;
 
 import java.time.LocalDateTime;
 import java.util.List;

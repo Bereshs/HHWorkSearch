@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bereshs.hhworksearch.repository.KeyEntityRepository;
 import ru.bereshs.hhworksearch.config.AppConfig;
-import ru.bereshs.hhworksearch.hhApiClient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
 import ru.bereshs.hhworksearch.domain.KeyEntity;
 
 import java.io.IOException;

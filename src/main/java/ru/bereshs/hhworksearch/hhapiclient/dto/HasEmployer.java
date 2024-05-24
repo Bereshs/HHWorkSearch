@@ -1,4 +1,4 @@
-package ru.bereshs.hhworksearch.hhApiClient.dto;
+package ru.bereshs.hhworksearch.hhapiclient.dto;
 
 public interface HasEmployer {
     HhSimpleListDto getEmployer();

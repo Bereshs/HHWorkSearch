@@ -1,4 +1,4 @@
-package ru.bereshs.hhworksearch.hhApiClient;
+package ru.bereshs.hhworksearch.hhapiclient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.HHApi;
@@ -15,13 +15,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ru.bereshs.hhworksearch.config.AppConfig;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhListDto;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -59,7 +60,7 @@ public class HeadHunterClient {
         return authService.execute(request);
     }
 
-    public Response executeWithBody(Verb verb, String uri, OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
+    public Response executeWithBody(Verb verb, String uri, OAuth2AccessToken token, Map<String, String> body) throws IOException, ExecutionException, InterruptedException {
         OAuthRequest request = new OAuthRequest(verb, uri);
         body.forEach(request::addBodyParameter);
         authService.signRequest(token, request);

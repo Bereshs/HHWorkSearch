@@ -10,8 +10,8 @@ import ru.bereshs.hhworksearch.domain.MessageEntity;
 import ru.bereshs.hhworksearch.domain.ResumeEntity;
 import ru.bereshs.hhworksearch.domain.SkillEntity;
 import ru.bereshs.hhworksearch.exception.HhWorkSearchException;
-import ru.bereshs.hhworksearch.hhApiClient.HhLocalDateTime;
-import ru.bereshs.hhworksearch.hhApiClient.dto.*;
+import ru.bereshs.hhworksearch.hhapiclient.HhLocalDateTime;
+import ru.bereshs.hhworksearch.hhapiclient.dto.*;
 import ru.bereshs.hhworksearch.service.*;
 
 import java.io.IOException;

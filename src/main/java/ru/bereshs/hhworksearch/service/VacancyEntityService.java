@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bereshs.hhworksearch.domain.VacancyStatus;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 import ru.bereshs.hhworksearch.domain.VacancyEntity;
 import ru.bereshs.hhworksearch.repository.VacancyEntityRepository;
 
@@ -27,10 +27,10 @@ public class VacancyEntityService {
         var report = vacancyEntities.stream().collect(Collectors.groupingBy(VacancyEntity::getStatus, Collectors.counting()));
         System.out.println(report);
         String result = "Ежедневный отчет:\n" +
-                "\tотправлено запросов " + report.get(VacancyStatus.request) + "\n" +
-                "\tприглашений " + report.get(VacancyStatus.invitation) + "\n" +
-                "\tотказов " + report.get(VacancyStatus.discard) + "\n" +
-                "\tне подошло " + report.get(VacancyStatus.found);
+                "\tотправлено запросов " + report.get(VacancyStatus.REQUEST) + "\n" +
+                "\tприглашений " + report.get(VacancyStatus.INVITATION) + "\n" +
+                "\tотказов " + report.get(VacancyStatus.DISCARD) + "\n" +
+                "\tне подошло " + report.get(VacancyStatus.FOUND);
 
         return result;
     }
@@ -54,7 +54,7 @@ public class VacancyEntityService {
     }
 
     private void updateResponses(VacancyEntity vacancy, int responses) {
-        vacancy.setStatus(VacancyStatus.updated);
+        vacancy.setStatus(VacancyStatus.UPDATED);
         vacancy.setResponses(responses);
         save(vacancy);
     }

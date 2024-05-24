@@ -1,4 +1,4 @@
-package ru.bereshs.hhworksearch.hhApiClient.dto;
+package ru.bereshs.hhworksearch.hhapiclient.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -10,7 +10,7 @@ import ru.bereshs.hhworksearch.domain.MessageEntity;
 import ru.bereshs.hhworksearch.domain.SkillEntity;
 import ru.bereshs.hhworksearch.domain.VacancyEntity;
 import ru.bereshs.hhworksearch.exception.HhWorkSearchException;
-import ru.bereshs.hhworksearch.hhApiClient.dto.*;
+import ru.bereshs.hhworksearch.hhapiclient.dto.*;
 import ru.bereshs.hhworksearch.producer.KafkaProducer;
 import ru.bereshs.hhworksearch.service.*;
 
@@ -31,7 +31,6 @@ public class ManagementController {
     private final SkillsEntityService skillsEntityService;
     private final VacancyEntityService vacancyEntityService;
     private final KafkaProducer kafkaProducer;
-    private final SettingsService settingsService;
 
 
     @Operation(summary = "TODO: Тестовая страница, находится в стадии реализации")
@@ -72,7 +71,6 @@ public class ManagementController {
     @Operation(summary = "Обработка сообщений")
     @PostMapping("/api/negotiations")
     public String updateNegotiations() throws IOException, ExecutionException, InterruptedException {
-        System.out.println("eeeee");
         var negotiationsList = service.getHhNegotiationsDtoList(getToken());
 
         List<VacancyEntity> vacancyList = negotiationsList.getItems().stream().map(entity -> {
@@ -90,9 +88,6 @@ public class ManagementController {
     public String dailyReport() {
 
         String message = vacancyEntityService.getDaily();
-//        TelegramMessageDto messageDto = new TelegramMessageDto(settingsService.getAppTelegramToken(), settingsService.getAppClientId(), message, LocalDateTime.now());
-//        kafkaProducer.produce(messageDto);
-
         kafkaProducer.produceDefault(message);
         return message;
     }

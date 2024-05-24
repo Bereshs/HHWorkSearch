@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSimpleListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSimpleListDto;
 
 @Entity
 @Data

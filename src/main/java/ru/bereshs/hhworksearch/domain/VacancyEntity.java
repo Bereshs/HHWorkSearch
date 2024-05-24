@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSalaryDto;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSimpleListDto;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSalaryDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSimpleListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,7 +51,7 @@ public class VacancyEntity implements FilteredVacancy {
         responses = vacancyDto.getCounters() == null ? 0 : vacancyDto.getCounters().getTotalResponses();
         employerId = vacancyDto.getEmployer().getId();
         employerName = vacancyDto.getEmployer().getName();
-        status = VacancyStatus.found;
+        status = VacancyStatus.FOUND;
         experience = vacancyDto.getExperience();
         timeStamp = LocalDateTime.now();
         createdAt = LocalDateTime.now();
@@ -61,7 +61,7 @@ public class VacancyEntity implements FilteredVacancy {
 
     public void setStatus(String status) {
         if (status.equals("response") || this.status.toString().length() < 3) {
-            this.status = VacancyStatus.request;
+            this.status = VacancyStatus.REQUEST;
             return;
         }
         this.status = VacancyStatus.valueOf(status);

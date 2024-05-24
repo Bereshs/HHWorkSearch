@@ -32,9 +32,9 @@ public class FilterEntityService<E extends FilteredVacancy> {
     }
 
     public boolean isValid(E filteredVacancy) {
-        return !isContainWordsScope(filteredVacancy.getName(), getScope(FilterScope.Name))
-                && !isContainWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.Experience))
-                && !isEqual(filteredVacancy.getEmployer().getId(), getScope(FilterScope.Employer))
+        return !isContainWordsScope(filteredVacancy.getName(), getScope(FilterScope.NAME))
+                && !isContainWordsScope(filteredVacancy.getExperience(), getScope(FilterScope.EXPERIENCE))
+                && !isEqual(filteredVacancy.getEmployer().getId(), getScope(FilterScope.EMPLOYER))
                 && isSalaryCurrencyCurrent(filteredVacancy);
 
     }
@@ -43,8 +43,8 @@ public class FilterEntityService<E extends FilteredVacancy> {
         if (filteredVacancy.getDescription().length() < 10) {
             return true;
         }
-        return isContainWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Key))
-                && !isContainWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.Description));
+        return isContainWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.KEY))
+                && !isContainWordsScope(filteredVacancy.getDescription(), getScope(FilterScope.DESCRIPTION));
     }
 
     public boolean isSalaryCurrencyCurrent(E filteredVacancy) {
@@ -66,7 +66,7 @@ public class FilterEntityService<E extends FilteredVacancy> {
     }
 
     public String getKey() {
-        return getScope(FilterScope.Key).get(0).getWord();
+        return getScope(FilterScope.KEY).get(0).getWord();
     }
 
 

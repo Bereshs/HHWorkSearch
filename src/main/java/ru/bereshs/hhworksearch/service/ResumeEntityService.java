@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.bereshs.hhworksearch.repository.ResumeEntityRepository;
 import ru.bereshs.hhworksearch.domain.FilteredVacancy;
 import ru.bereshs.hhworksearch.domain.ResumeEntity;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhResumeDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhResumeDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -10,7 +10,7 @@ import ru.bereshs.hhworksearch.domain.FilteredVacancy;
 import ru.bereshs.hhworksearch.domain.MessageEntity;
 import ru.bereshs.hhworksearch.domain.SkillEntity;
 import ru.bereshs.hhworksearch.exception.HhWorkSearchException;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 
 
 import java.io.IOException;

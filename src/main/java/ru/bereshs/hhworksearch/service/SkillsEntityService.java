@@ -7,7 +7,7 @@ import ru.bereshs.hhworksearch.repository.SkillsEntityRepository;
 import ru.bereshs.hhworksearch.domain.FilteredVacancy;
 import ru.bereshs.hhworksearch.domain.SkillEntity;
 import ru.bereshs.hhworksearch.exception.HhWorkSearchException;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhListDto;
 
 import java.util.ArrayList;
 import java.util.List;

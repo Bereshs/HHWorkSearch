@@ -1,7 +1,7 @@
 package ru.bereshs.hhworksearch.domain;
 
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSalaryDto;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSimpleListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSalaryDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSimpleListDto;
 
 import java.util.List;
 

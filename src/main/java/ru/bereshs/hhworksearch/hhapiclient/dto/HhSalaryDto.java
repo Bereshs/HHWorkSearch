@@ -1,4 +1,4 @@
-package ru.bereshs.hhworksearch.hhApiClient.dto;
+package ru.bereshs.hhworksearch.hhapiclient.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

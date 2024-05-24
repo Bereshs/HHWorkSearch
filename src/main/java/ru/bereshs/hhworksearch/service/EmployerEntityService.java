@@ -3,9 +3,9 @@ package ru.bereshs.hhworksearch.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.bereshs.hhworksearch.domain.Employer;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 import ru.bereshs.hhworksearch.repository.EmployerEntityRepository;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSimpleListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSimpleListDto;
 
 import java.util.List;
 

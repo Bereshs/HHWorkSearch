@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import ru.bereshs.hhworksearch.domain.*;
-import ru.bereshs.hhworksearch.hhApiClient.HhLocalDateTime;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.hhworksearch.hhapiclient.HhLocalDateTime;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 import ru.bereshs.hhworksearch.producer.KafkaProducer;
 import ru.bereshs.hhworksearch.service.*;
 
@@ -36,7 +36,7 @@ public class SchedulerConfig {
     private final NegotiationsService negotiationsService;
     private final SettingsService settingsService;
     private final EmployerEntityService employerEntityService;
-    private final String INACTIVE_DAEMON_MESSAGE = "daemon is inactive";
+    private final String inactiveDaemonMessage = "daemon is inactive";
 
 
     @Scheduled(cron = "0 0 9-18 * * *")
@@ -47,7 +47,7 @@ public class SchedulerConfig {
             postNegotiationWithRelevantVacancies(vacancyList);
             updateResume();
         } else {
-            log.info(INACTIVE_DAEMON_MESSAGE);
+            log.info(inactiveDaemonMessage);
         }
     }
 
@@ -58,7 +58,7 @@ public class SchedulerConfig {
             List<HhVacancyDto> vacancyList = getFullHhVacancy();
             postNegotiationWithRelevantVacancies(vacancyList);
         } else {
-            log.info(INACTIVE_DAEMON_MESSAGE);
+            log.info(inactiveDaemonMessage);
         }
 
         updateVacancyStatus();
@@ -73,7 +73,7 @@ public class SchedulerConfig {
             List<HhVacancyDto> vacancyList = service.getPageRecommendedVacancyForResume(getToken(), resumeEntityService.getDefault()).getItems();
             postNegotiationWithRelevantVacancies(vacancyList);
         } else {
-            log.info(INACTIVE_DAEMON_MESSAGE);
+            log.info(inactiveDaemonMessage);
         }
     }
 
@@ -103,7 +103,7 @@ public class SchedulerConfig {
         var filtered = getRelevantVacancies(vacancyList);
         vacancyEntityService.saveAll(filtered);
         postNegotiations(filtered);
-        vacancyEntityService.changeAllStatus(filtered, VacancyStatus.request);
+        vacancyEntityService.changeAllStatus(filtered, VacancyStatus.REQUEST);
     }
 
 
@@ -128,7 +128,7 @@ public class SchedulerConfig {
     private void postNegotiations(List<HhVacancyDto> filtered) throws InterruptedException {
         for (HhVacancyDto vacancy : filtered) {
             VacancyEntity vacancyEntity = vacancyEntityService.getByVacancyDto(vacancy);
-            if (!vacancyEntity.getStatus().equals(VacancyStatus.request)) {
+            if (!vacancyEntity.getStatus().equals(VacancyStatus.REQUEST)) {
                 ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
                 List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
                 negotiationsService.doNegotiationWithRelevantVacancy(vacancy, resume.getHhId(), skills);

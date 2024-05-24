@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import ru.bereshs.hhworksearch.config.AppConfig;
 
 import ru.bereshs.hhworksearch.domain.ResumeEntity;
-import ru.bereshs.hhworksearch.hhApiClient.HeadHunterClient;
-import ru.bereshs.hhworksearch.hhApiClient.dto.*;
+import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.dto.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -49,7 +49,7 @@ public class HhService {
     }
 
     public HhListDto<HhNegotiationsDto> getHhNegotiationsDtoList(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
-        String uri = appConfig.getNegotiationsConnectionString(0);
+        String uri = appConfig.getNegotiationsConnectionString();
         return headHunterClient.getObjects(Verb.GET, uri, token, HhNegotiationsDto.class);
 
     }

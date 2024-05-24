@@ -10,12 +10,12 @@ import ru.bereshs.hhworksearch.config.KafkaProducerConfig;
 import ru.bereshs.hhworksearch.config.SchedulerConfig;
 import ru.bereshs.hhworksearch.controller.AuthorizationController;
 import ru.bereshs.hhworksearch.controller.ManagementController;
-import ru.bereshs.hhworksearch.hhApiClient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
 import ru.bereshs.hhworksearch.producer.KafkaProducerImpl;
 import ru.bereshs.hhworksearch.repository.SkillsEntityRepository;
 import ru.bereshs.hhworksearch.domain.SkillEntity;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhSimpleListDto;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhVacancyDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhSimpleListDto;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import ru.bereshs.hhworksearch.config.KafkaProducerConfig;
 import ru.bereshs.hhworksearch.config.SchedulerConfig;
 import ru.bereshs.hhworksearch.controller.AuthorizationController;
 import ru.bereshs.hhworksearch.controller.ManagementController;
-import ru.bereshs.hhworksearch.hhApiClient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
 import ru.bereshs.hhworksearch.producer.KafkaProducerImpl;
 import ru.bereshs.hhworksearch.service.AuthorizationService;
 

@@ -32,6 +32,6 @@ public class MessageEntity {
                 competitions.append(element.getDescription()).append(" ");
             }
         }
-        return header.replaceAll("<VacancyName>", vacancyName) + competitions + footer;
+        return header.replace("<VacancyName>", vacancyName) + competitions + footer;
     }
 }

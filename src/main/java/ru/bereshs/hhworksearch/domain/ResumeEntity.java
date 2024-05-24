@@ -3,8 +3,8 @@ package ru.bereshs.hhworksearch.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.bereshs.hhworksearch.hhApiClient.HhLocalDateTime;
-import ru.bereshs.hhworksearch.hhApiClient.dto.HhResumeDto;
+import ru.bereshs.hhworksearch.hhapiclient.HhLocalDateTime;
+import ru.bereshs.hhworksearch.hhapiclient.dto.HhResumeDto;
 
 import java.time.LocalDateTime;
 
