@@ -103,7 +103,7 @@ public class SchedulerConfig {
         var filtered = getRelevantVacancies(vacancyList);
         vacancyEntityService.saveAll(filtered);
         postNegotiations(filtered);
-        vacancyEntityService.changeAllStatus(filtered, VacancyStatus.REQUEST);
+        vacancyEntityService.changeAllStatus(filtered, VacancyStatus.request);
     }
 
 
@@ -128,7 +128,7 @@ public class SchedulerConfig {
     private void postNegotiations(List<HhVacancyDto> filtered) throws InterruptedException {
         for (HhVacancyDto vacancy : filtered) {
             VacancyEntity vacancyEntity = vacancyEntityService.getByVacancyDto(vacancy);
-            if (!vacancyEntity.getStatus().equals(VacancyStatus.REQUEST)) {
+            if (!vacancyEntity.getStatus().equals(VacancyStatus.request)) {
                 ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
                 List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
                 negotiationsService.doNegotiationWithRelevantVacancy(vacancy, resume.getHhId(), skills);

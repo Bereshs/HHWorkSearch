@@ -54,7 +54,7 @@ public class VacancyController {
     @PostMapping("/api/vacancy/{vacancyId}/resume/{resumeId}")
     public String postNegotiation(@PathVariable String vacancyId, @PathVariable String resumeId) throws HhWorkSearchException, IOException, ExecutionException, InterruptedException {
         VacancyEntity vacancyEntity = vacancyEntityService.getById(vacancyId).orElseThrow(() -> new HhWorkSearchException("Wrong vacancyId"));
-        if (vacancyEntity.getStatus().equals(VacancyStatus.REQUEST)) {
+        if (vacancyEntity.getStatus().equals(VacancyStatus.request)) {
             throw new HhWorkSearchException("Negotiation on vacancy already requested");
         }
         HhVacancyDto vacancy = service.getVacancyById(vacancyId, getToken());
@@ -62,7 +62,7 @@ public class VacancyController {
         String negotiationMessage = negotiationsService.getNegotiationMessage(vacancy, skills);
 
         negotiationsService.doNegotiation(negotiationMessage, resumeId, vacancyId);
-        vacancyEntity.setStatus(VacancyStatus.REQUEST);
+        vacancyEntity.setStatus(VacancyStatus.request);
         vacancyEntityService.save(vacancyEntity);
         return "ok";
     }

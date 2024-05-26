@@ -27,10 +27,10 @@ public class VacancyEntityService {
         var report = vacancyEntities.stream().collect(Collectors.groupingBy(VacancyEntity::getStatus, Collectors.counting()));
 
         return "Ежедневный отчет:\n" +
-                "\tотправлено запросов " + report.get(VacancyStatus.REQUEST) + "\n" +
-                "\tприглашений " + report.get(VacancyStatus.INVITATION) + "\n" +
-                "\tотказов " + report.get(VacancyStatus.DISCARD) + "\n" +
-                "\tне подошло " + report.get(VacancyStatus.FOUND);
+                "\tотправлено запросов " + report.get(VacancyStatus.request) + "\n" +
+                "\tприглашений " + report.get(VacancyStatus.invitation) + "\n" +
+                "\tотказов " + report.get(VacancyStatus.discard) + "\n" +
+                "\tне подошло " + report.get(VacancyStatus.found);
     }
 
     public Optional<VacancyEntity> getByHhId(String hhId) {
@@ -52,7 +52,7 @@ public class VacancyEntityService {
     }
 
     private void updateResponses(VacancyEntity vacancy, int responses) {
-        vacancy.setStatus(VacancyStatus.UPDATED);
+        vacancy.setStatus(VacancyStatus.updated);
         vacancy.setResponses(responses);
         save(vacancy);
     }
