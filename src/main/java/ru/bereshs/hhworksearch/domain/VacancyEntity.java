@@ -51,7 +51,7 @@ public class VacancyEntity implements FilteredVacancy {
         responses = vacancyDto.getCounters() == null ? 0 : vacancyDto.getCounters().getTotalResponses();
         employerId = vacancyDto.getEmployer().getId();
         employerName = vacancyDto.getEmployer().getName();
-        status = VacancyStatus.found;
+        status = VacancyStatus.FOUND;
         experience = vacancyDto.getExperience();
         timeStamp = LocalDateTime.now();
         createdAt = LocalDateTime.now();
@@ -61,11 +61,10 @@ public class VacancyEntity implements FilteredVacancy {
 
     public void setStatus(String status) {
         if (status.equals("response") || this.status.toString().length() < 3) {
-            this.status = VacancyStatus.request;
+            setStatus(VacancyStatus.REQUEST);
             return;
         }
-        this.status = VacancyStatus.valueOf(status);
-
+        setStatus(VacancyStatus.valueOf(status.toUpperCase()));
     }
 
     public void setStatus(VacancyStatus status) {

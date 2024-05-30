@@ -93,8 +93,10 @@ public class SchedulerConfig {
     }
 
     private void sendMessageDailyReport() {
+        log.info("start send message");
         String message = vacancyEntityService.getDaily();
         producer.produceDefault(message);
+        log.info(message);
 
     }
 
@@ -103,7 +105,7 @@ public class SchedulerConfig {
         var filtered = getRelevantVacancies(vacancyList);
         vacancyEntityService.saveAll(filtered);
         postNegotiations(filtered);
-        vacancyEntityService.changeAllStatus(filtered, VacancyStatus.request);
+        vacancyEntityService.changeAllStatus(filtered, VacancyStatus.REQUEST);
     }
 
 
@@ -128,7 +130,8 @@ public class SchedulerConfig {
     private void postNegotiations(List<HhVacancyDto> filtered) throws InterruptedException {
         for (HhVacancyDto vacancy : filtered) {
             VacancyEntity vacancyEntity = vacancyEntityService.getByVacancyDto(vacancy);
-            if (!vacancyEntity.getStatus().equals(VacancyStatus.request)) {
+            if (!vacancyEntity.getStatus().equals(VacancyStatus.request)
+                    && !vacancyEntity.getStatus().equals(VacancyStatus.REQUEST)) {
                 ResumeEntity resume = resumeEntityService.getRelevantResume(vacancy);
                 List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
                 negotiationsService.doNegotiationWithRelevantVacancy(vacancy, resume.getHhId(), skills);
