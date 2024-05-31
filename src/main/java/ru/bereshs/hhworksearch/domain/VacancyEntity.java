@@ -43,20 +43,20 @@ public class VacancyEntity implements FilteredVacancy {
     private String currency;
 
     public VacancyEntity(HhVacancyDto vacancyDto) {
-        hhId = vacancyDto.getId();
-        url = vacancyDto.getAlternateUrl();
+        setHhId(vacancyDto.getId());
+        setUrl(vacancyDto.getAlternateUrl());
         setName(vacancyDto.getName());
         setDescription(vacancyDto.getDescription());
-        published = LocalDateTime.parse(dateWithoutTimeZone(vacancyDto.getPublishedAt()));
-        responses = vacancyDto.getCounters() == null ? 0 : vacancyDto.getCounters().getTotalResponses();
-        employerId = vacancyDto.getEmployer().getId();
-        employerName = vacancyDto.getEmployer().getName();
-        status = VacancyStatus.FOUND;
-        experience = vacancyDto.getExperience();
-        timeStamp = LocalDateTime.now();
-        createdAt = LocalDateTime.now();
-        salary = calculateSalary(vacancyDto.getSalary());
-        currency = vacancyDto.getSalary() == null ? "none" : vacancyDto.getSalary().getCurrency();
+        setPublished(LocalDateTime.parse(dateWithoutTimeZone(vacancyDto.getPublishedAt())));
+        setResponses(vacancyDto.getCounters() == null ? 0 : vacancyDto.getCounters().getTotalResponses());
+        setEmployerId(vacancyDto.getEmployer().getId());
+        setEmployerName(vacancyDto.getEmployer().getName());
+        setStatus(VacancyStatus.FOUND);
+        setExperience(vacancyDto.getExperience());
+        setTimeStamp(LocalDateTime.now());
+        setCreatedAt(LocalDateTime.now());
+        setSalary(calculateSalary(vacancyDto.getSalary()));
+        setCurrency(vacancyDto.getSalary() == null ? "none" : vacancyDto.getSalary().getCurrency());
     }
 
     public void setStatus(String status) {
@@ -99,10 +99,6 @@ public class VacancyEntity implements FilteredVacancy {
     @Override
     public List<String> getSkillStringList() {
         return null;
-    }
-
-    public boolean isFull() {
-        return description != null;
     }
 
     public void setDescription(String description) {

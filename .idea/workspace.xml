@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/config/SchedulerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/config/SchedulerConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/VacancyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/VacancyEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/VacancyStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/VacancyStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/service/VacancyEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/service/VacancyEntityService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -258,7 +256,9 @@
       <workItem from="1716732057137" duration="1704000" />
       <workItem from="1717018599287" duration="853000" />
       <workItem from="1717063196801" duration="33000" />
-      <workItem from="1717092724065" duration="4322000" />
+      <workItem from="1717092724065" duration="6871000" />
+      <workItem from="1717140620682" duration="582000" />
+      <workItem from="1717187616010" duration="392000" />
     </task>
     <servers />
   </component>
