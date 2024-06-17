@@ -28,7 +28,8 @@ public class KeyEntity {
             return false;
         }
         LocalDateTime expireTime = time.plusSeconds(expiresIn);
-        return LocalDateTime.now().isBefore(expireTime);
+        return LocalDateTime.now()
+                .isBefore(expireTime);
     }
 
     public void set(OAuth2AccessToken token) {

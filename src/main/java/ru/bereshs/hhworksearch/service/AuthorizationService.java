@@ -72,6 +72,8 @@ public class AuthorizationService {
             return token;
         }
         token = new OAuth2AccessToken(key.getAccessToken(), key.getTokenType(), key.getExpiresIn(), key.getRefreshToken(), key.getScope(), key.getRowResponse());
+        key.set(token);
+        save(key);
         return token;
     }
 
