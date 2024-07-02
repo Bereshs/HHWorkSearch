@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bereshs.hhworksearch.domain.VacancyStatus;
+import ru.bereshs.hhworksearch.domain.dto.DailyReportDto;
 import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
 import ru.bereshs.hhworksearch.domain.VacancyEntity;
 import ru.bereshs.hhworksearch.repository.VacancyEntityRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,33 +20,14 @@ public class VacancyEntityService {
 
     private final VacancyEntityRepository vacancyEntityRepository;
 
-
     public String getDaily() {
-
         var vacancyEntities = vacancyEntityRepository.getVacancyEntitiesByTimeStampAfter(LocalDateTime.now().minusDays(1));
-        var report = vacancyEntities.stream().collect(Collectors.groupingBy(VacancyEntity::getStatus, Collectors.counting()));
-
-        long requested =  getLongOrNull(report, VacancyStatus.REQUEST);
-        long invited =  getLongOrNull(report, VacancyStatus.INVITATION);
-        long discarded =  getLongOrNull(report, VacancyStatus.DISCARD);
-        long founded =  getLongOrNull(report, VacancyStatus.FOUND);
-
-        long salary = (long) vacancyEntities.stream().filter(vacancy -> vacancy.getSalary().getTo() > 0L).mapToLong(vacancy->vacancy.getSalary().getTo()).average().orElse(0D);
-
-        return "Ежедневный отчет:\n" +
-                "\tотправлено запросов " + requested + "\n" +
-                "\tприглашений " + invited + "\n" +
-                "\tотказов " + discarded + "\n" +
-                "\tне подошло " + founded +"\n" +
-                "\tсредняя зарплата "+salary;
+        DailyReportDto dailyReportDto = new DailyReportDto(vacancyEntities);
+        return dailyReportDto.toString();
     }
 
     public Optional<VacancyEntity> getByHhId(String hhId) {
         return vacancyEntityRepository.getByHhId(hhId);
-    }
-
-    private long getLongOrNull(Map<VacancyStatus, Long> report, VacancyStatus status) {
-        return report.get(status) != null ? report.get(status) : 0L;
     }
 
     public List<HhVacancyDto> getUnique(List<HhVacancyDto> vacancyList) {

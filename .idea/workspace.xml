@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fb1e41a-72e8-4b0b-8014-285d45586c5f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/dto/DailyReportDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/config/SchedulerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/config/SchedulerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/FilterPropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/FilterPropertyController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/KeyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/KeyEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/service/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/service/AuthorizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/ManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/controller/ManagementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/VacancyStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/domain/VacancyStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/service/VacancyEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/bereshs/hhworksearch/service/VacancyEntityService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +63,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/bereshs/MyProjects/1_productions/HHWorkSearch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/bereshs/MyProjects/untitled&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -261,7 +265,13 @@
       <workItem from="1717140620682" duration="582000" />
       <workItem from="1717187616010" duration="1261000" />
       <workItem from="1717484270534" duration="77000" />
-      <workItem from="1718647925340" duration="998000" />
+      <workItem from="1718647925340" duration="1386000" />
+      <workItem from="1718725160210" duration="590000" />
+      <workItem from="1718872161551" duration="5243000" />
+      <workItem from="1718955666060" duration="598000" />
+      <workItem from="1719209235519" duration="607000" />
+      <workItem from="1719217616694" duration="25000" />
+      <workItem from="1719909080583" duration="6772000" />
     </task>
     <servers />
   </component>

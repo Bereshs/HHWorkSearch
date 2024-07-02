@@ -23,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 @AllArgsConstructor
 @Tag(name = "Отклики",
         description = "Работа с откликами")
-
 public class ManagementController {
     private final HhService service;
     private final AuthorizationService authorizationService;
@@ -37,14 +36,11 @@ public class ManagementController {
 
     @GetMapping("/api/start")
     public String start() throws HhWorkSearchException, InterruptedException {
-
         HhVacancyDto vacancy = getVacancyById("94994056");
-
         log.info("vacancy:" + vacancy);
         List<SkillEntity> skills = skillsEntityService.extractVacancySkills(vacancy);
         log.info("skills:" + skills);
         MessageEntity message = negotiationsService.getMessageById(1);
-
         log.info("message:" + message.getMessage(skills, vacancy.getName()));
         return vacancy.toString();
     }

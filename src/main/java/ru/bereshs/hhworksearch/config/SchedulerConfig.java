@@ -30,7 +30,6 @@ public class SchedulerConfig {
     private final HhService service;
     private final FilterEntityService<HhVacancyDto> filterEntityService;
     private final KafkaProducer producer;
-
     private final SkillsEntityService skillsEntityService;
     private final ResumeEntityService resumeEntityService;
     private final NegotiationsService negotiationsService;

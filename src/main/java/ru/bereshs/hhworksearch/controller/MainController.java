@@ -28,7 +28,7 @@ public class MainController {
     private final AuthorizationService authorizationService;
 
     @GetMapping("/")
-    public String mainPage(Model model) throws IOException, ExecutionException, InterruptedException {
+    public String mainPage(Model model)  {
         KeyEntity key = authorizationService.getByClientId(config.getHhClientId());
 
         if (key.isValid()) {
@@ -40,4 +40,6 @@ public class MainController {
         model.addAttribute("connectionString", authorizationService.getConnectionString());
         return "/index";
     }
+
+
 }

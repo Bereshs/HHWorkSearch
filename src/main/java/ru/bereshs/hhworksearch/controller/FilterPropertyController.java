@@ -15,13 +15,13 @@ import java.util.List;
 @Tag(   name = "Фильтры",
         description = "Работа с фильтрами для вакансий")
 public class FilterPropertyController {
+
     private final FilterEntityService filterEntityService;
 
 
     @Operation(summary = "Получение списка всех фильтров")
     @GetMapping("/api/filter")
     public List<FilterEntity> getAllFilter() {
-
         return filterEntityService.getAll();
     }
 
