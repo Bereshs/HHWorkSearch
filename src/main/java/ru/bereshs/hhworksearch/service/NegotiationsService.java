@@ -4,6 +4,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.bereshs.hhworksearch.aop.Loggable;
 import ru.bereshs.hhworksearch.producer.KafkaProducer;
 import ru.bereshs.hhworksearch.repository.MessageEntityRepository;
 import ru.bereshs.hhworksearch.domain.FilteredVacancy;
@@ -20,7 +21,6 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 @AllArgsConstructor
-@Slf4j
 public class NegotiationsService {
 
     private final HhService service;
@@ -33,10 +33,10 @@ public class NegotiationsService {
         doNegotiation(getNegotiationMessage(vacancy, skills), resumeHhid, vacancy.getId());
     }
 
+    @Loggable
     public void doNegotiation(String message, String resumeId, String vacancyId) throws InterruptedException {
         try {
             HashMap<String, String> body = getNegotiationBody(message, resumeId, vacancyId);
-            log.info("building post negotiation request resumeId: " + resumeId + " vacancyId: " + vacancyId + " message size: " + message.length());
             var result = service.postNegotiation(getToken(), body);
             if (!result.isSuccessful()) {
                 String text = "Необходимо участие vacancy Id: " + vacancyId + "\n" + "https://krasnodar.hh.ru/vacancy/" + vacancyId;

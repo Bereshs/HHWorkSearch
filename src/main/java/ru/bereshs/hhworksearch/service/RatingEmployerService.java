@@ -2,6 +2,7 @@ package ru.bereshs.hhworksearch.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.bereshs.hhworksearch.aop.Loggable;
 import ru.bereshs.hhworksearch.repository.RatingEmployerRepository;
 import ru.bereshs.hhworksearch.domain.RatingEmployer;
 import ru.bereshs.hhworksearch.hhapiclient.dto.HhSimpleListDto;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Slf4j
 public class RatingEmployerService {
     private final RatingEmployerRepository ratingEmployerRepository;
 
@@ -38,10 +38,10 @@ public class RatingEmployerService {
         ratingEmployerRepository.save(ratingEmployer);
     }
 
+    @Loggable
     public void updateAll(List<RatingEmployer> ratingEmployers) {
         for (RatingEmployer ratingEmployer : ratingEmployers) {
             var current = ratingEmployerRepository.findByEmployerId(ratingEmployer.getEmployerId()).orElse(new RatingEmployer(ratingEmployer.getEmployerId(), 0D));
-            log.info("current: "+current+" rating: "+ratingEmployer);
             if (!current.getRating().equals(ratingEmployer.getRating())) {
                 current.setRating(ratingEmployer.getRating());
                 save(current);

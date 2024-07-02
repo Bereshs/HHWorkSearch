@@ -3,13 +3,14 @@ package ru.bereshs.hhworksearch.service;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.bereshs.hhworksearch.aop.Loggable;
 import ru.bereshs.hhworksearch.config.AppConfig;
 
 import ru.bereshs.hhworksearch.domain.ResumeEntity;
 import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.impl.HeadHunterClientRestTemplate;
 import ru.bereshs.hhworksearch.hhapiclient.dto.*;
 
 import java.io.IOException;
@@ -19,23 +20,22 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Slf4j
 public class HhService {
     private final HeadHunterClient headHunterClient;
 
     private final AppConfig appConfig;
 
     @Autowired
-    public HhService(HeadHunterClient headHunterClient, AppConfig appConfig) {
+    public HhService(HeadHunterClientRestTemplate headHunterClient, AppConfig appConfig) {
         this.headHunterClient = headHunterClient;
         this.appConfig = appConfig;
     }
 
 
+    @Loggable
     public List<HhVacancyDto> getRecommendedVacancy(OAuth2AccessToken token, String key) throws IOException, ExecutionException, InterruptedException {
         HhListDto<HhVacancyDto> tempList = getPageRecommendedVacancy(token, 0, key);
         List<HhVacancyDto> vacancyList = new ArrayList<>(tempList.getItems());
-        log.info("Received data found: " + tempList.getFound() + " pages: " + tempList.getPages() + " page: " + tempList.getPage() + " perPage: " + tempList.getPerPage());
         for (int i = 1; i < tempList.getPages(); i++) {
             tempList = getPageRecommendedVacancy(token, i, key);
             vacancyList.addAll(tempList.getItems());
@@ -48,43 +48,49 @@ public class HhService {
         return headHunterClient.executeObject(Verb.GET, uri, token, HhVacancyDto.class);
     }
 
+    @Loggable
     public HhListDto<HhNegotiationsDto> getHhNegotiationsDtoList(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getNegotiationsConnectionString();
         return headHunterClient.getObjects(Verb.GET, uri, token, HhNegotiationsDto.class);
 
     }
 
+    @Loggable
     public HhListDto<HhViewsResume> getHhViewsResumeDtoList(OAuth2AccessToken token, String resumeId) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumeViewsConnectionString(resumeId);
         return headHunterClient.getObjects(Verb.GET, uri, token, HhViewsResume.class);
     }
 
+    @Loggable
     public HhListDto<HhVacancyDto> getPageRecommendedVacancy(OAuth2AccessToken token, int page, String key) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getVacancyConnectionString(page, key);
         return headHunterClient.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
     }
 
+    @Loggable
     public HhListDto<HhVacancyDto> getPageRecommendedVacancyForResume(OAuth2AccessToken token, ResumeEntity resume) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getVacancyLikeResumeConnectionString(resume, 0);
-        log.info(uri);
         return headHunterClient.getObjects(Verb.GET, uri, token, HhVacancyDto.class);
     }
 
+    @Loggable
     public HhListDto<HhResumeDto> getActiveResumes(OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumesConnectionString();
         return headHunterClient.getObjects(Verb.GET, uri, token, HhResumeDto.class);
     }
-
+    
     public HhResumeDto getResumeById(String resumeId, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumeByIdConnectrinString(resumeId);
         return headHunterClient.executeObject(Verb.GET, uri, token, HhResumeDto.class);
     }
 
+    @Loggable
     public <T> HhListDto<T> get(String connectionString, OAuth2AccessToken token, Class<T> type) throws IOException, ExecutionException, InterruptedException {
         return headHunterClient.getObjects(Verb.GET, connectionString, token, type);
     }
 
 
+    @Loggable
     public Map<HhSimpleListDto, Double> getLoyalEmployer(OAuth2AccessToken token, String resumeId) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumeViewsConnectionString(resumeId);
         var viewResume = headHunterClient.getAllPagesObject(Verb.GET, uri, token, HhViewsResume.class);
@@ -98,17 +104,18 @@ public class HhService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+
+    @Loggable
     public Response postNegotiation(OAuth2AccessToken token, HashMap<String, String> body) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getNegotiationPostConnetcionString();
         var result = headHunterClient.executeWithBody(Verb.POST, uri, token, body);
-        log.info("post result " + result.getMessage());
         return result;
     }
 
+    @Loggable
     public void updateResume(OAuth2AccessToken token, String id) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getPostResume(id);
         var result = headHunterClient.execute(Verb.POST, uri, token);
-        log.info("post result  " + result.getMessage());
     }
 
 
@@ -125,6 +132,7 @@ public class HhService {
         return listEmployers.stream().collect(Collectors.groupingBy(HasEmployer::getEmployer, Collectors.counting()));
     }
 
+    @Loggable
     public String getResumeAccessType(String resumeId, OAuth2AccessToken token) throws IOException, ExecutionException, InterruptedException {
         String uri = appConfig.getResumeAccessTypesConnectionString(resumeId);
         var list = headHunterClient.getObjects(Verb.GET, uri, token, HhSimpleListDto.class).getItems();
@@ -132,6 +140,7 @@ public class HhService {
         return active != null ? active.getId() : null;
     }
 
+    @Loggable
     public HhSimpleListDto getActive(List<HhSimpleListDto> list) {
         for (HhSimpleListDto hhSimpleListDto : list) {
             if (hhSimpleListDto.isActive()) {

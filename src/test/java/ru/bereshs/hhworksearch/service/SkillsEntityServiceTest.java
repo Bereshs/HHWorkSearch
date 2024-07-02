@@ -10,7 +10,7 @@ import ru.bereshs.hhworksearch.config.KafkaProducerConfig;
 import ru.bereshs.hhworksearch.config.SchedulerConfig;
 import ru.bereshs.hhworksearch.controller.AuthorizationController;
 import ru.bereshs.hhworksearch.controller.ManagementController;
-import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.impl.HeadHunterClientRestTemplate;
 import ru.bereshs.hhworksearch.producer.KafkaProducerImpl;
 import ru.bereshs.hhworksearch.repository.SkillsEntityRepository;
 import ru.bereshs.hhworksearch.domain.SkillEntity;
@@ -36,7 +36,7 @@ class SkillsEntityServiceTest {
     @MockBean
     AuthorizationService authorizationService;
     @MockBean
-    HeadHunterClient headHunterClient;
+    HeadHunterClientRestTemplate headHunterClient;
     @MockBean
     KafkaProducerImpl kafkaProducer;
     @MockBean

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.bereshs.hhworksearch.config.AppConfig;
 import ru.bereshs.hhworksearch.exception.HhWorkSearchException;
-import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.impl.HeadHunterClientRestTemplate;
 import ru.bereshs.hhworksearch.hhapiclient.dto.HhListDto;
 import ru.bereshs.hhworksearch.hhapiclient.dto.HhResumeDto;
 import ru.bereshs.hhworksearch.hhapiclient.dto.HhUserDto;
@@ -32,7 +32,7 @@ public class AuthorizationController {
 
     private final AuthorizationService authorizationService;
     private final AppConfig config;
-    private final HeadHunterClient client;
+    private final HeadHunterClientRestTemplate client;
     private final HhService service;
     private final FilterEntityService filterEntityService;
 
@@ -66,6 +66,7 @@ public class AuthorizationController {
 
         HashMap<String, ?> list = authorizationService.getMapBody(response.getBody());
         HhUserDto hhUserDto = new HhUserDto();
+
         hhUserDto.set(list);
 
         String key =  filterEntityService.getKey();

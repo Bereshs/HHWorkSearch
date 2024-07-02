@@ -2,6 +2,7 @@ package ru.bereshs.hhworksearch.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.bereshs.hhworksearch.aop.Loggable;
 import ru.bereshs.hhworksearch.repository.FilterEntityRepository;
 import ru.bereshs.hhworksearch.domain.*;
 import ru.bereshs.hhworksearch.domain.dto.FilterDto;
@@ -23,6 +24,7 @@ public class FilterEntityService<E extends FilteredVacancy> {
         return filterEntityRepository.findAll();
     }
 
+    @Loggable
     public List<E> doFilterNameAndExperience(List<E> vacancyEntities) {
         return vacancyEntities.stream().filter(this::isValid).toList();
     }

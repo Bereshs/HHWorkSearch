@@ -13,7 +13,7 @@ import ru.bereshs.hhworksearch.config.SchedulerConfig;
 import ru.bereshs.hhworksearch.controller.AuthorizationController;
 import ru.bereshs.hhworksearch.controller.ManagementController;
 import ru.bereshs.hhworksearch.domain.FilterScope;
-import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.impl.HeadHunterClientRestTemplate;
 import ru.bereshs.hhworksearch.producer.KafkaProducerImpl;
 import ru.bereshs.hhworksearch.repository.FilterEntityRepository;
 import ru.bereshs.hhworksearch.domain.FilterEntity;
@@ -38,7 +38,7 @@ class FilterEntityServiceTest {
     @MockBean
     AuthorizationService authorizationService;
     @MockBean
-    HeadHunterClient headHunterClient;
+    HeadHunterClientRestTemplate headHunterClient;
     @MockBean
     KafkaProducerImpl kafkaProducer;
     @MockBean

@@ -3,6 +3,7 @@ package ru.bereshs.hhworksearch.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.bereshs.hhworksearch.aop.Loggable;
 import ru.bereshs.hhworksearch.domain.VacancyStatus;
 import ru.bereshs.hhworksearch.domain.dto.DailyReportDto;
 import ru.bereshs.hhworksearch.hhapiclient.dto.HhVacancyDto;
@@ -14,12 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Slf4j
 @AllArgsConstructor
 public class VacancyEntityService {
 
     private final VacancyEntityRepository vacancyEntityRepository;
-
     public String getDaily() {
         var vacancyEntities = vacancyEntityRepository.getVacancyEntitiesByTimeStampAfter(LocalDateTime.now().minusDays(1));
         DailyReportDto dailyReportDto = new DailyReportDto(vacancyEntities);
@@ -30,8 +29,8 @@ public class VacancyEntityService {
         return vacancyEntityRepository.getByHhId(hhId);
     }
 
+    @Loggable
     public List<HhVacancyDto> getUnique(List<HhVacancyDto> vacancyList) {
-
         return vacancyList.stream().filter(element -> vacancyEntityRepository.getByHhId(element.getId()).isEmpty()).toList();
     }
 

@@ -30,6 +30,7 @@ public class ManagementController {
     private final SkillsEntityService skillsEntityService;
     private final VacancyEntityService vacancyEntityService;
     private final KafkaProducer kafkaProducer;
+    private final SchedulerService schedulerService;
 
 
     @Operation(summary = "TODO: Тестовая страница, находится в стадии реализации")
@@ -88,5 +89,24 @@ public class ManagementController {
         return message;
     }
 
+    @Operation(summary = "Дневной ежечасный запрос")
+    @GetMapping("/api/negotiations/hour")
+    public String hourScheduler() throws IOException, ExecutionException, InterruptedException {
+        schedulerService.dailyLightTaskRequest();
+        return "ok";
+    }
 
+    @Operation(summary = "Отчет в 18:30")
+    @GetMapping("/api/negotiations/18")
+    public String dailyRecommendedScheduler() throws IOException, ExecutionException, InterruptedException {
+        schedulerService.dailyRecommendedRequest();
+        return "ok";
+    }
+
+    @Operation(summary = "Отчет в 19:30")
+    @GetMapping("/api/negotiations/19")
+    public String dailyFullScheduler() throws InterruptedException, IOException, ExecutionException {
+        schedulerService.dailyFullRequest();
+        return "ok";
+    }
 }

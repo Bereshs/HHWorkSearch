@@ -7,9 +7,10 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
 import ru.bereshs.hhworksearch.repository.KeyEntityRepository;
 import ru.bereshs.hhworksearch.config.AppConfig;
-import ru.bereshs.hhworksearch.hhapiclient.HeadHunterClient;
+import ru.bereshs.hhworksearch.hhapiclient.impl.HeadHunterClientRestTemplate;
 import ru.bereshs.hhworksearch.domain.KeyEntity;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class AuthorizationService {
     private final AppConfig config;
 
     @Autowired
-    public AuthorizationService(KeyEntityRepository keysEntityRepository, HeadHunterClient client, AppConfig config) {
+    public AuthorizationService(KeyEntityRepository keysEntityRepository, HeadHunterClientRestTemplate client, AppConfig config) {
         this.keysEntityRepository = keysEntityRepository;
         this.client = client;
         this.config = config;
@@ -58,7 +59,6 @@ public class AuthorizationService {
 
     public OAuth2AccessToken getToken() throws IOException, ExecutionException, InterruptedException {
         KeyEntity key = getByClientId(config.getHhClientId());
-
         if (!key.isValid() && key.getTime() == null) {
             save(key);
         }
